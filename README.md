@@ -18,8 +18,6 @@ Aplicação para reconhecimento do mérito estudantil por meio de uma moeda virt
 
 ## Histórias de Usuários 
 
-# Histórias de Usuário
-
 | **ID** | **História de Usuário** |
 |-----|-------------------------|
 | US01 | *Como aluno, eu quero me cadastrar no sistema informando meus dados pessoais (nome, email, CPF, RG, endereço, instituição de ensino e curso), para ingressar no sistema de mérito.* |
