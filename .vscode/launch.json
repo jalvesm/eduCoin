@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-EduCoinApplication<educoin>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.educoin.app.EduCoinApplication",
+            "projectName": "educoin",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
