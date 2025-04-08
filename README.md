@@ -30,3 +30,7 @@ Aplicação para reconhecimento do mérito estudantil por meio de uma moeda virt
 | US08| *Como empresa parceira, eu quero me cadastrar no sistema informando meus dados empresariais, para poder oferecer vantagens aos alunos.* |
 | US09| *Como empresa parceira, eu quero cadastrar vantagens, incluindo uma descrição detalhada, foto e o custo em moedas de cada oferta, para que os alunos possam resgatar os benefícios.* |
 | US10| *Como empresa parceira, eu quero ser notificada por email quando um aluno resgatar uma vantagem, para confirmar a transação e preparar o atendimento necessário.* |
+
+## Diagrama de Classes
+
+## Diagrama de Componentes
