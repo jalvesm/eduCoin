@@ -38,7 +38,13 @@ Aplicação para reconhecimento do mérito estudantil por meio de uma moeda virt
 
 ## Diagrama de Classes
 
+![Diagrama de Classes](Artefacts/DiagramaDeClassesLAB3.drawio.png)
+
 ## Diagrama de Componentes
+
+![Diagrama de Componentes](Artefacts/Diagrama%20de%20Componentes.drawio.png)
+
+
 
 ## Tecnologias
 
