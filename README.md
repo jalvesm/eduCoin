@@ -19,7 +19,7 @@ Aplicação para reconhecimento do mérito estudantil por meio de uma moeda virt
 - Troca de moedas por vantagens cadastradas por empresas parceiras.
 
 ## Diagrama de Caso de Uso
-![Diagrama de Casos de Uso](Artefacts/UseCase/Sistema%20de%20Moeda%20Estudantil%20-%20Casos%20de%20Uso.png)
+![Diagrama de Casos de Uso](Artefacts/UseCaseDiagram/use-case-diagram-01.png)
 
 ## Histórias de Usuários 
 
@@ -38,14 +38,17 @@ Aplicação para reconhecimento do mérito estudantil por meio de uma moeda virt
 
 ## Diagrama de Classes
 
-![Diagrama de Classes](Artefacts/DiagramaDeClassesLAB3.drawio.png)
+![Diagrama de Classes](Artefacts/ClassDiagram/class-diagram-01.png)
 
 ## Diagrama de Componentes
 
-![Diagrama de Componentes](Artefacts/Diagrama%20de%20Componentes.drawio.png)
-
+![Diagrama de Componentes](Artefacts/ComponentDiagram/component-diagram-01.png)
 
 
 ## Tecnologias
+
+ - Java
+ - Spring Boot
+ - PostgreSQL
 
 ## Como Executar
