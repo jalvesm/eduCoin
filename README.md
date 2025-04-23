@@ -2,6 +2,15 @@
 
 Aplicação para reconhecimento do mérito estudantil por meio de uma moeda virtual distribuída por professores, que pode ser trocada por vantagens em empresas parceiras.
 
+## Alunos integrantes da equipe
+* Érica Alves dos Santos
+* Joana Iuna de Morais
+* Kaio Henrique Oliveira da Silveira Barbosa
+* Kimberly Liz Spencer Lourenço
+
+## Professores responsáveis
+* Rodrigo de Carvalho
+
 ## Funcionalidades Principais
 
 - Cadastro e autenticação de alunos, professores e empresas.
@@ -9,12 +18,8 @@ Aplicação para reconhecimento do mérito estudantil por meio de uma moeda virt
 - Notificações por e-mail em operações de recebimento e troca de moedas.
 - Troca de moedas por vantagens cadastradas por empresas parceiras.
 
-## Tecnologias
-
-
-## Como Executar
-
 ## Diagrama de Caso de Uso
+![Diagrama de Casos de Uso](Artefacts/UseCaseDiagram/use-case-diagram-01.png)
 
 ## Histórias de Usuários 
 
@@ -33,4 +38,17 @@ Aplicação para reconhecimento do mérito estudantil por meio de uma moeda virt
 
 ## Diagrama de Classes
 
+![Diagrama de Classes](Artefacts/ClassDiagram/class-diagram-01.png)
+
 ## Diagrama de Componentes
+
+![Diagrama de Componentes](Artefacts/ComponentDiagram/component-diagram-01.png)
+
+
+## Tecnologias
+
+ - Java
+ - Spring Boot
+ - PostgreSQL
+
+## Como Executar
