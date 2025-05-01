@@ -19,7 +19,7 @@ Aplicação para reconhecimento do mérito estudantil por meio de uma moeda virt
 - Troca de moedas por vantagens cadastradas por empresas parceiras.
 
 ## Diagrama de Caso de Uso
-![Diagrama de Casos de Uso](Artefacts/UseCaseDiagram/use-case-diagram-01.png)
+![Diagrama de Casos de Uso](artefacts/UseCaseDiagram/use-case-diagram-01.png)
 
 ## Histórias de Usuários 
 
@@ -38,11 +38,11 @@ Aplicação para reconhecimento do mérito estudantil por meio de uma moeda virt
 
 ## Diagrama de Classes
 
-![Diagrama de Classes](Artefacts/ClassDiagram/class-diagram-01.png)
+![Diagrama de Classes](artefacts/ClassDiagram/class-diagram-01.png)
 
 ## Diagrama de Componentes
 
-![Diagrama de Componentes](Artefacts/ComponentDiagram/component-diagram-01.png)
+![Diagrama de Componentes](artefacts/ComponentDiagram/component-diagram-01.png)
 
 
 ## Tecnologias
