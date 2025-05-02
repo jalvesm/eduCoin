@@ -2,18 +2,19 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.model.Aluno;
 import com.estudantil.moeda.service.AlunoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/alunos")
 public class AlunoController {
 
-    @Autowired
     private AlunoService alunoService;
 
     @GetMapping
@@ -22,7 +23,7 @@ public class AlunoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Aluno> getStudent(@PathVariable UUID id) {
+    public ResponseEntity<Aluno> getStudent(@PathVariable Long id) {
         return ResponseEntity.ok(alunoService.findById(id));
     }
 
@@ -32,12 +33,12 @@ public class AlunoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Aluno> updateStudent(@PathVariable UUID id, @RequestBody Aluno aluno) {
+    public ResponseEntity<Aluno> updateStudent(@PathVariable Long id, @RequestBody Aluno aluno) {
         return ResponseEntity.ok(alunoService.update(id, aluno));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
         alunoService.delete(id);
         return ResponseEntity.noContent().build();
     }

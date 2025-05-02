@@ -2,18 +2,19 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.model.Instituicao;
 import com.estudantil.moeda.service.InstituicaoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/instituicoes")
 public class InstituicaoController {
 
-    @Autowired
     private InstituicaoService instituicaoService;
 
     @GetMapping
@@ -22,7 +23,7 @@ public class InstituicaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Instituicao> getInstitution(@PathVariable UUID id) {
+    public ResponseEntity<Instituicao> getInstitution(@PathVariable Long id) {
         return ResponseEntity.ok(instituicaoService.findById(id));
     }
 
@@ -32,12 +33,12 @@ public class InstituicaoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Instituicao> updateInstitution(@PathVariable UUID id, @RequestBody Instituicao instituicao) {
+    public ResponseEntity<Instituicao> updateInstitution(@PathVariable Long id, @RequestBody Instituicao instituicao) {
         return ResponseEntity.ok(instituicaoService.update(id, instituicao));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteInstitution(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteInstitution(@PathVariable Long id) {
         instituicaoService.delete(id);
         return ResponseEntity.noContent().build();
     }

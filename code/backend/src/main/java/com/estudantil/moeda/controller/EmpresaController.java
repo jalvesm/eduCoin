@@ -2,18 +2,19 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.model.Empresa;
 import com.estudantil.moeda.service.EmpresaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/empresas")
 public class EmpresaController {
 
-    @Autowired
     private EmpresaService empresaService;
 
     @GetMapping
@@ -22,7 +23,7 @@ public class EmpresaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Empresa> getCompany(@PathVariable UUID id) {
+    public ResponseEntity<Empresa> getCompany(@PathVariable Long id) {
         return ResponseEntity.ok(empresaService.findById(id));
     }
 
@@ -32,12 +33,12 @@ public class EmpresaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Empresa> updateCompany(@PathVariable UUID id, @RequestBody Empresa empresa) {
+    public ResponseEntity<Empresa> updateCompany(@PathVariable Long id, @RequestBody Empresa empresa) {
         return ResponseEntity.ok(empresaService.update(id, empresa));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCompany(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteCompany(@PathVariable Long id) {
         empresaService.delete(id);
         return ResponseEntity.noContent().build();
     }

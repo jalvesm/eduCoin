@@ -2,20 +2,21 @@ package com.estudantil.moeda.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
 @Entity
 @Table(name = "professor")
 public class Professor extends Usuario {
-    @Column(unique = true)
+    @Column(name = "cpf", unique = true)
     private String cpf;
 
+    @Column(name = "departamento")
     private String departamento;
 
     @Column(name = "quantidade_moedas", nullable = false)

@@ -3,23 +3,24 @@ package com.estudantil.moeda.service;
 import com.estudantil.moeda.model.Empresa;
 import com.estudantil.moeda.repository.EmpresaRepository;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
+
+@RequiredArgsConstructor
 @Service
 public class EmpresaService {
 
-    @Autowired
     private EmpresaRepository empresaRepository;
 
     public List<Empresa> findAll() {
         return empresaRepository.findAll();
     }
 
-    public Empresa findById(UUID id) {
+    public Empresa findById(Long id) {
         return empresaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Empresa não encontrada"));
     }
@@ -28,7 +29,7 @@ public class EmpresaService {
         return empresaRepository.save(empresa);
     }
 
-    public Empresa update(UUID id, Empresa empresa) {
+    public Empresa update(Long id, Empresa empresa) {
         if (!empresaRepository.existsById(id)) {
             throw new ResourceNotFoundException("Empresa não encontrada");
         }
@@ -36,7 +37,7 @@ public class EmpresaService {
         return empresaRepository.save(empresa);
     }
 
-    public void delete(UUID id) {
+    public void delete(Long id) {
         if (!empresaRepository.existsById(id)) {
             throw new ResourceNotFoundException("Empresa não encontrada");
         }

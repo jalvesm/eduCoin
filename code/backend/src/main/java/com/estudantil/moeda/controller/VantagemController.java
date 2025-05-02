@@ -2,18 +2,19 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.model.Vantagem;
 import com.estudantil.moeda.service.VantagemService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/vantagens")
 public class VantagemController {
 
-    @Autowired
     private VantagemService vantagemService;
 
     @GetMapping
@@ -22,7 +23,7 @@ public class VantagemController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Vantagem> getAdvantage(@PathVariable UUID id) {
+    public ResponseEntity<Vantagem> getAdvantage(@PathVariable Long id) {
         return ResponseEntity.ok(vantagemService.findById(id));
     }
 
@@ -32,12 +33,12 @@ public class VantagemController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Vantagem> updateAdvantage(@PathVariable UUID id, @RequestBody Vantagem vantagem) {
+    public ResponseEntity<Vantagem> updateAdvantage(@PathVariable Long id, @RequestBody Vantagem vantagem) {
         return ResponseEntity.ok(vantagemService.update(id, vantagem));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAdvantage(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteAdvantage(@PathVariable Long id) {
         vantagemService.delete(id);
         return ResponseEntity.noContent().build();
     }

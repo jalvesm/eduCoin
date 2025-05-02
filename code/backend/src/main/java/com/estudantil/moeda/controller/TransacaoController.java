@@ -2,18 +2,19 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.model.Transacao;
 import com.estudantil.moeda.service.TransacaoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/transacoes")
 public class TransacaoController {
 
-    @Autowired
     private TransacaoService transacaoService;
 
     @GetMapping
@@ -22,7 +23,7 @@ public class TransacaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Transacao> getTransaction(@PathVariable UUID id) {
+    public ResponseEntity<Transacao> getTransaction(@PathVariable Long id) {
         return ResponseEntity.ok(transacaoService.findById(id));
     }
 
@@ -32,12 +33,12 @@ public class TransacaoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Transacao> updateTransaction(@PathVariable UUID id, @RequestBody Transacao transacao) {
+    public ResponseEntity<Transacao> updateTransaction(@PathVariable Long id, @RequestBody Transacao transacao) {
         return ResponseEntity.ok(transacaoService.update(id, transacao));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTransaction(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
         transacaoService.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -3,23 +3,24 @@ package com.estudantil.moeda.service;
 import com.estudantil.moeda.model.Professor;
 import com.estudantil.moeda.repository.ProfessorRepository;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
+
+@RequiredArgsConstructor
 @Service
 public class ProfessorService {
 
-    @Autowired
     private ProfessorRepository professorRepository;
 
     public List<Professor> findAll() {
         return professorRepository.findAll();
     }
 
-    public Professor findById(UUID id) {
+    public Professor findById(Long id) {
         return professorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Professor não encontrado!"));
 
@@ -28,7 +29,7 @@ public class ProfessorService {
         return professorRepository.save(professor);
     }
 
-    public Professor update(UUID id, Professor professor) {
+    public Professor update(Long id, Professor professor) {
         if (!professorRepository.existsById(id)) {
             throw new ResourceNotFoundException("Professor não encontrado!");
         }
@@ -36,7 +37,7 @@ public class ProfessorService {
         return professorRepository.save(professor);
     }
 
-    public void delete(UUID id) {
+    public void delete(Long id) {
         if (!professorRepository.existsById(id)) {
             throw new ResourceNotFoundException("Professor não encontrado!");
         }
