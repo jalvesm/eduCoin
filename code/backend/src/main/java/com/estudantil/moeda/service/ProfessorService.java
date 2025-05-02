@@ -23,7 +23,7 @@ public class ProfessorService {
         return professorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Professor não encontrado!"));
 
-
+    }
     public Professor save(Professor professor) {
         return professorRepository.save(professor);
     }
