@@ -1,5 +1,6 @@
 package com.estudantil.moeda.controller;
 
+import com.estudantil.moeda.dto.CreateEmpresaDTO;
 import com.estudantil.moeda.model.Empresa;
 import com.estudantil.moeda.service.EmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,10 @@ public class EmpresaController {
         return ResponseEntity.ok(empresaService.findById(id));
     }
 
-    @PostMapping
-    public ResponseEntity<Empresa> createCompany(@RequestBody Empresa empresa) {
-        return ResponseEntity.ok(empresaService.save(empresa));
+    @PostMapping("/createEmpresa")
+    public ResponseEntity<Empresa> createCompany(@RequestBody CreateEmpresaDTO empresaDto) {
+        Empresa novaEmpresa = empresaService.criarEmpresa(empresaDto);
+        return ResponseEntity.ok(novaEmpresa);
     }
 
     @PutMapping("/{id}")
