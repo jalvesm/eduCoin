@@ -8,6 +8,8 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
+import com.estudantil.moeda.model.enums.TipoUsuario;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,4 +30,8 @@ public abstract class Usuario {
 
     @Column(nullable = false)
     private String senha;
-} 
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoUsuario tipo;
+}
