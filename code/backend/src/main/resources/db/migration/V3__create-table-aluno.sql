@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS public.aluno (
     endereco VARCHAR(255) NOT NULL,
     instituicao_id UUID NOT NULL REFERENCES public.instituicao(id) ON DELETE SET NULL,
     curso VARCHAR(100) NOT NULL,
-    saldo_moedas DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    saldo_moedas DOUBLE PRECISION NOT NULL DEFAULT 0,
     CONSTRAINT fk_aluno_usuario FOREIGN KEY (id) 
         REFERENCES public.usuario(id) ON DELETE CASCADE
 );
