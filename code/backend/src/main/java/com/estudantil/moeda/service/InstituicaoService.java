@@ -2,12 +2,14 @@ package com.estudantil.moeda.service;
 
 import com.estudantil.moeda.model.Instituicao;
 import com.estudantil.moeda.repository.InstituicaoRepository;
+import com.estudantil.moeda.dto.GetAllInstituicoes;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class InstituicaoService {
@@ -15,8 +17,12 @@ public class InstituicaoService {
     @Autowired
     private InstituicaoRepository instituicaoRepository;
 
-    public List<Instituicao> findAll() {
-        return instituicaoRepository.findAll();
+    public List<GetAllInstituicoes> findAll() {
+        List<Instituicao> instituicoes = instituicaoRepository.findAll();
+
+        return instituicoes.stream()
+                .map(instituicao -> new GetAllInstituicoes(instituicao.getId(), instituicao.getNome(), instituicao.getEndereco()))
+                .collect(Collectors.toList());
     }
 
     public Instituicao findById(UUID id) {
