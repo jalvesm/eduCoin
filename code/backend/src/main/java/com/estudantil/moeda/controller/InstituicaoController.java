@@ -21,10 +21,10 @@ public class InstituicaoController {
         return ResponseEntity.ok(instituicaoService.findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Instituicao> getInstitution(@PathVariable UUID id) {
+/*     @GetMapping("/buscarInstituicao")
+    public ResponseEntity<Instituicao> getInstitution() {
         return ResponseEntity.ok(instituicaoService.findById(id));
-    }
+    } */
 
     @PostMapping
     public ResponseEntity<Instituicao> createInstitution(@RequestBody Instituicao instituicao) {
