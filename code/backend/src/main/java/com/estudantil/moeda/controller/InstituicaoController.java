@@ -1,5 +1,6 @@
 package com.estudantil.moeda.controller;
 
+import com.estudantil.moeda.dto.GetAllInstituicoes;
 import com.estudantil.moeda.model.Instituicao;
 import com.estudantil.moeda.service.InstituicaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +17,10 @@ public class InstituicaoController {
     @Autowired
     private InstituicaoService instituicaoService;
 
-    @GetMapping
-    public ResponseEntity<List<Instituicao>> listAllInstitutions() {
+    @GetMapping("/listarTodasAsInstituicoes")
+    public ResponseEntity<List<GetAllInstituicoes>> listAllInstitutions() {
         return ResponseEntity.ok(instituicaoService.findAll());
     }
-
-/*     @GetMapping("/buscarInstituicao")
-    public ResponseEntity<Instituicao> getInstitution() {
-        return ResponseEntity.ok(instituicaoService.findById(id));
-    } */
 
     @PostMapping
     public ResponseEntity<Instituicao> createInstitution(@RequestBody Instituicao instituicao) {
@@ -41,4 +37,4 @@ public class InstituicaoController {
         instituicaoService.delete(id);
         return ResponseEntity.noContent().build();
     }
-} 
+}
