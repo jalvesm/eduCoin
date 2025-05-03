@@ -1,9 +1,7 @@
 package com.estudantil.moeda.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
@@ -15,6 +13,8 @@ import com.estudantil.moeda.model.enums.TipoUsuario;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
+@Getter
+@Setter
 @Table(name = "usuario")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Usuario {

@@ -1,4 +1,3 @@
-// src/App.tsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUpPageStudent from "./features/SignUpPage/SignUpPageStudent";
 

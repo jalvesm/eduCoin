@@ -1,9 +1,7 @@
 package com.estudantil.moeda.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Data
@@ -11,6 +9,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
+@Getter
+@Setter
 @Table(name = "empresa")
 public class Empresa extends Usuario {
     @Column(unique = true)

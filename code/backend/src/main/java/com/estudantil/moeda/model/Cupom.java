@@ -1,9 +1,7 @@
 package com.estudantil.moeda.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
@@ -14,6 +12,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
+@Getter
+@Setter
 @Table(name = "cupom")
 public class Cupom {
     @Id

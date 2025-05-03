@@ -1,5 +1,15 @@
 import { useState } from "react";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import colors from "../../../shared/theme/colors";
 import React from "react";
 
@@ -14,6 +24,15 @@ export default function SignUpBoxStudent() {
   const [curso, setCurso] = useState("");
   const [error, setError] = useState("");
   const [openModal, setOpenModal] = useState(false);
+
+  const instituicoes = [
+    {
+      id: "d84995e7-9b12-4b4e-b26b-86cc88d3b5e4",
+      nome: "Universidade Central",
+    },
+    { id: "a1234567-bc89-4de0-9999-123456789abc", nome: "Instituto Federal" },
+    { id: "b9876543-zz22-4de0-aaaa-987654321aaa", nome: "Faculdade Alfa" },
+  ];
 
   const handleSubmit = async () => {
     const dados = {
@@ -56,9 +75,14 @@ export default function SignUpBoxStudent() {
         width: "100%",
         maxWidth: "500px",
         margin: "0 auto",
+        padding: 4,
+        borderRadius: 2,
+        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "white",
       }}
     >
-      <Typography variant="h5" sx={{ color: colors.white, mb: 2 }}>
+      <PersonAddIcon sx={{ color: "black", fontSize: 32 }} />
+      <Typography variant="h5" sx={{ color: "black", fontWeight: "bold" }}>
         Cadastro do Estudante
       </Typography>
 
@@ -105,12 +129,23 @@ export default function SignUpBoxStudent() {
         onChange={(e) => setEndereco(e.target.value)}
         fullWidth
       />
-      <TextField
-        label="ID da Instituição"
-        value={instituicaoId}
-        onChange={(e) => setInstituicaoId(e.target.value)}
-        fullWidth
-      />
+
+      <FormControl fullWidth>
+        <InputLabel id="instituicao-label">Instituição</InputLabel>
+        <Select
+          labelId="instituicao-label"
+          value={instituicaoId}
+          label="Instituição"
+          onChange={(e) => setInstituicaoId(e.target.value)}
+        >
+          {instituicoes.map((inst) => (
+            <MenuItem key={inst.id} value={inst.id}>
+              {inst.nome}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
       <TextField
         label="Curso"
         value={curso}
