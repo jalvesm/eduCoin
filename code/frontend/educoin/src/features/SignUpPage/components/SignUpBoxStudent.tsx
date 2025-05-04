@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useInstituicoes } from "../hooks/useInstituicoes";
-import { useStudent } from "../hooks/useStudent";
+import { useUser } from "../hooks/useUser";
 import colors from "../../../shared/theme/colors";
 import React from "react";
 
@@ -26,7 +26,7 @@ export default function SignUpBoxStudent() {
   const [curso, setCurso] = useState("");
   const [error, setError] = useState("");
   const [openModal, setOpenModal] = useState(false);
-  const { cadastrar, loading, success } = useStudent();
+  const { cadastrar, loading, success } = useUser();
 
   const {
     instituicoes,
