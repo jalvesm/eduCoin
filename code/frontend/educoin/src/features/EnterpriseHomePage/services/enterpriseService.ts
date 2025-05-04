@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Vantagem } from "../types/enterprise";
+import { Vantagem, NovaVantagem  } from "../types/enterprise";
 
 const API_BASE = "http://localhost:8080";
 
@@ -9,7 +9,7 @@ export const enterpriseService = {
     return response.data;
   },
 
-  async criarVantagem(vantagem: Omit<Vantagem, "id">): Promise<void> {
+  async criarVantagem(vantagem: NovaVantagem): Promise<void> { 
     await axios.post(`${API_BASE}/vantagens`, vantagem);
   },
 };

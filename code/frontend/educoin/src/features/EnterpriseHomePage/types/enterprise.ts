@@ -15,4 +15,12 @@ export interface Empresa {
     custoMoedas: number;
     empresa: Empresa;
   }
+
+  export interface NovaVantagem {
+    titulo: string;
+    descricao: string;
+    imagem: string;
+    custoMoedas: number;
+    empresaId: string;
+  }
   

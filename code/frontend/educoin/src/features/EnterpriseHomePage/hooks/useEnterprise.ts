@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Vantagem } from "../types/enterprise";
 import { enterpriseService } from "../services/enterpriseService";
+import { NovaVantagem } from "../types/enterprise";
 
 export function useEnterprise() {
   const [vantagens, setVantagens] = useState<Vantagem[]>([]);
@@ -20,7 +21,7 @@ export function useEnterprise() {
     }
   };
 
-  const criarVantagem = async (novaVantagem: Omit<Vantagem, "id">) => {
+  const criarVantagem = async (novaVantagem: NovaVantagem) => {
     try {
       await enterpriseService.criarVantagem(novaVantagem);
       await carregarVantagens(); 
