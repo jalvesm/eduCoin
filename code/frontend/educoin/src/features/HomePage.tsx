@@ -41,7 +41,7 @@ export default function HomePage() {
         onClick={() => navigate("/cadastro-estudante")}
         variant="contained"
         sx={{
-          backgroundColor: colors.lightBlue,
+          backgroundColor: colors.primary,
           color: "white",
           width: "100%",
           fontWeight: "bold",
