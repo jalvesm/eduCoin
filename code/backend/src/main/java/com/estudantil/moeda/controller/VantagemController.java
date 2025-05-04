@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/vantagens")
@@ -29,11 +30,6 @@ public class VantagemController {
         return ResponseEntity.ok(vantagemService.findById(id));
     }
 
-    @PostMapping
-    public ResponseEntity<Vantagem> createAdvantage(@RequestBody Vantagem vantagem) {
-        return ResponseEntity.ok(vantagemService.save(vantagem));
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<Vantagem> updateAdvantage(@PathVariable UUID id, @RequestBody Vantagem vantagem) {
         return ResponseEntity.ok(vantagemService.update(id, vantagem));
@@ -45,8 +41,8 @@ public class VantagemController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/criar-vantagem")
-    public ResponseEntity<ResponseDTO> criarVantagem(@RequestBody VantagemRequest request) {
+    @PostMapping
+    public ResponseEntity<ResponseDTO> createAdvantage(@RequestBody VantagemRequest request) {
         vantagemService.criarVantagem(request);
 
         ResponseDTO response = new ResponseDTO("Vantagem criada com sucesso", 201);
