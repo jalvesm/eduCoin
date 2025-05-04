@@ -1,5 +1,6 @@
 package com.estudantil.moeda.controller;
 
+import com.estudantil.moeda.dto.GetAllInstituicoes;
 import com.estudantil.moeda.model.Instituicao;
 import com.estudantil.moeda.service.InstituicaoService;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +18,9 @@ public class InstituicaoController {
 
     private final InstituicaoService instituicaoService;
 
-    @GetMapping
-    public ResponseEntity<List<Instituicao>> listAllInstitutions() {
+    @GetMapping("/listarTodasAsInstituicoes")
+    public ResponseEntity<List<GetAllInstituicoes>> listAllInstitutions() {
         return ResponseEntity.ok(instituicaoService.findAll());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Instituicao> getInstitution(@PathVariable UUID id) {
-        return ResponseEntity.ok(instituicaoService.findById(id));
     }
 
     @PostMapping
@@ -42,4 +38,4 @@ public class InstituicaoController {
         instituicaoService.delete(id);
         return ResponseEntity.noContent().build();
     }
-} 
+}
