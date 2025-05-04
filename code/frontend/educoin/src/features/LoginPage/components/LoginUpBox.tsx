@@ -3,6 +3,7 @@ import { Box, TextField, Button, Typography } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import { useUser } from "../hooks/useUser";
 import colors from "../../../shared/theme/colors";
+import { Link } from "react-router-dom";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../data/context/AuthContext";
@@ -117,6 +118,19 @@ export default function LoginBox() {
       >
         {loading ? "Entrando..." : "Login"}
       </Button>
+      <Typography variant="body2" sx={{ mt: 2, textAlign: "center" }}>
+        Ainda não tem uma conta?{" "}
+        <Link
+          to="/"
+          style={{
+            color: colors.secondary,
+            fontWeight: "bold",
+            textDecoration: "none",
+          }}
+        >
+          Cadastre-se aqui
+        </Link>
+      </Typography>
     </Box>
   );
 }

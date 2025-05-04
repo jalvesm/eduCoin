@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 import BusinessIcon from "@mui/icons-material/Business";
 import { useUser } from "../hooks/useUser";
 import colors from "../../../shared/theme/colors";
@@ -115,6 +116,19 @@ export default function SignUpBoxCompany() {
       >
         {loading ? "Cadastrando..." : "Cadastrar Empresa"}
       </Button>
+      <Typography variant="body2" sx={{ mt: 2, textAlign: "center" }}>
+        Ja possui uma conta?{" "}
+        <Link
+          to="/login"
+          style={{
+            color: colors.secondary,
+            fontWeight: "bold",
+            textDecoration: "none",
+          }}
+        >
+          Acesse aqui
+        </Link>
+      </Typography>
     </Box>
   );
 }

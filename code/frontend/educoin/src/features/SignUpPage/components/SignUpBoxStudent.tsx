@@ -12,6 +12,7 @@ import {
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useInstituicoes } from "../hooks/useInstituicoes";
 import { useUser } from "../hooks/useUser";
+import { Link } from "react-router-dom";
 import colors from "../../../shared/theme/colors";
 import React from "react";
 
@@ -193,6 +194,19 @@ export default function SignUpBoxStudent() {
       >
         {loading ? "Cadastrando..." : "Cadastrar"}
       </Button>
+      <Typography variant="body2" sx={{ mt: 2, textAlign: "center" }}>
+        Ja possui uma conta?{" "}
+        <Link
+          to="/login"
+          style={{
+            color: colors.secondary,
+            fontWeight: "bold",
+            textDecoration: "none",
+          }}
+        >
+          Acesse aqui
+        </Link>
+      </Typography>
     </Box>
   );
 }

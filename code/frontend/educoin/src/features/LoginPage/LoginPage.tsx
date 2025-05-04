@@ -1,5 +1,5 @@
 import React from "react";
-import SingUpBox from "./components/SignUpBox";
+import LoginUpBox from "./components/LoginUpBox";
 
 export default function SignUpPageStudent() {
   return (
@@ -11,7 +11,7 @@ export default function SignUpPageStudent() {
         alignItems: "center",
       }}
     >
-      <SingUpBox />
+      <LoginUpBox />
     </div>
   );
 }
