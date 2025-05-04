@@ -48,4 +48,10 @@ public class VantagemController {
         ResponseDTO response = new ResponseDTO("Vantagem criada com sucesso", 201);
         return ResponseEntity.status(201).body(response);
     }
+
+    @GetMapping("empresa/{empresaId}")
+    public ResponseEntity<List<Vantagem>> getAdvantagesByCompany(@PathVariable UUID empresaId) {
+        List<Vantagem> vantagens = vantagemService.findByEmpresaId(empresaId);
+        return ResponseEntity.ok(vantagens);
+    }
 }

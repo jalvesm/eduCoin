@@ -11,9 +11,17 @@ export function useEnterprise() {
   const carregarVantagens = async () => {
     setLoading(true);
     setErro(null);
+
     try {
-      const data = await enterpriseService.listarVantagens();
-      setVantagens(data);
+      const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+      const empresaId = usuario.id;
+
+      if (empresaId) {
+        const data = await enterpriseService.listarVantagensPorEmpresa(empresaId); 
+        setVantagens(data);
+      } else {
+        setErro("ID da empresa não encontrado.");
+      }
     } catch (e) {
       setErro("Erro ao carregar vantagens");
     } finally {
