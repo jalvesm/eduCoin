@@ -11,16 +11,26 @@ import {
   Modal,
   TextField,
   Button,
+  Snackbar,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import HeaderMenu from "../../shared/components/HeaderMenu/HeaderMenu";
 import { useEnterprise } from "./hooks/useEnterprise";
-import { Vantagem } from "./types/enterprise";
+import ImageUpload from "../../shared/upload/ImageUpload";
 
 export default function EnterpriseHomePage() {
   const { vantagens, loading, erro, criarVantagem } = useEnterprise();
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [feedback, setFeedback] = useState<{
+    mensagem: string;
+    tipo: "success" | "error";
+    aberto: boolean;
+  }>({
+    mensagem: "",
+    tipo: "success",
+    aberto: false,
+  });
 
   const [form, setForm] = useState({
     titulo: "",
@@ -38,21 +48,26 @@ export default function EnterpriseHomePage() {
   };
 
   const handleSubmit = async () => {
-    const empresaId = localStorage.getItem("id");
+    const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+    const empresaId = usuario.id;
 
-    if (!empresaId) {
-      alert("Empresa não encontrada.");
-      return;
-    }
-
-    const novaVantagem: Omit<Vantagem, "id"> = {
-      ...form,
-      empresa: { id: empresaId } as any,
+    const novaVantagem = {
+      titulo: form.titulo,
+      descricao: form.descricao,
+      imagem: form.imagem,
+      custoMoedas: form.custoMoedas,
+      empresaId: empresaId,
     };
 
     setSubmitting(true);
     try {
       await criarVantagem(novaVantagem);
+      setFeedback({
+        mensagem: "Vantagem criada com sucesso!",
+        tipo: "success",
+        aberto: true,
+      });
+
       setOpen(false);
       setForm({
         titulo: "",
@@ -61,7 +76,11 @@ export default function EnterpriseHomePage() {
         custoMoedas: 0,
       });
     } catch (err) {
-      alert("Erro ao criar vantagem");
+      setFeedback({
+        mensagem: "Erro ao criar vantagem",
+        tipo: "error",
+        aberto: true,
+      });
     } finally {
       setSubmitting(false);
     }
@@ -70,6 +89,19 @@ export default function EnterpriseHomePage() {
   return (
     <>
       <HeaderMenu />
+      <Snackbar
+        open={feedback.aberto}
+        autoHideDuration={4000}
+        onClose={() => setFeedback({ ...feedback, aberto: false })}
+      >
+        <Alert
+          severity={feedback.tipo}
+          onClose={() => setFeedback({ ...feedback, aberto: false })}
+        >
+          {feedback.mensagem}
+        </Alert>
+      </Snackbar>
+
       <Box sx={{ p: 4 }}>
         <Typography variant="h5" sx={{ fontWeight: "bold", mb: 3 }}>
           Vantagens Disponíveis
@@ -148,14 +180,6 @@ export default function EnterpriseHomePage() {
             margin="normal"
           />
           <TextField
-            label="URL da Imagem"
-            name="imagem"
-            value={form.imagem}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
             label="Custo de Moedas"
             name="custoMoedas"
             type="number"
@@ -164,6 +188,40 @@ export default function EnterpriseHomePage() {
             fullWidth
             margin="normal"
           />
+          <Box
+            sx={{
+              height: "56px",
+              display: "flex",
+              alignItems: "center",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              padding: "0 16px",
+              backgroundColor: "white",
+              maxWidth: "100%",
+              overflow: "hidden",
+            }}
+          >
+            <ImageUpload
+              onImageUploaded={(url) =>
+                setForm((prev) => ({ ...prev, imagem: url }))
+              }
+            />
+            {form.imagem && (
+              <Typography
+                variant="body2"
+                sx={{
+                  ml: 2,
+                  flexGrow: 1,
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  color: "gray",
+                }}
+              >
+                {form.imagem}
+              </Typography>
+            )}
+          </Box>
           <Box sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}>
             <Button onClick={() => setOpen(false)} sx={{ mr: 1 }}>
               Cancelar

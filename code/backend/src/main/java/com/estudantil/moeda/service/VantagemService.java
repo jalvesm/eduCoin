@@ -67,4 +67,9 @@ public class VantagemService {
 
         return vantagemRepository.save(vantagem);
     }
+
+    public List<Vantagem> findByEmpresaId(UUID empresaId) {
+        return vantagemRepository.findByEmpresaId(empresaId);
+    }
+
 }
