@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useAuth } from "../../../data/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import colors from "../../theme/colors";
@@ -71,38 +72,55 @@ export default function HeaderMenu() {
             open={Boolean(anchorElMenu)}
             onClose={handleMenuClose}
           >
-            <MenuItem onClick={() => handleNavigation("/consultar-extratos")}>
-              Consultar Extratos
-            </MenuItem>
-
             {usuario?.tipoUsuario === "ALUNO" && (
               <>
-                <MenuItem onClick={() => handleNavigation("/trocar-moedas")}>
-                  Trocar Moedas
+                <MenuItem
+                  onClick={() => handleNavigation("/vantagens-disponiveis")}
+                >
+                  Vantagens Disponíveis
                 </MenuItem>
                 <MenuItem
-                  onClick={() => handleNavigation("/resgatar-vantagens")}
+                  onClick={() => handleNavigation("/consultar-extratos")}
                 >
-                  Resgatar Vantagens
+                  Extrato de Moedas
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigation("/historico-trocas")}>
+                  Histórico de Trocas
                 </MenuItem>
               </>
             )}
 
             {usuario?.tipoUsuario === "EMPRESA" && (
-              <MenuItem
-                onClick={() => handleNavigation("/gerenciar-vantagens")}
-              >
-                Gerenciar Vantagens
-              </MenuItem>
+              <>
+                <MenuItem
+                  onClick={() => handleNavigation("/gerenciar-vantagens")}
+                >
+                  Gerenciar Vantagens
+                </MenuItem>
+                <MenuItem
+                  onClick={() => handleNavigation("/resgates-realizados")}
+                >
+                  Resgates Realizados
+                </MenuItem>
+              </>
             )}
           </Menu>
 
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            EduCoin
-          </Typography>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+          ></Typography>
 
           {usuario ? (
             <div>
+              <IconButton
+                size="large"
+                aria-label="show notifications"
+                color="inherit"
+              >
+                <NotificationsIcon />
+              </IconButton>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -112,6 +130,7 @@ export default function HeaderMenu() {
               >
                 <AccountCircle />
               </IconButton>
+
               <Menu
                 id="user-menu"
                 anchorEl={anchorElUser}
