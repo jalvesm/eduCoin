@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/instituicoes")
 public class InstituicaoController {
 
-    private InstituicaoService instituicaoService;
+    private final InstituicaoService instituicaoService;
 
     @GetMapping
     public ResponseEntity<List<Instituicao>> listAllInstitutions() {

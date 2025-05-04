@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/professores")
 public class ProfessorController {
 
-    private ProfessorService professorService;
+    private final ProfessorService professorService;
 
     @GetMapping
     public ResponseEntity<List<Professor>> listAllProfessors() {

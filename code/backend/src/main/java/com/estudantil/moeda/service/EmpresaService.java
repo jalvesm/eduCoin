@@ -15,7 +15,7 @@ import java.util.UUID;
 @Service
 public class EmpresaService {
 
-    private EmpresaRepository empresaRepository;
+    private final EmpresaRepository empresaRepository;
 
     public List<Empresa> findAll() {
         return empresaRepository.findAll();

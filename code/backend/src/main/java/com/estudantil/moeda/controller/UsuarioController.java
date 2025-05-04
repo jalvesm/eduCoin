@@ -30,15 +30,14 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.findById(id));
     }
 
+    //Cria um usuario baseado no tipo de usuario
     @PostMapping
     public ResponseEntity<Usuario> createUser(@RequestBody Usuario usuario) {
-
         Usuario savedUsuario = usuarioService.save(usuario);
         
         switch (usuario.getTipoUsuario()) {
             case ALUNO:
                 Aluno aluno = new Aluno();
-                aluno.setId(savedUsuario.getId());
                 aluno.setNome(savedUsuario.getNome());
                 aluno.setEmail(savedUsuario.getEmail());
                 aluno.setSenha(savedUsuario.getSenha());
@@ -47,7 +46,6 @@ public class UsuarioController {
                 
             case PROFESSOR:
                 Professor professor = new Professor();
-                professor.setId(savedUsuario.getId());
                 professor.setNome(savedUsuario.getNome());
                 professor.setEmail(savedUsuario.getEmail());
                 professor.setSenha(savedUsuario.getSenha());
@@ -56,7 +54,6 @@ public class UsuarioController {
                 
             case EMPRESA:
                 Empresa empresa = new Empresa();
-                empresa.setId(savedUsuario.getId());
                 empresa.setNome(savedUsuario.getNome());
                 empresa.setEmail(savedUsuario.getEmail());
                 empresa.setSenha(savedUsuario.getSenha());

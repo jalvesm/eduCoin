@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequestMapping("/empresas")
 public class EmpresaController {
 
-    private EmpresaService empresaService;
+    private final EmpresaService empresaService;
 
     @GetMapping
     public ResponseEntity<List<Empresa>> listAllCompanies() {

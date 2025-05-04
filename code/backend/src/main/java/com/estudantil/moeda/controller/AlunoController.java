@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequestMapping("/alunos")
 public class AlunoController {
 
-    private AlunoService alunoService;
+    private final AlunoService alunoService;
 
     @GetMapping
     public ResponseEntity<List<Aluno>> listAllStudents() {

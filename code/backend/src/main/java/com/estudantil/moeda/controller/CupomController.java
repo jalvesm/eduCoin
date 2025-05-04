@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/cupons")
 public class CupomController {
 
-    private CupomService cupomService;
+    private final CupomService cupomService;
 
     @GetMapping
     public ResponseEntity<List<Cupom>> listAllCoupons() {

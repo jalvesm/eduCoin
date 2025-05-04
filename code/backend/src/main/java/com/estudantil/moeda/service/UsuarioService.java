@@ -14,7 +14,7 @@ import java.util.UUID;
 @Service
 public class UsuarioService {
 
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();

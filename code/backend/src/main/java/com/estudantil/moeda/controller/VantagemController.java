@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/vantagens")
 public class VantagemController {
 
-    private VantagemService vantagemService;
+    private final VantagemService vantagemService;
 
     @GetMapping
     public ResponseEntity<List<Vantagem>> listAllAdvantages() {
