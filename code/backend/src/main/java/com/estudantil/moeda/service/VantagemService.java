@@ -1,7 +1,10 @@
 package com.estudantil.moeda.service;
 
+import com.estudantil.moeda.model.Empresa;
 import com.estudantil.moeda.model.Vantagem;
+import com.estudantil.moeda.repository.EmpresaRepository;
 import com.estudantil.moeda.repository.VantagemRepository;
+import com.estudantil.moeda.dto.VantagemRequest;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -10,12 +13,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-
 @RequiredArgsConstructor
 @Service
 public class VantagemService {
 
     private final VantagemRepository vantagemRepository;
+    private final EmpresaRepository empresaRepository;
 
     public List<Vantagem> findAll() {
         return vantagemRepository.findAll();
@@ -44,4 +47,18 @@ public class VantagemService {
         }
         vantagemRepository.deleteById(id);
     }
-} 
+
+    public Vantagem criarVantagem(VantagemRequest request) {
+        Empresa empresa = empresaRepository.findById(request.getEmpresaId())
+                .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
+
+        Vantagem vantagem = new Vantagem();
+        vantagem.setTitulo(request.getTitulo());
+        vantagem.setDescricao(request.getDescricao());
+        vantagem.setImagem(request.getImagem());
+        vantagem.setCustoMoedas(request.getCustoMoedas());
+        vantagem.setEmpresa(empresa);
+
+        return vantagemRepository.save(vantagem);
+    }
+}
