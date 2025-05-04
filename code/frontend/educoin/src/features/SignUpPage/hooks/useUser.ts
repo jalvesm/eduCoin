@@ -21,5 +21,20 @@ export function useUser() {
     }
   };
 
-  return { cadastrar, loading, error, success };
+  const cadastrarEmpresa = async (dadosEmpresa) => {
+    setLoading(true);
+    setError("");
+    setSuccess(false);
+
+    try {
+      await cadastrarEmpresa(dadosEmpresa);
+      setSuccess(true);
+    } catch (err) {
+      setError("Erro ao cadastrar empresa.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { cadastrar, cadastrarEmpresa, loading, error, success };
 }

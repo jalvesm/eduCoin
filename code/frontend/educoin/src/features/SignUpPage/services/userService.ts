@@ -16,3 +16,15 @@ export const cadastrarAluno = async (dadosAluno) => {
     throw error;
   }
 };
+
+export const cadastrarEmpresa = async (dadosEmpresa) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/usuarios`, {
+      ...dadosEmpresa
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao cadastrar empresa:", error);
+    throw error;
+  }
+};
