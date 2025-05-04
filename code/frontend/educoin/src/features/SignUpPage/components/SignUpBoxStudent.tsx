@@ -10,6 +10,8 @@ import {
   FormControl,
 } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import { useInstituicoes } from "../hooks/useInstituicoes";
+import { useStudent } from "../hooks/useStudent";
 import colors from "../../../shared/theme/colors";
 import React from "react";
 
@@ -24,18 +26,30 @@ export default function SignUpBoxStudent() {
   const [curso, setCurso] = useState("");
   const [error, setError] = useState("");
   const [openModal, setOpenModal] = useState(false);
+  const { cadastrar, loading, success } = useStudent();
 
-  const instituicoes = [
-    {
-      id: "d84995e7-9b12-4b4e-b26b-86cc88d3b5e4",
-      nome: "Universidade Central",
-    },
-    { id: "a1234567-bc89-4de0-9999-123456789abc", nome: "Instituto Federal" },
-    { id: "b9876543-zz22-4de0-aaaa-987654321aaa", nome: "Faculdade Alfa" },
-  ];
+  const {
+    instituicoes,
+    loading: loadingInstituicoes,
+    error: errorInstituicoes,
+  } = useInstituicoes();
 
   const handleSubmit = async () => {
-    const dados = {
+    if (
+      !nome ||
+      !email ||
+      !senha ||
+      !cpf ||
+      !rg ||
+      !endereco ||
+      !instituicaoId ||
+      !curso
+    ) {
+      setError("Preencha todos os campos antes de cadastrar.");
+      return;
+    }
+
+    const dadosAluno = {
       nome,
       email,
       senha,
@@ -46,13 +60,7 @@ export default function SignUpBoxStudent() {
       curso,
     };
 
-    try {
-      console.log("Estudante cadastrado:", dados);
-      setOpenModal(true);
-      limparCampos();
-    } catch {
-      setError("Erro ao cadastrar estudante.");
-    }
+    await cadastrar(dadosAluno);
   };
 
   const limparCampos = () => {
@@ -138,11 +146,17 @@ export default function SignUpBoxStudent() {
           label="Instituição"
           onChange={(e) => setInstituicaoId(e.target.value)}
         >
-          {instituicoes.map((inst) => (
-            <MenuItem key={inst.id} value={inst.id}>
-              {inst.nome}
-            </MenuItem>
-          ))}
+          {loadingInstituicoes ? (
+            <MenuItem disabled>Carregando...</MenuItem>
+          ) : errorInstituicoes ? (
+            <MenuItem disabled>{errorInstituicoes}</MenuItem>
+          ) : (
+            instituicoes.map((inst: any) => (
+              <MenuItem key={inst.id} value={inst.id}>
+                {inst.nome}
+              </MenuItem>
+            ))
+          )}
         </Select>
       </FormControl>
 
@@ -152,6 +166,17 @@ export default function SignUpBoxStudent() {
         onChange={(e) => setCurso(e.target.value)}
         fullWidth
       />
+      {error && (
+        <Typography color="red" sx={{ fontWeight: "bold" }}>
+          {error}
+        </Typography>
+      )}
+
+      {success && (
+        <Typography color="green" sx={{ fontWeight: "bold" }}>
+          Cadastro realizado com sucesso!
+        </Typography>
+      )}
 
       <Button
         onClick={handleSubmit}
@@ -164,8 +189,9 @@ export default function SignUpBoxStudent() {
           fontWeight: "bold",
           borderRadius: "10px",
         }}
+        disabled={loading}
       >
-        Cadastrar
+        {loading ? "Cadastrando..." : "Cadastrar"}
       </Button>
     </Box>
   );
