@@ -36,5 +36,20 @@ export function useUser() {
     }
   };
 
-  return { cadastrar, cadastrarEmpresa, loading, error, success };
+  const loginUsuario = async (dadosUsuario) => {
+    setLoading(true);
+    setError("");
+    setSuccess(false);
+
+    try {
+      await loginUsuario(dadosUsuario);
+      setSuccess(true);
+    } catch (err) {
+      setError("Erro ao acessar sistema.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { cadastrar, cadastrarEmpresa, loginUsuario, loading, error, success };
 }

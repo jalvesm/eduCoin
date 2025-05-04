@@ -1,12 +1,14 @@
 enum PRIVATE_PAGES_URL {
     ALUNO = "/aluno",
     EMPRESA = "/empresa",
-    PROFESSOR = "/PROFESSOR",
+    PROFESSOR = "/professor",
 }
 
 enum PUBLIC_PAGES_URL {
     INDEX = "/",
-    SIGNUP = "/cadastro",
+    SIGNUP_TEACHER = "/cadastro-professor",
+    SIGNUP_STUDENT = "/cadastro-aluno",
+    SIGNUP_ENTERPRISE = "/cadastro--empresa",
     NOT_FOUND ="*"
 }
 

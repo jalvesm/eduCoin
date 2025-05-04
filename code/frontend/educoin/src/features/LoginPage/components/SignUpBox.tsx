@@ -1,58 +1,38 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import { TextField, Typography } from "@mui/material";
-import colors from "../../../shared/theme/colors";
 import { useState } from "react";
-import SucessModal from "./SucessModal";
+import { Box, TextField, Button, Typography } from "@mui/material";
+import LockIcon from "@mui/icons-material/Lock";
+import { useUser } from "../hooks/useUser";
+import colors from "../../../shared/theme/colors";
 import React from "react";
 
-export default function SignUpBox() {
-  const [nameInput, setName] = useState("");
-  const [emailInput, setEmail] = useState("");
-  const [passwordInput, setPassword] = useState("");
-  const [emailError, setEmailError] = useState(false);
-  const [nameError, setNameError] = useState(false);
-  const [, setPasswordError] = useState(false);
+export default function LoginBox() {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
-  const [openSucessModal, setOpenSucessModal] = useState(false);
+  const { login, loading, success } = useUser();
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const lettersRegex = /^[A-Za-z\s]*$/;
+  const handleSubmit = async () => {
+    if (!email || !senha) {
+      setError("Preencha todos os campos.");
+      return;
+    }
 
-    if (lettersRegex.test(value)) {
-      setName(value);
-      setNameError(false);
-    } else {
-      setNameError(true);
+    const dadosLogin = {
+      email,
+      senha,
+    };
+
+    try {
+      await login(dadosLogin);
+      limparCampos();
+    } catch (error) {
+      setError("Erro ao realizar login.");
     }
   };
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    setEmail(value);
-    setEmailError(!emailRegex.test(value));
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const passwordRegex =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#+-])[A-Za-z\d@$!%*?&#+-]{8,}$/;
-
-    setPassword(value);
-    setPasswordError(!passwordRegex.test(value));
-  };
-
-  const handleOpenModal = () => {
-    setOpenSucessModal(true);
-  };
-
-  const handleCleanData = () => {
-    setName("");
+  const limparCampos = () => {
     setEmail("");
-    setPassword("");
+    setSenha("");
   };
 
   return (
@@ -60,126 +40,62 @@ export default function SignUpBox() {
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
         gap: 2,
         width: "100%",
         maxWidth: "400px",
+        margin: "0 auto",
+        padding: 4,
+        borderRadius: 2,
+        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "white",
       }}
     >
+      <LockIcon sx={{ color: "black", fontSize: 32 }} />
+      <Typography variant="h5" sx={{ color: "black", fontWeight: "bold" }}>
+        Login
+      </Typography>
+
       {error && (
-        <Typography
-          variant="body2"
-          color={colors.error}
-          sx={{ mb: 2, fontWeight: "bold" }}
-        >
+        <Typography color={colors.error} sx={{ fontWeight: "bold" }}>
           {error}
         </Typography>
       )}
 
       <TextField
-        label="Nome completo"
-        value={nameInput}
-        onChange={handleNameChange}
-        fullWidth
-        error={nameError}
-        helperText={nameError ? "Apenas letras permitidas." : ""}
-        sx={{
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-              borderWidth: 2,
-              borderColor: colors.primary,
-            },
-            "&:hover fieldset": {
-              borderColor: colors.secondary,
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: colors.white,
-            },
-          },
-          "& .MuiInputLabel-root": {
-            color: colors.white,
-          },
-          "& .MuiInputLabel-root.Mui-focused": {
-            color: colors.white,
-          },
-        }}
-      />
-      <TextField
         label="E-mail"
-        value={emailInput}
-        onChange={handleEmailChange}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         fullWidth
-        error={emailError}
-        helperText={emailError ? "Formato: seunome@email.com" : ""}
-        sx={{
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-              borderWidth: 2,
-              borderColor: colors.primary,
-            },
-            "&:hover fieldset": {
-              borderColor: colors.secondary,
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: colors.white,
-            },
-          },
-          "& .MuiInputLabel-root": {
-            color: colors.white,
-          },
-          "& .MuiInputLabel-root.Mui-focused": {
-            color: colors.white,
-          },
-        }}
       />
       <TextField
         label="Senha"
         type="password"
-        value={passwordInput}
-        onChange={handlePasswordChange}
+        value={senha}
+        onChange={(e) => setSenha(e.target.value)}
         fullWidth
-        required
-        sx={{
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-              borderWidth: 2,
-              borderColor: colors.primary,
-            },
-            "&:hover fieldset": {
-              borderColor: colors.secondary,
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: colors.white,
-            },
-          },
-          "& .MuiInputLabel-root": {
-            color: colors.white,
-          },
-          "& .MuiInputLabel-root.Mui-focused": {
-            color: colors.white,
-          },
-        }}
       />
 
+      {success && (
+        <Typography color="green" sx={{ fontWeight: "bold" }}>
+          Login realizado com sucesso!
+        </Typography>
+      )}
+
       <Button
-        //  onClick={onSubmit}
-        fullWidth
+        onClick={handleSubmit}
         variant="contained"
         sx={{
-          mt: 3,
+          mt: 2,
           backgroundColor: colors.lightBlue,
           color: colors.secondary,
-          borderRadius: "10px",
           height: "48px",
           fontWeight: "bold",
-          textTransform: "none",
+          borderRadius: "10px",
         }}
+        disabled={loading}
       >
-        Cadastrar
+        {loading ? "Entrando..." : "Login"}
       </Button>
-
-      {openSucessModal && <SucessModal open={openSucessModal} />}
     </Box>
   );
 }
