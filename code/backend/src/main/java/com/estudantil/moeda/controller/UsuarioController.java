@@ -6,10 +6,12 @@ import com.estudantil.moeda.dto.*;
 import com.estudantil.moeda.enums.TipoUsuario;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -33,46 +35,84 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.findById(id));
     }
 
-    //Cria um usuario baseado no tipo de usuario
     @PostMapping
     public ResponseEntity<Usuario> createUser(@RequestBody CreateUsuarioDTO createUsuarioDTO) {
         switch (createUsuarioDTO.getTipoUsuario()) {
             case ALUNO:
-                Aluno aluno = new Aluno();
-                aluno.setNome(createUsuarioDTO.getNome());
-                aluno.setEmail(createUsuarioDTO.getEmail());
-                aluno.setSenha(createUsuarioDTO.getSenha());
-                aluno.setTipoUsuario(createUsuarioDTO.getTipoUsuario());
-                return ResponseEntity.ok(alunoService.save(aluno));
-                
-            case PROFESSOR:
-                Professor professor = new Professor();
-                professor.setNome(createUsuarioDTO.getNome());
-                professor.setEmail(createUsuarioDTO.getEmail());
-                professor.setSenha(createUsuarioDTO.getSenha());
-                professor.setTipoUsuario(createUsuarioDTO.getTipoUsuario());
-                professor.setQuantidadeMoedas(Professor.SALDO_SEMESTRAL_DE_MOEDAS);
+                if (createUsuarioDTO instanceof CreateAlunoDTO alunoDTO) {
+                    Aluno aluno = new Aluno();
+                    aluno.setNome(alunoDTO.getNome());
+                    aluno.setEmail(alunoDTO.getEmail());
+                    aluno.setSenha(alunoDTO.getSenha());
+                    aluno.setTipoUsuario(alunoDTO.getTipoUsuario());
+                    aluno.setCpf(alunoDTO.getCpf());
+                    aluno.setRg(alunoDTO.getRg());
+                    aluno.setEndereco(alunoDTO.getEndereco());
+                    aluno.setCurso(alunoDTO.getCurso());
+                    aluno.setSaldoMoedas(alunoDTO.getSaldoMoedas());
 
-                if (createUsuarioDTO instanceof CreateProfessorDTO) {
-                    CreateProfessorDTO professorDTO = (CreateProfessorDTO) createUsuarioDTO;
+                    if (alunoDTO.getInstituicaoId() != null) {
+                        Instituicao instituicao = instituicaoService.findById(alunoDTO.getInstituicaoId());
+                        aluno.setInstituicao(instituicao);
+                    }
+
+                    return ResponseEntity.ok(alunoService.save(aluno));
+                }
+                throw new IllegalArgumentException("Dados inválidos para aluno.");
+
+            case PROFESSOR:
+                if (createUsuarioDTO instanceof CreateProfessorDTO professorDTO) {
+                    Professor professor = new Professor();
+                    professor.setNome(professorDTO.getNome());
+                    professor.setEmail(professorDTO.getEmail());
+                    professor.setSenha(professorDTO.getSenha());
+                    professor.setTipoUsuario(professorDTO.getTipoUsuario());
+                    professor.setCpf(professorDTO.getCpf());
+                    professor.setDepartamento(professorDTO.getDepartamento());
+                    professor.setQuantidadeMoedas(Professor.SALDO_SEMESTRAL_DE_MOEDAS);
+
                     if (professorDTO.getInstituicaoId() != null) {
                         Instituicao instituicao = instituicaoService.findById(professorDTO.getInstituicaoId());
                         professor.setInstituicao(instituicao);
                     }
+
+                    return ResponseEntity.ok(professorService.save(professor));
                 }
-                
-                return ResponseEntity.ok(professorService.save(professor));
-                
+                throw new IllegalArgumentException("Dados inválidos para professor.");
+
             case EMPRESA:
-                Empresa empresa = new Empresa();
-                empresa.setNome(createUsuarioDTO.getNome());
-                empresa.setEmail(createUsuarioDTO.getEmail());
-                empresa.setSenha(createUsuarioDTO.getSenha());
-                empresa.setTipoUsuario(createUsuarioDTO.getTipoUsuario());
-                return ResponseEntity.ok(empresaService.save(empresa));
-                
+                if (createUsuarioDTO instanceof CreateEmpresaDTO empresaDTO) {
+                    Empresa empresa = new Empresa();
+                    empresa.setNome(empresaDTO.getNome());
+                    empresa.setEmail(empresaDTO.getEmail());
+                    empresa.setSenha(empresaDTO.getSenha());
+                    empresa.setTipoUsuario(empresaDTO.getTipoUsuario());
+                    empresa.setCnpj(empresaDTO.getCnpj());
+
+                    return ResponseEntity.ok(empresaService.save(empresa));
+                }
+                throw new IllegalArgumentException("Dados inválidos para empresa.");
+
             default:
-                throw new IllegalArgumentException("Tipo de usuário inválido");
+                throw new IllegalArgumentException("Tipo de usuário inválido.");
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequest) {
+        Optional<Usuario> usuarioOptional = usuarioService.autenticarUsuario(loginRequest.getEmail(),
+                loginRequest.getSenha());
+
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+            LoginResponseDTO response = new LoginResponseDTO();
+            response.setId(usuario.getId());
+            response.setNome(usuario.getNome());
+            response.setEmail(usuario.getEmail());
+            response.setTipoUsuario(usuario.getTipoUsuario());
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(401).body("Credenciais inválidas");
         }
     }
 
@@ -86,4 +126,4 @@ public class UsuarioController {
         usuarioService.delete(id);
         return ResponseEntity.noContent().build();
     }
-} 
+}

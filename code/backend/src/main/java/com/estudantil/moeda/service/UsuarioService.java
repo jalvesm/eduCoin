@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -43,4 +44,8 @@ public class UsuarioService {
         }
         usuarioRepository.deleteById(id);
     }
-} 
+
+    public Optional<Usuario> autenticarUsuario(String email, String senha) {
+        return usuarioRepository.findByEmailAndSenha(email, senha);
+    }
+}
