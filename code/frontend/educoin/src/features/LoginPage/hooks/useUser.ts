@@ -10,16 +10,19 @@ export function useUser() {
     setLoading(true);
     setError("");
     setSuccess(false);
-
+  
     try {
-      await loginUser(dadosLogin);
+      const userData = await loginUser(dadosLogin);
+  
       setSuccess(true);
+      return userData; 
     } catch (err) {
       setError("Erro ao realizar login.");
+      throw err; 
     } finally {
       setLoading(false);
     }
   };
-
+  
   return { login, loading, error, success };
 }

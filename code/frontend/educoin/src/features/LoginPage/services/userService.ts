@@ -4,7 +4,7 @@ const API_BASE_URL = "http://localhost:8080";
 
 export const loginUser = async (dadosLogin) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/login`, dadosLogin, {
+    const response = await axios.post(`${API_BASE_URL}/usuarios/login`, dadosLogin, {
       headers: {
         "Content-Type": "application/json",
       },

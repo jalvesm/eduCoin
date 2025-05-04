@@ -4,12 +4,16 @@ import LockIcon from "@mui/icons-material/Lock";
 import { useUser } from "../hooks/useUser";
 import colors from "../../../shared/theme/colors";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../data/context/AuthContext";
 
 export default function LoginBox() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
-  const { login, loading, success } = useUser();
+  const { login: loginAuth } = useAuth();
+  const { login: login, loading, success } = useUser();
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     if (!email || !senha) {
@@ -23,7 +27,24 @@ export default function LoginBox() {
     };
 
     try {
-      await login(dadosLogin);
+      const userData = await login(dadosLogin);
+      loginAuth(userData);
+
+      switch (userData.tipoUsuario) {
+        case "ALUNO":
+          navigate("/estudante");
+          break;
+        case "EMPRESA":
+          navigate("/empresa");
+          break;
+        case "PROFESSOR":
+          navigate("/professor");
+          break;
+        default:
+          setError("Tipo de usuário não reconhecido.");
+          navigate("/");
+      }
+
       limparCampos();
     } catch (error) {
       setError("Erro ao realizar login.");

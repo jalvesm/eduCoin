@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import HeaderMenu from "../../shared/components/HeaderMenu/HeaderMenu";
 
-export default function EnterpriseHomePage() {
+export default function StudentHomePage() {
   return (
     <>
       <HeaderMenu />
@@ -16,7 +16,7 @@ export default function EnterpriseHomePage() {
         }}
       >
         <Typography variant="h4" sx={{ fontWeight: "bold", color: "gray" }}>
-          Em breve implementação de Empresa
+          Em breve implementação de Estudante
         </Typography>
       </Box>
     </>
