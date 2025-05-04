@@ -20,7 +20,6 @@ import java.util.UUID;
 public class EmpresaController {
 
     private final EmpresaService empresaService;
-    private final VantagemService vantagemService;
 
     @GetMapping
     public ResponseEntity<List<Empresa>> listAllCompanies() {
@@ -46,11 +45,5 @@ public class EmpresaController {
     public ResponseEntity<Void> deleteCompany(@PathVariable UUID id) {
         empresaService.delete(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/criar-vantagem")
-    public ResponseEntity<Vantagem> criarVantagem(@RequestBody VantagemRequest request) {
-        Vantagem vantagem = vantagemService.criarVantagem(request);
-        return ResponseEntity.ok(vantagem);
     }
 }

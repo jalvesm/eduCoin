@@ -52,6 +52,12 @@ public class VantagemService {
         Empresa empresa = empresaRepository.findById(request.getEmpresaId())
                 .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
 
+        boolean tituloDuplicado = vantagemRepository.existsByTituloAndEmpresaId(request.getTitulo(),
+                request.getEmpresaId());
+        if (tituloDuplicado) {
+            throw new RuntimeException("Já existe uma vantagem com esse título para a empresa informada");
+        }
+
         Vantagem vantagem = new Vantagem();
         vantagem.setTitulo(request.getTitulo());
         vantagem.setDescricao(request.getDescricao());

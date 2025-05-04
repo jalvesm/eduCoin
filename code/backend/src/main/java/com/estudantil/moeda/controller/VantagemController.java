@@ -1,5 +1,7 @@
 package com.estudantil.moeda.controller;
 
+import com.estudantil.moeda.dto.ResponseDTO;
+import com.estudantil.moeda.dto.VantagemRequest;
 import com.estudantil.moeda.model.Vantagem;
 import com.estudantil.moeda.service.VantagemService;
 import lombok.RequiredArgsConstructor;
@@ -42,4 +44,12 @@ public class VantagemController {
         vantagemService.delete(id);
         return ResponseEntity.noContent().build();
     }
-} 
+
+    @PostMapping("/criar-vantagem")
+    public ResponseEntity<ResponseDTO> criarVantagem(@RequestBody VantagemRequest request) {
+        vantagemService.criarVantagem(request);
+
+        ResponseDTO response = new ResponseDTO("Vantagem criada com sucesso", 201);
+        return ResponseEntity.status(201).body(response);
+    }
+}
