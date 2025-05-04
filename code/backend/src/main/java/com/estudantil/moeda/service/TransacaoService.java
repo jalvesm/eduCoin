@@ -14,7 +14,7 @@ import java.util.UUID;
 @Service
 public class TransacaoService {
 
-    private TransacaoRepository transacaoRepository;
+    private final TransacaoRepository transacaoRepository;
 
     public List<Transacao> findAll() {
         return transacaoRepository.findAll();

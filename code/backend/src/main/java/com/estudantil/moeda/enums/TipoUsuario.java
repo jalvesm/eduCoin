@@ -2,6 +2,16 @@ package com.estudantil.moeda.enums;
 
 public enum TipoUsuario {
     ALUNO,
-    PROFESSOR,
-    EMPRESA
-} 
+    EMPRESA,
+    PROFESSOR;
+
+    private final String name;
+
+    TipoUsuario() {
+        this.name = name();
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}

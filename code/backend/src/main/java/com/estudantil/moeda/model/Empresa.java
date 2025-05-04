@@ -11,8 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Getter
-@Setter
 @Table(name = "empresa")
 public class Empresa extends Usuario {
     @Column(name = "cnpj", unique = true)

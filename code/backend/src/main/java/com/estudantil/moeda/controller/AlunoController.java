@@ -40,11 +40,11 @@ public class AlunoController {
      * }
      * ```
      */
-    @PostMapping("/criarAluno")
+    /*@PostMapping("/criarAluno")
     public ResponseEntity<Aluno> criarAluno(@RequestBody CreateAlunoDTO alunoDTO) {
         Aluno aluno = alunoService.criarAluno(alunoDTO);
         return ResponseEntity.ok(aluno);
-    }
+    }*/
 
     @GetMapping
     public ResponseEntity<List<Aluno>> listAllStudents() {

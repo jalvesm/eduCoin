@@ -15,8 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Getter
-@Setter
 @Table(name = "cupom")
 public class Cupom {
     @Id
@@ -24,7 +22,7 @@ public class Cupom {
     private UUID id;
 
     @Column(name = "codigo", nullable = false, length = 10)
-    private String codigo;
+    private UUID codigo;
 
     @Column(name = "data_geracao", nullable = false)
     private LocalDateTime dataGeracao;

@@ -2,6 +2,8 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.model.*;
 import com.estudantil.moeda.service.*;
+import com.estudantil.moeda.dto.*;
+import com.estudantil.moeda.enums.TipoUsuario;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ public class UsuarioController {
     private final AlunoService alunoService;
     private final ProfessorService professorService;
     private final EmpresaService empresaService;
+    private final InstituicaoService instituicaoService;
 
     @GetMapping
     public ResponseEntity<List<Usuario>> listAllUsers() {
@@ -32,32 +35,40 @@ public class UsuarioController {
 
     //Cria um usuario baseado no tipo de usuario
     @PostMapping
-    public ResponseEntity<Usuario> createUser(@RequestBody Usuario usuario) {
-        Usuario savedUsuario = usuarioService.save(usuario);
-        
-        switch (usuario.getTipoUsuario()) {
+    public ResponseEntity<Usuario> createUser(@RequestBody CreateUsuarioDTO createUsuarioDTO) {
+        switch (createUsuarioDTO.getTipoUsuario()) {
             case ALUNO:
                 Aluno aluno = new Aluno();
-                aluno.setNome(savedUsuario.getNome());
-                aluno.setEmail(savedUsuario.getEmail());
-                aluno.setSenha(savedUsuario.getSenha());
-                aluno.setTipoUsuario(savedUsuario.getTipoUsuario());
+                aluno.setNome(createUsuarioDTO.getNome());
+                aluno.setEmail(createUsuarioDTO.getEmail());
+                aluno.setSenha(createUsuarioDTO.getSenha());
+                aluno.setTipoUsuario(createUsuarioDTO.getTipoUsuario());
                 return ResponseEntity.ok(alunoService.save(aluno));
                 
             case PROFESSOR:
                 Professor professor = new Professor();
-                professor.setNome(savedUsuario.getNome());
-                professor.setEmail(savedUsuario.getEmail());
-                professor.setSenha(savedUsuario.getSenha());
-                professor.setTipoUsuario(savedUsuario.getTipoUsuario());
+                professor.setNome(createUsuarioDTO.getNome());
+                professor.setEmail(createUsuarioDTO.getEmail());
+                professor.setSenha(createUsuarioDTO.getSenha());
+                professor.setTipoUsuario(createUsuarioDTO.getTipoUsuario());
+                professor.setQuantidadeMoedas(Professor.SALDO_SEMESTRAL_DE_MOEDAS);
+
+                if (createUsuarioDTO instanceof CreateProfessorDTO) {
+                    CreateProfessorDTO professorDTO = (CreateProfessorDTO) createUsuarioDTO;
+                    if (professorDTO.getInstituicaoId() != null) {
+                        Instituicao instituicao = instituicaoService.findById(professorDTO.getInstituicaoId());
+                        professor.setInstituicao(instituicao);
+                    }
+                }
+                
                 return ResponseEntity.ok(professorService.save(professor));
                 
             case EMPRESA:
                 Empresa empresa = new Empresa();
-                empresa.setNome(savedUsuario.getNome());
-                empresa.setEmail(savedUsuario.getEmail());
-                empresa.setSenha(savedUsuario.getSenha());
-                empresa.setTipoUsuario(savedUsuario.getTipoUsuario());
+                empresa.setNome(createUsuarioDTO.getNome());
+                empresa.setEmail(createUsuarioDTO.getEmail());
+                empresa.setSenha(createUsuarioDTO.getSenha());
+                empresa.setTipoUsuario(createUsuarioDTO.getTipoUsuario());
                 return ResponseEntity.ok(empresaService.save(empresa));
                 
             default:

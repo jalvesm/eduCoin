@@ -1,11 +1,9 @@
 package com.estudantil.moeda.service;
 
 import com.estudantil.moeda.model.Aluno;
-import com.estudantil.moeda.model.Instituicao;
-import com.estudantil.moeda.model.enums.TipoUsuario;
+import com.estudantil.moeda.model.Professor;
 import com.estudantil.moeda.repository.AlunoRepository;
 import com.estudantil.moeda.repository.InstituicaoRepository;
-import com.estudantil.moeda.dto.CreateAlunoDTO;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -21,10 +19,9 @@ public class AlunoService {
 
     private final AlunoRepository alunoRepository;
 
-    @Autowired
-    private InstituicaoRepository instituicaoRepository;
+    private final InstituicaoRepository instituicaoRepository;
 
-    public Aluno criarAluno(CreateAlunoDTO alunoDTO) {
+    /*public Aluno criarAluno(CreateAlunoDTO alunoDTO) {
         Instituicao instituicao = instituicaoRepository.findById(alunoDTO.getInstituicaoId())
                 .orElseThrow(() -> new RuntimeException("Instituição não encontrada"));
 
@@ -50,7 +47,7 @@ public class AlunoService {
                 .build();
 
         return alunoRepository.save(aluno);
-    }
+    }*/
 
     public List<Aluno> findAll() {
         return alunoRepository.findAll();

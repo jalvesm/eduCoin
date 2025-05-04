@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class InstituicaoService {
 
-    private InstituicaoRepository instituicaoRepository;
+    private final InstituicaoRepository instituicaoRepository;
 
     public List<GetAllInstituicoes> findAll() {
         List<Instituicao> instituicoes = instituicaoRepository.findAll();

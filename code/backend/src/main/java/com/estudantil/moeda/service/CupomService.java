@@ -14,7 +14,7 @@ import java.util.UUID;
 @Service
 public class CupomService {
 
-    private CupomRepository cupomRepository;
+    private final CupomRepository cupomRepository;
 
     public List<Cupom> findAll() {
         return cupomRepository.findAll();

@@ -15,7 +15,7 @@ import java.util.UUID;
 @Service
 public class VantagemService {
 
-    private VantagemRepository vantagemRepository;
+    private final VantagemRepository vantagemRepository;
 
     public List<Vantagem> findAll() {
         return vantagemRepository.findAll();

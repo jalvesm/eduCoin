@@ -11,8 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Getter
-@Setter
 @Table(name = "professor")
 public class Professor extends Usuario {
 
@@ -28,6 +26,6 @@ public class Professor extends Usuario {
     private Double quantidadeMoedas;
 
     @ManyToOne
-    @JoinColumn(name = "instituicao_id", nullable = false)
+    @JoinColumn(name = "instituicao_id")
     private Instituicao instituicao;
 } 
