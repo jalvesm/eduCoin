@@ -2,7 +2,8 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.model.Vantagem;
 import com.estudantil.moeda.service.VantagemService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,11 +11,11 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/vantagens")
 public class VantagemController {
 
-    @Autowired
-    private VantagemService vantagemService;
+    private final VantagemService vantagemService;
 
     @GetMapping
     public ResponseEntity<List<Vantagem>> listAllAdvantages() {

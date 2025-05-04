@@ -1,29 +1,32 @@
 package com.estudantil.moeda.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
 @Entity
 @Getter
 @Setter
 @Table(name = "transacao")
 public class Transacao {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(name = "valor", nullable = false)
     private Double valor;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(name = "descricao", columnDefinition = "TEXT", nullable = false)
     private String descricao;
 
     @ManyToOne
@@ -36,4 +39,16 @@ public class Transacao {
 
     @Column(name = "data_transacao", nullable = false)
     private LocalDateTime dataTransacao;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Transacao transacao = (Transacao) o;
+        return Objects.equals(id, transacao.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 } 

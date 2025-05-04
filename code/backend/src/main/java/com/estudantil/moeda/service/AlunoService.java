@@ -7,17 +7,19 @@ import com.estudantil.moeda.repository.AlunoRepository;
 import com.estudantil.moeda.repository.InstituicaoRepository;
 import com.estudantil.moeda.dto.CreateAlunoDTO;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+
+@RequiredArgsConstructor
 @Service
 public class AlunoService {
 
-    @Autowired
-    private AlunoRepository alunoRepository;
+    private final AlunoRepository alunoRepository;
 
     @Autowired
     private InstituicaoRepository instituicaoRepository;

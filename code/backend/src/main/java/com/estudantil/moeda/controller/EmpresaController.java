@@ -2,19 +2,21 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.model.Empresa;
 import com.estudantil.moeda.service.EmpresaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/empresas")
 public class EmpresaController {
 
-    @Autowired
-    private EmpresaService empresaService;
+    private final EmpresaService empresaService;
 
     @GetMapping
     public ResponseEntity<List<Empresa>> listAllCompanies() {

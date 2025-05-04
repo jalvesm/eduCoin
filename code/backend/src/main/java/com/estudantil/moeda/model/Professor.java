@@ -1,13 +1,15 @@
 package com.estudantil.moeda.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
 @Entity
 @Getter
 @Setter
@@ -16,9 +18,10 @@ public class Professor extends Usuario {
 
     public static final double SALDO_SEMESTRAL_DE_MOEDAS = 1000;
 
-    @Column(unique = true)
+    @Column(name = "cpf", unique = true)
     private String cpf;
 
+    @Column(name = "departamento")
     private String departamento;
 
     @Column(name = "quantidade_moedas", nullable = false)

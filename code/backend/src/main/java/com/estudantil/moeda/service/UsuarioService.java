@@ -3,17 +3,18 @@ package com.estudantil.moeda.service;
 import com.estudantil.moeda.model.Usuario;
 import com.estudantil.moeda.repository.UsuarioRepository;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Service
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();

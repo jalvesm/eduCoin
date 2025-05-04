@@ -2,7 +2,8 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.model.Cupom;
 import com.estudantil.moeda.service.CupomService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,11 +11,11 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/cupons")
 public class CupomController {
 
-    @Autowired
-    private CupomService cupomService;
+    private final CupomService cupomService;
 
     @GetMapping
     public ResponseEntity<List<Cupom>> listAllCoupons() {

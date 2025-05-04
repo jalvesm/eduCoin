@@ -2,7 +2,8 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.model.Transacao;
 import com.estudantil.moeda.service.TransacaoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,11 +11,11 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/transacoes")
 public class TransacaoController {
 
-    @Autowired
-    private TransacaoService transacaoService;
+    private final TransacaoService transacaoService;
 
     @GetMapping
     public ResponseEntity<List<Transacao>> listAllTransactions() {

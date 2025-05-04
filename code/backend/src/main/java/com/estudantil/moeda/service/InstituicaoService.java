@@ -4,17 +4,19 @@ import com.estudantil.moeda.model.Instituicao;
 import com.estudantil.moeda.repository.InstituicaoRepository;
 import com.estudantil.moeda.dto.GetAllInstituicoes;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+
+@RequiredArgsConstructor
 @Service
 public class InstituicaoService {
 
-    @Autowired
     private InstituicaoRepository instituicaoRepository;
 
     public List<GetAllInstituicoes> findAll() {

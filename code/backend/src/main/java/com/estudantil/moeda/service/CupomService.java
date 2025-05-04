@@ -3,16 +3,17 @@ package com.estudantil.moeda.service;
 import com.estudantil.moeda.model.Cupom;
 import com.estudantil.moeda.repository.CupomRepository;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+
+@RequiredArgsConstructor
 @Service
 public class CupomService {
 
-    @Autowired
     private CupomRepository cupomRepository;
 
     public List<Cupom> findAll() {

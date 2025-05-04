@@ -1,8 +1,9 @@
 package com.estudantil.moeda.controller;
 
-import com.estudantil.moeda.model.Usuario;
-import com.estudantil.moeda.service.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.estudantil.moeda.model.*;
+import com.estudantil.moeda.service.*;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,11 +11,14 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
+    private final AlunoService alunoService;
+    private final ProfessorService professorService;
+    private final EmpresaService empresaService;
 
     @GetMapping
     public ResponseEntity<List<Usuario>> listAllUsers() {
@@ -26,9 +30,39 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.findById(id));
     }
 
+    //Cria um usuario baseado no tipo de usuario
     @PostMapping
     public ResponseEntity<Usuario> createUser(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.save(usuario));
+        Usuario savedUsuario = usuarioService.save(usuario);
+        
+        switch (usuario.getTipoUsuario()) {
+            case ALUNO:
+                Aluno aluno = new Aluno();
+                aluno.setNome(savedUsuario.getNome());
+                aluno.setEmail(savedUsuario.getEmail());
+                aluno.setSenha(savedUsuario.getSenha());
+                aluno.setTipoUsuario(savedUsuario.getTipoUsuario());
+                return ResponseEntity.ok(alunoService.save(aluno));
+                
+            case PROFESSOR:
+                Professor professor = new Professor();
+                professor.setNome(savedUsuario.getNome());
+                professor.setEmail(savedUsuario.getEmail());
+                professor.setSenha(savedUsuario.getSenha());
+                professor.setTipoUsuario(savedUsuario.getTipoUsuario());
+                return ResponseEntity.ok(professorService.save(professor));
+                
+            case EMPRESA:
+                Empresa empresa = new Empresa();
+                empresa.setNome(savedUsuario.getNome());
+                empresa.setEmail(savedUsuario.getEmail());
+                empresa.setSenha(savedUsuario.getSenha());
+                empresa.setTipoUsuario(savedUsuario.getTipoUsuario());
+                return ResponseEntity.ok(empresaService.save(empresa));
+                
+            default:
+                throw new IllegalArgumentException("Tipo de usuário inválido");
+        }
     }
 
     @PutMapping("/{id}")

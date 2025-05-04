@@ -1,29 +1,32 @@
 package com.estudantil.moeda.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.Objects;
 import java.util.UUID;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@SuperBuilder
-@Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 @Table(name = "vantagem")
 public class Vantagem {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(name = "titulo")
     private String titulo;
     
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "descricao", columnDefinition = "TEXT")
     private String descricao;
-    
+
+    @Column(name = "imagem")
     private String imagem;
     
     @Column(name = "custo_moedas")
@@ -32,4 +35,16 @@ public class Vantagem {
     @ManyToOne
     @JoinColumn(name = "empresa_id", nullable = false)
     private Empresa empresa;
-} 
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Vantagem vantagem = (Vantagem) o;
+        return Objects.equals(id, vantagem.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+}

@@ -3,16 +3,17 @@ package com.estudantil.moeda.service;
 import com.estudantil.moeda.model.Transacao;
 import com.estudantil.moeda.repository.TransacaoRepository;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Service
 public class TransacaoService {
 
-    @Autowired
     private TransacaoRepository transacaoRepository;
 
     public List<Transacao> findAll() {

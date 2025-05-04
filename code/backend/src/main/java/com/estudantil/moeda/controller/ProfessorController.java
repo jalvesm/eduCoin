@@ -2,7 +2,8 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.model.Professor;
 import com.estudantil.moeda.service.ProfessorService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,11 +11,11 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/professores")
 public class ProfessorController {
 
-    @Autowired
-    private ProfessorService professorService;
+    private final ProfessorService professorService;
 
     @GetMapping
     public ResponseEntity<List<Professor>> listAllProfessors() {

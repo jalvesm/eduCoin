@@ -3,19 +3,21 @@ package com.estudantil.moeda.controller;
 import com.estudantil.moeda.dto.CreateAlunoDTO;
 import com.estudantil.moeda.model.Aluno;
 import com.estudantil.moeda.service.AlunoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/alunos")
 public class AlunoController {
 
-    @Autowired
-    private AlunoService alunoService;
+    private final AlunoService alunoService;
 
     /**
      * Endpoint para criar um novo aluno no sistema.

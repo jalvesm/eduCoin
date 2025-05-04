@@ -3,7 +3,8 @@ package com.estudantil.moeda.controller;
 import com.estudantil.moeda.dto.GetAllInstituicoes;
 import com.estudantil.moeda.model.Instituicao;
 import com.estudantil.moeda.service.InstituicaoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,11 +12,11 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/instituicoes")
 public class InstituicaoController {
 
-    @Autowired
-    private InstituicaoService instituicaoService;
+    private final InstituicaoService instituicaoService;
 
     @GetMapping("/listarTodasAsInstituicoes")
     public ResponseEntity<List<GetAllInstituicoes>> listAllInstitutions() {
