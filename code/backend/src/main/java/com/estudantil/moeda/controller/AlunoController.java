@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -23,7 +24,7 @@ public class AlunoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Aluno> getStudent(@PathVariable Long id) {
+    public ResponseEntity<Aluno> getStudent(@PathVariable UUID id) {
         return ResponseEntity.ok(alunoService.findById(id));
     }
 
@@ -33,12 +34,12 @@ public class AlunoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Aluno> updateStudent(@PathVariable Long id, @RequestBody Aluno aluno) {
+    public ResponseEntity<Aluno> updateStudent(@PathVariable UUID id, @RequestBody Aluno aluno) {
         return ResponseEntity.ok(alunoService.update(id, aluno));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteStudent(@PathVariable UUID id) {
         alunoService.delete(id);
         return ResponseEntity.noContent().build();
     }

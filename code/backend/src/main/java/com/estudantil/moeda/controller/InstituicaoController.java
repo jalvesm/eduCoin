@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +23,7 @@ public class InstituicaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Instituicao> getInstitution(@PathVariable Long id) {
+    public ResponseEntity<Instituicao> getInstitution(@PathVariable UUID id) {
         return ResponseEntity.ok(instituicaoService.findById(id));
     }
 
@@ -33,12 +33,12 @@ public class InstituicaoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Instituicao> updateInstitution(@PathVariable Long id, @RequestBody Instituicao instituicao) {
+    public ResponseEntity<Instituicao> updateInstitution(@PathVariable UUID id, @RequestBody Instituicao instituicao) {
         return ResponseEntity.ok(instituicaoService.update(id, instituicao));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteInstitution(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteInstitution(@PathVariable UUID id) {
         instituicaoService.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
+import java.util.UUID;
+
+import com.estudantil.moeda.enums.TipoUsuario;
 
 @Getter
 @Setter
@@ -18,7 +21,7 @@ import java.util.Objects;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
     @Column(name = "nome", nullable = false)
     private String nome;
@@ -28,6 +31,10 @@ public class Usuario {
 
     @Column(name = "senha", nullable = false)
     private String senha;
+
+    @Column(name = "tipo_usuario", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipoUsuario;
 
     @Override
     public boolean equals(Object o) {

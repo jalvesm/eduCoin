@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class AlunoService {
         return alunoRepository.findAll();
     }
 
-    public Aluno findById(Long id) {
+    public Aluno findById(UUID id) {
         return alunoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Estudante não encontrado!"));
     }
@@ -29,7 +30,7 @@ public class AlunoService {
         return alunoRepository.save(aluno);
     }
 
-    public Aluno update(Long id, Aluno aluno) {
+    public Aluno update(UUID id, Aluno aluno) {
         if (!alunoRepository.existsById(id)) {
             throw new ResourceNotFoundException("Estudante não encontrado!");
         }
@@ -37,7 +38,7 @@ public class AlunoService {
         return alunoRepository.save(aluno);
     }
 
-    public void delete(Long id) {
+    public void delete(UUID id) {
         if (!alunoRepository.existsById(id)) {
             throw new ResourceNotFoundException("Estudante não encontrado!");
         }

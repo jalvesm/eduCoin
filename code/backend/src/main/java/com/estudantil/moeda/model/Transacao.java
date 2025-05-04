@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,7 +19,7 @@ import java.util.Objects;
 public class Transacao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
     @Column(name = "valor", nullable = false)
     private Double valor;

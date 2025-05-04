@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -20,7 +20,7 @@ public class TransacaoService {
         return transacaoRepository.findAll();
     }
 
-    public Transacao findById(Long id) {
+    public Transacao findById(UUID id) {
         return transacaoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Transação não encontrada!"));
     }
@@ -29,7 +29,7 @@ public class TransacaoService {
         return transacaoRepository.save(transacao);
     }
 
-    public Transacao update(Long id, Transacao transacao) {
+    public Transacao update(UUID id, Transacao transacao) {
         if (!transacaoRepository.existsById(id)) {
             throw new ResourceNotFoundException("Transação não encontrada!");
         }
@@ -37,7 +37,7 @@ public class TransacaoService {
         return transacaoRepository.save(transacao);
     }
 
-    public void delete(Long id) {
+    public void delete(UUID id) {
         if (!transacaoRepository.existsById(id)) {
             throw new ResourceNotFoundException("Transação não encontrada!");
         }

@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,7 +19,7 @@ import java.util.Objects;
 public class Cupom {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
     @Column(name = "codigo", nullable = false, length = 10)
     private String codigo;

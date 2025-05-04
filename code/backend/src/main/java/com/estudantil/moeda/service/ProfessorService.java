@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -20,7 +20,7 @@ public class ProfessorService {
         return professorRepository.findAll();
     }
 
-    public Professor findById(Long id) {
+    public Professor findById(UUID id) {
         return professorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Professor não encontrado!"));
 
@@ -29,7 +29,7 @@ public class ProfessorService {
         return professorRepository.save(professor);
     }
 
-    public Professor update(Long id, Professor professor) {
+    public Professor update(UUID id, Professor professor) {
         if (!professorRepository.existsById(id)) {
             throw new ResourceNotFoundException("Professor não encontrado!");
         }
@@ -37,7 +37,7 @@ public class ProfessorService {
         return professorRepository.save(professor);
     }
 
-    public void delete(Long id) {
+    public void delete(UUID id) {
         if (!professorRepository.existsById(id)) {
             throw new ResourceNotFoundException("Professor não encontrado!");
         }

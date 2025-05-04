@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class EmpresaService {
         return empresaRepository.findAll();
     }
 
-    public Empresa findById(Long id) {
+    public Empresa findById(UUID id) {
         return empresaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Empresa não encontrada"));
     }
@@ -29,7 +30,7 @@ public class EmpresaService {
         return empresaRepository.save(empresa);
     }
 
-    public Empresa update(Long id, Empresa empresa) {
+    public Empresa update(UUID id, Empresa empresa) {
         if (!empresaRepository.existsById(id)) {
             throw new ResourceNotFoundException("Empresa não encontrada");
         }
@@ -37,7 +38,7 @@ public class EmpresaService {
         return empresaRepository.save(empresa);
     }
 
-    public void delete(Long id) {
+    public void delete(UUID id) {
         if (!empresaRepository.existsById(id)) {
             throw new ResourceNotFoundException("Empresa não encontrada");
         }

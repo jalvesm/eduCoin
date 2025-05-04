@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class VantagemService {
         return vantagemRepository.findAll();
     }
 
-    public Vantagem findById(Long id) {
+    public Vantagem findById(UUID id) {
         return vantagemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Vantagem não encontrada!"));
     }
@@ -29,7 +30,7 @@ public class VantagemService {
         return vantagemRepository.save(vantagem);
     }
 
-    public Vantagem update(Long id, Vantagem vantagem) {
+    public Vantagem update(UUID id, Vantagem vantagem) {
         if (!vantagemRepository.existsById(id)) {
             throw new ResourceNotFoundException("Vantagem não encontrada!");
         }
@@ -37,7 +38,7 @@ public class VantagemService {
         return vantagemRepository.save(vantagem);
     }
 
-    public void delete(Long id) {
+    public void delete(UUID id) {
         if (!vantagemRepository.existsById(id)) {
             throw new ResourceNotFoundException("Vantagem não encontrada!");
         }

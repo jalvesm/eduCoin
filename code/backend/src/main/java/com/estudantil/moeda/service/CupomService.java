@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class CupomService {
         return cupomRepository.findAll();
     }
 
-    public Cupom findById(Long id) {
+    public Cupom findById(UUID id) {
         return cupomRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cupom não encontrado"));
     }
@@ -28,7 +29,7 @@ public class CupomService {
         return cupomRepository.save(cupom);
     }
 
-    public Cupom update(Long id, Cupom cupom) {
+    public Cupom update(UUID id, Cupom cupom) {
         if (!cupomRepository.existsById(id)) {
             throw new ResourceNotFoundException("Cupom não encontrado");
         }
@@ -36,7 +37,7 @@ public class CupomService {
         return cupomRepository.save(cupom);
     }
 
-    public void delete(Long id) {
+    public void delete(UUID id) {
         if (!cupomRepository.existsById(id)) {
             throw new ResourceNotFoundException("Cupom não encontrado");
         }

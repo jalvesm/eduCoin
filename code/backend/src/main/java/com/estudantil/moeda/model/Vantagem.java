@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
-
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,7 +18,7 @@ import java.util.Objects;
 public class Vantagem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
     @Column(name = "titulo")
     private String titulo;

@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +23,7 @@ public class CupomController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cupom> getCoupon(@PathVariable Long id) {
+    public ResponseEntity<Cupom> getCoupon(@PathVariable UUID id) {
         return ResponseEntity.ok(cupomService.findById(id));
     }
 
@@ -33,12 +33,12 @@ public class CupomController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cupom> updateCoupon(@PathVariable Long id, @RequestBody Cupom cupom) {
+    public ResponseEntity<Cupom> updateCoupon(@PathVariable UUID id, @RequestBody Cupom cupom) {
         return ResponseEntity.ok(cupomService.update(id, cupom));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCoupon(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCoupon(@PathVariable UUID id) {
         cupomService.delete(id);
         return ResponseEntity.noContent().build();
     }
