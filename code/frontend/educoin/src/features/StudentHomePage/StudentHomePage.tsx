@@ -1,24 +1,100 @@
-import React from "react";
-import { Box, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Typography, IconButton, ButtonBase } from "@mui/material";
+import { Visibility, VisibilityOff, MonetizationOn, Redeem, History } from "@mui/icons-material";
 import HeaderMenu from "../../shared/components/HeaderMenu/HeaderMenu";
 
-export default function StudentHomePage() {
+const StudentHomePage: React.FC = () => {
+  const [showBalance, setShowBalance] = useState(true);
+  const saldoFicticio = 150;
+
   return (
-    <>
-      <HeaderMenu />
+    <Box sx={{ textAlign: "center", p: 4, fontFamily: "Poppins, sans-serif", color: "#0056b3", textShadow: "2px 2px 6px rgba(0, 0, 0, 0.1)",}}>
+      <Typography variant="h4" fontWeight="bold" mb={4}>
+        Bem-vindo, ao EduCoin!
+      </Typography>
+
+      <Box
+        sx={{
+          mx: "auto",
+          p: 3,
+          maxWidth: "400px",
+          borderRadius: 3,
+          boxShadow: 3,
+          bgcolor: "#f5f9ff",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          fontFamily: "Poppins, sans-serif",
+        }}
+      >
+        <Typography fontSize="1.2rem">
+          Saldo de moedas: {showBalance ? saldoFicticio : "••••"}
+        </Typography>
+        <IconButton onClick={() => setShowBalance(!showBalance)} sx={{ color: "#007bff" }}>
+          {showBalance ? <Visibility /> : <VisibilityOff />}
+        </IconButton>
+      </Box>
+
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
           justifyContent: "center",
-          height: "80vh",
+          flexWrap: "wrap",
+          gap: 3,
+          mt: 4,
         }}
       >
-        <Typography variant="h4" sx={{ fontWeight: "bold", color: "gray" }}>
-          Em breve implementação de Estudante
-        </Typography>
+        <FeatureCard
+          title="Trocar Moedas"
+          icon={<MonetizationOn sx={{ fontSize: 40, color: "#007bff" }} />}
+          onClick={() => alert("Ir para troca")}
+        />
+        <FeatureCard
+          title="Resgatar Vantagens"
+          icon={<Redeem sx={{ fontSize: 40, color: "#007bff" }} />}
+          onClick={() => alert("Ir para resgates")}
+        />
+        <FeatureCard
+          title="Histórico de Transações"
+          icon={<History sx={{ fontSize: 40, color: "#007bff" }} />}
+          onClick={() => alert("Ir para histórico")}
+        />
       </Box>
-    </>
+    </Box>
   );
-}
+};
+
+type FeatureCardProps = {
+  title: string;
+  icon: React.ReactNode;
+  onClick: () => void;
+};
+
+const FeatureCard: React.FC<FeatureCardProps> = ({ title, icon, onClick }) => (
+  <ButtonBase
+    onClick={onClick}
+    sx={{
+      p: 3,
+      width: 220,
+      borderRadius: 3,
+      boxShadow: 3,
+      bgcolor: "white",
+      flexDirection: "column",
+      display: "flex",
+      alignItems: "center",
+      gap: 1,
+      transition: "transform 0.2s",
+      "&:hover": {
+        transform: "scale(1.05)",
+      },
+    }}
+  >
+    {icon}
+    <Typography fontWeight="bold" fontSize="1.1rem" fontFamily="Poppins, sans-serif">
+      {title}
+    </Typography>
+  </ButtonBase>
+);
+
+export default StudentHomePage;
+
