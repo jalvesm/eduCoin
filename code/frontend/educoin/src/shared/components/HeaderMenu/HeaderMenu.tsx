@@ -74,15 +74,11 @@ export default function HeaderMenu() {
           >
             {usuario?.tipoUsuario === "ALUNO" && (
               <>
-                <MenuItem
-                  onClick={() => handleNavigation("/vantagens-disponiveis")}
-                >
+                <MenuItem onClick={() => handleNavigation("/estudante")}>
                   Vantagens Disponíveis
                 </MenuItem>
-                <MenuItem
-                  onClick={() => handleNavigation("/consultar-extratos")}
-                >
-                  Extrato de Moedas
+                <MenuItem onClick={() => handleNavigation("/cupons")}>
+                  Cupons
                 </MenuItem>
                 <MenuItem onClick={() => handleNavigation("/historico-trocas")}>
                   Histórico de Trocas
