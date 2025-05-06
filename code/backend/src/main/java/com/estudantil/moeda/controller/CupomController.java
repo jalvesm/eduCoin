@@ -42,4 +42,9 @@ public class CupomController {
         cupomService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/cuponsDoAluno")
+    public ResponseEntity<List<Cupom>> listAllCouponsFromAluno(@RequestParam UUID alunoId) {
+        return ResponseEntity.ok(cupomService.findAllFromAluno(alunoId));
+    }
 } 

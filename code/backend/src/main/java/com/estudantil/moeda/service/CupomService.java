@@ -1,9 +1,14 @@
 package com.estudantil.moeda.service;
 
+import com.estudantil.moeda.model.Aluno;
 import com.estudantil.moeda.model.Cupom;
+import com.estudantil.moeda.model.Usuario;
+import com.estudantil.moeda.repository.AlunoRepository;
 import com.estudantil.moeda.repository.CupomRepository;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +19,8 @@ import java.util.UUID;
 @Service
 public class CupomService {
 
+    @Autowired
+    private final AlunoRepository alunoRepository;
     private final CupomRepository cupomRepository;
 
     public List<Cupom> findAll() {
@@ -43,4 +50,11 @@ public class CupomService {
         }
         cupomRepository.deleteById(id);
     }
-} 
+
+    public List<Cupom> findAllFromAluno(UUID alunoId) {
+        Aluno aluno = alunoRepository.findById(alunoId)
+                .orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado."));
+        return cupomRepository.findAllByAluno(aluno);
+    }
+    
+}
