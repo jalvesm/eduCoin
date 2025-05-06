@@ -22,5 +22,14 @@ export interface Empresa {
     imagem: string;
     custoMoedas: number;
     empresaId: string;
+}
+  
+  export interface Transacao {
+    id: string;
+    descricao: string;
+    valor: number;
+    data: string; 
+    nomeCliente: string;
   }
+  
   

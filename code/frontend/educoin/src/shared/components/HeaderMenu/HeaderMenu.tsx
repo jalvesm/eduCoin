@@ -92,9 +92,7 @@ export default function HeaderMenu() {
 
             {usuario?.tipoUsuario === "EMPRESA" && (
               <>
-                <MenuItem
-                  onClick={() => handleNavigation("/gerenciar-vantagens")}
-                >
+                <MenuItem onClick={() => handleNavigation("/empresa")}>
                   Gerenciar Vantagens
                 </MenuItem>
                 <MenuItem
@@ -153,7 +151,13 @@ export default function HeaderMenu() {
               </Menu>
             </div>
           ) : (
-            <Typography variant="body2" sx={{ color: "white", marginRight: 2 }}>
+            <Typography
+              variant="body2"
+              sx={{ color: "white", marginRight: 2 }}
+              onClick={() => {
+                navigate("/");
+              }}
+            >
               Faça login
             </Typography>
           )}

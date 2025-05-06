@@ -1,9 +1,7 @@
 package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.dto.ResponseTransactionByEmpresaDTO;
-import com.estudantil.moeda.exception.ResourceNotFoundException;
 import com.estudantil.moeda.model.Transacao;
-import com.estudantil.moeda.model.Usuario;
 import com.estudantil.moeda.service.TransacaoService;
 import lombok.RequiredArgsConstructor;
 
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/transacoes")
