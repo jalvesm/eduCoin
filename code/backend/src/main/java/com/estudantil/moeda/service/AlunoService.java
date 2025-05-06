@@ -8,7 +8,6 @@ import com.estudantil.moeda.repository.AlunoRepository;
 import com.estudantil.moeda.repository.CupomRepository;
 import com.estudantil.moeda.repository.InstituicaoRepository;
 import com.estudantil.moeda.dto.ResgateVantagemRequestDTO;
-import com.estudantil.moeda.dto.ResgateVantagemResponseDTO;
 import com.estudantil.moeda.dto.ResponseDTO;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
 import com.estudantil.moeda.repository.VantagemRepository;
