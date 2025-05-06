@@ -65,7 +65,7 @@ const StudentHomePage: React.FC = () => {
           onClick={() => navigate("/troca-de-moedas")} 
         />
         <FeatureCard
-          title="Resgatar Vantagens"
+          title="Vantagens"
           icon={<Redeem sx={{ fontSize: 40, color: "#007bff" }} />}
           onClick={() => alert("Ir para resgates")}
         />
