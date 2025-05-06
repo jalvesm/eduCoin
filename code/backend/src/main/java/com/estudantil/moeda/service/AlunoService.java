@@ -2,11 +2,15 @@ package com.estudantil.moeda.service;
 
 import com.estudantil.moeda.model.Aluno;
 import com.estudantil.moeda.model.Cupom;
+import com.estudantil.moeda.model.Empresa;
 import com.estudantil.moeda.model.Professor;
+import com.estudantil.moeda.model.Transacao;
 import com.estudantil.moeda.model.Vantagem;
 import com.estudantil.moeda.repository.AlunoRepository;
 import com.estudantil.moeda.repository.CupomRepository;
+import com.estudantil.moeda.repository.EmpresaRepository;
 import com.estudantil.moeda.repository.InstituicaoRepository;
+import com.estudantil.moeda.repository.TransacaoRepository;
 import com.estudantil.moeda.dto.ResgateVantagemRequestDTO;
 import com.estudantil.moeda.dto.ResponseDTO;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
@@ -17,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +38,12 @@ public class AlunoService {
 
     @Autowired
     private VantagemRepository vantagemRepository;
+
+    @Autowired
+    private EmpresaRepository empresaRepository;
+
+    @Autowired
+    private TransacaoRepository transacaoRepository;
 
     /*
      * public Aluno criarAluno(CreateAlunoDTO alunoDTO) {
@@ -93,22 +104,34 @@ public class AlunoService {
         alunoRepository.deleteById(id);
     }
 
-    public ResponseDTO resgatarVantagem(ResgateVantagemRequestDTO resgateVantagemRequestDTO) {
-        Aluno aluno = alunoRepository.findById(resgateVantagemRequestDTO.alunoId())
-                .orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado."));
+public ResponseDTO resgatarVantagem(ResgateVantagemRequestDTO resgateVantagemRequestDTO) {
+    Aluno aluno = alunoRepository.findById(resgateVantagemRequestDTO.alunoId())
+            .orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado."));
 
-        Vantagem vantagem = vantagemRepository.findById(resgateVantagemRequestDTO.vantagemId())
-                .orElseThrow(() -> new IllegalArgumentException("Vantagem não encontrada."));
-    
-        if (aluno.getSaldoMoedas() < vantagem.getCustoMoedas()) {
-            throw new IllegalArgumentException("Saldo insuficiente para resgatar a vantagem.");
-        }
+    Vantagem vantagem = vantagemRepository.findById(resgateVantagemRequestDTO.vantagemId())
+            .orElseThrow(() -> new IllegalArgumentException("Vantagem não encontrada."));
 
-        aluno.setSaldoMoedas(aluno.getSaldoMoedas() - vantagem.getCustoMoedas());
-        alunoRepository.save(aluno);
-
-        cupomRepository.save(new Cupom(aluno, vantagem));
-
-        return new ResponseDTO("Resgate ocorrido com sucesso", 200);
+    if (aluno.getSaldoMoedas() < vantagem.getCustoMoedas()) {
+        throw new IllegalArgumentException("Saldo insuficiente para resgatar a vantagem.");
     }
+
+    aluno.setSaldoMoedas(aluno.getSaldoMoedas() - vantagem.getCustoMoedas());
+    alunoRepository.save(aluno);
+
+    cupomRepository.save(new Cupom(aluno, vantagem));
+
+    Empresa empresa = empresaRepository.findById(vantagem.getEmpresa().getId())
+            .orElseThrow(() -> new IllegalArgumentException("Empresa não encontrada."));
+
+    Transacao transacao = new Transacao();
+    transacao.setRemetente(aluno);
+    transacao.setDestinatario(empresa);
+    transacao.setValor(vantagem.getCustoMoedas().doubleValue());
+    transacao.setDescricao("Resgate de vantagem: " + vantagem.getTitulo());
+    transacao.setDataTransacao(LocalDateTime.now());
+    transacaoRepository.save(transacao);
+
+    return new ResponseDTO("Resgate ocorrido com sucesso", 200);
+}
+
 }

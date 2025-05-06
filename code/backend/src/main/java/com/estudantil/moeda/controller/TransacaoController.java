@@ -1,6 +1,9 @@
 package com.estudantil.moeda.controller;
 
+import com.estudantil.moeda.dto.ResponseTransactionByEmpresaDTO;
+import com.estudantil.moeda.exception.ResourceNotFoundException;
 import com.estudantil.moeda.model.Transacao;
+import com.estudantil.moeda.model.Usuario;
 import com.estudantil.moeda.service.TransacaoService;
 import lombok.RequiredArgsConstructor;
 
@@ -42,4 +45,10 @@ public class TransacaoController {
         transacaoService.delete(id);
         return ResponseEntity.noContent().build();
     }
-} 
+
+    @GetMapping("/empresa/{empresaId}")
+    public ResponseEntity<List<ResponseTransactionByEmpresaDTO>> getTransacoesPorEmpresa(@PathVariable UUID empresaId) {
+        List<ResponseTransactionByEmpresaDTO> transacoes = transacaoService.buscarTransacoesPorEmpresa(empresaId);
+        return ResponseEntity.ok(transacoes);
+    }
+}
