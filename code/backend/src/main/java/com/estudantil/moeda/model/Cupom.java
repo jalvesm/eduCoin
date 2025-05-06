@@ -35,6 +35,13 @@ public class Cupom {
     @JoinColumn(name = "vantagem_id", nullable = false)
     private Vantagem vantagem;
 
+    public Cupom(Aluno aluno, Vantagem vantagem) {
+        this.codigo = UUID.randomUUID();
+        this.dataGeracao = LocalDateTime.now();
+        this.aluno = aluno;
+        this.vantagem = vantagem;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

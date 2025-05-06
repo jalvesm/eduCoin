@@ -1,9 +1,13 @@
 package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.dto.CreateAlunoDTO;
+import com.estudantil.moeda.dto.ResgateVantagemRequestDTO;
+import com.estudantil.moeda.dto.ResgateVantagemResponseDTO;
+import com.estudantil.moeda.dto.ResponseDTO;
 import com.estudantil.moeda.model.Aluno;
 import com.estudantil.moeda.service.AlunoService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/alunos")
@@ -65,5 +70,10 @@ public class AlunoController {
     public ResponseEntity<Void> deleteStudent(@PathVariable UUID id) {
         alunoService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/resgatarVantagem")
+    public ResponseEntity<ResponseDTO> resgateDeVantagem(@RequestBody ResgateVantagemRequestDTO data) {
+        return ResponseEntity.ok(alunoService.resgatarVantagem(data));
     }
 }
