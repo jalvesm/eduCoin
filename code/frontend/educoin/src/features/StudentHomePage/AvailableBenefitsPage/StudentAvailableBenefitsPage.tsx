@@ -50,15 +50,15 @@ const StudentAvailableBenefitsPage: React.FC = () => {
         Vantagens Disponíveis
       </Typography>
 
-      {/* Usando Box para layout flex */}
+      
       <Box display="flex" flexWrap="wrap" justifyContent="center" gap={4}>
         {vantagens.map((vantagem) => (
           <Box
             key={vantagem.id}
             width={{ xs: "100%", sm: "48%", md: "30%" }}
             p={2}
-            boxShadow={3}
-            borderRadius={3}
+            boxShadow={5}  
+            borderRadius={5}  
           >
             <Card>
               <CardContent>
