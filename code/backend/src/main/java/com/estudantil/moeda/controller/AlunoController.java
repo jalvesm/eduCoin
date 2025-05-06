@@ -2,7 +2,6 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.dto.CreateAlunoDTO;
 import com.estudantil.moeda.dto.ResgateVantagemRequestDTO;
-import com.estudantil.moeda.dto.ResgateVantagemResponseDTO;
 import com.estudantil.moeda.dto.ResponseDTO;
 import com.estudantil.moeda.model.Aluno;
 import com.estudantil.moeda.service.AlunoService;
