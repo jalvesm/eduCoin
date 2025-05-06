@@ -12,7 +12,6 @@ import {
   CardContent,
   CardMedia,
 } from "@mui/material";
-import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
 
 const ExchangePage: React.FC = () => {
@@ -159,9 +158,20 @@ const ExchangePage: React.FC = () => {
 
       {/* Vantagens */}
       {vantagens.length > 0 ? (
-        <Grid container spacing={2}>
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          gap={2}
+          justifyContent="space-between"
+        >
           {vantagens.map((v) => (
-            <Grid item xs={12} sm={6} key={v.id}>
+            <Box
+              key={v.id}
+              width={{ xs: "100%", sm: "48%", md: "30%" }}
+              p={1}
+              boxShadow={3}
+              borderRadius={3}
+            >
               <Card
                 onClick={() => setVantagemSelecionada(v)}
                 sx={{
@@ -180,9 +190,9 @@ const ExchangePage: React.FC = () => {
                   </Typography>
                 </CardContent>
               </Card>
-            </Grid>
+            </Box>
           ))}
-        </Grid>
+        </Box>
       ) : (
         <Typography variant="body2" color="text.secondary">
           Não há vantagens disponíveis para essa empresa.
