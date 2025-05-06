@@ -103,17 +103,34 @@ export default function EnterpriseHomePage() {
       </Snackbar>
 
       <Box sx={{ p: 4 }}>
-        <Typography variant="h5" sx={{ fontWeight: "bold", mb: 3 }}>
+        <Typography
+          variant="h5"
+          sx={{ fontWeight: "bold", mb: 3, color: "#A7C7E7" }}
+        >
           Vantagens Disponíveis
         </Typography>
 
         {loading && <CircularProgress />}
         {erro && <Alert severity="error">{erro}</Alert>}
 
-        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+            gap: 3,
+          }}
+        >
           {vantagens.map((vantagem) => (
             <Box key={vantagem.id} sx={{ width: "300px" }}>
-              <Card>
+              <Card
+                key={vantagem.id}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 320,
+                  justifyContent: "space-between",
+                }}
+              >
                 <CardMedia
                   component="img"
                   height="160"
