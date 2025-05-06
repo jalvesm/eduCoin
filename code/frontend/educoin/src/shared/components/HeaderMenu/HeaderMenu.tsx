@@ -92,6 +92,9 @@ export default function HeaderMenu() {
 
             {usuario?.tipoUsuario === "EMPRESA" && (
               <>
+                <MenuItem onClick={() => handleNavigation("/empresa")}>
+                  Gerenciar Vantagens
+                </MenuItem>
                 <MenuItem
                   onClick={() => handleNavigation("/resgates-realizados")}
                 >

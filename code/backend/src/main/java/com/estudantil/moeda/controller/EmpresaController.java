@@ -1,11 +1,7 @@
 package com.estudantil.moeda.controller;
 
-import com.estudantil.moeda.dto.VantagemRequest;
 import com.estudantil.moeda.model.Empresa;
-import com.estudantil.moeda.model.Vantagem;
 import com.estudantil.moeda.service.EmpresaService;
-import com.estudantil.moeda.service.VantagemService;
-
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;

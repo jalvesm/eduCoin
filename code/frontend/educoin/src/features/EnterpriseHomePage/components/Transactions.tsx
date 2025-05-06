@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -10,30 +10,20 @@ import {
   Typography,
   Box,
   IconButton,
+  CircularProgress,
+  Alert,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import HeaderMenu from "../../../shared/components/HeaderMenu/HeaderMenu";
-
-const transacoes = [
-  {
-    id: 1,
-    valor: 100,
-    descricao: "Compra de produto X",
-    remetente: "João",
-    destinatario: "Empresa Y",
-    data: "2025-05-01",
-  },
-  {
-    id: 2,
-    valor: 250,
-    descricao: "Serviço prestado",
-    remetente: "Maria",
-    destinatario: "Empresa Z",
-    data: "2025-05-03",
-  },
-];
+import { useEnterprise } from "../hooks/useEnterprise";
 
 export default function Transactions() {
+  const { transacoes, loading, erro, carregarTransacoes } = useEnterprise();
+
+  useEffect(() => {
+    carregarTransacoes();
+  }, []);
+
   return (
     <>
       <HeaderMenu />
@@ -46,46 +36,50 @@ export default function Transactions() {
           Transações
         </Typography>
 
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <strong>Descrição</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>Valor (R$)</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>Cliente</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>Data</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>Ações</strong>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {transacoes.map((transacao) => (
-                <TableRow key={transacao.id}>
-                  <TableCell>{transacao.descricao}</TableCell>
-                  <TableCell>R$ {transacao.valor.toFixed(2)}</TableCell>
-                  <TableCell>{transacao.remetente}</TableCell>
+        {loading ? (
+          <CircularProgress />
+        ) : erro ? (
+          <Alert severity="error">{erro}</Alert>
+        ) : (
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
                   <TableCell>
-                    {new Date(transacao.data).toLocaleDateString("pt-BR")}
+                    <strong>Descrição</strong>
                   </TableCell>
                   <TableCell>
-                    <IconButton disabled>
-                      <VisibilityIcon />
-                    </IconButton>
+                    <strong>Valor (R$)</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Cliente</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Data</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Ações</strong>
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {transacoes.map((transacao) => (
+                  <TableRow key={transacao.id}>
+                    <TableCell>{transacao.descricao}</TableCell>
+                    <TableCell>R$ {transacao.valor.toFixed(2)}</TableCell>
+                    <TableCell>{transacao.nomeCliente}</TableCell>
+                    <TableCell>{transacao.data.split(" ")[0]}</TableCell>
+                    <TableCell>
+                      <IconButton disabled>
+                        <VisibilityIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </Box>
     </>
   );

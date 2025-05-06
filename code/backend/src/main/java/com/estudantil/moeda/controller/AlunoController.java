@@ -1,6 +1,5 @@
 package com.estudantil.moeda.controller;
 
-import com.estudantil.moeda.dto.CreateAlunoDTO;
 import com.estudantil.moeda.dto.ResgateVantagemRequestDTO;
 import com.estudantil.moeda.dto.ResponseDTO;
 import com.estudantil.moeda.model.Aluno;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-
 
 @Slf4j
 @RestController
@@ -44,11 +42,14 @@ public class AlunoController {
      * }
      * ```
      */
-    /*@PostMapping("/criarAluno")
-    public ResponseEntity<Aluno> criarAluno(@RequestBody CreateAlunoDTO alunoDTO) {
-        Aluno aluno = alunoService.criarAluno(alunoDTO);
-        return ResponseEntity.ok(aluno);
-    }*/
+    /*
+     * @PostMapping("/criarAluno")
+     * public ResponseEntity<Aluno> criarAluno(@RequestBody CreateAlunoDTO alunoDTO)
+     * {
+     * Aluno aluno = alunoService.criarAluno(alunoDTO);
+     * return ResponseEntity.ok(aluno);
+     * }
+     */
 
     @GetMapping
     public ResponseEntity<List<Aluno>> listAllStudents() {
