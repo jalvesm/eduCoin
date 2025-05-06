@@ -72,7 +72,7 @@ const StudentHomePage: React.FC = () => {
         <FeatureCard
           title="Histórico de Transações"
           icon={<History sx={{ fontSize: 40, color: "#007bff" }} />}
-          onClick={() => alert("Ir para histórico")}
+          onClick={() => navigate("/historico")}
         />
       </Box>
     </Box>
