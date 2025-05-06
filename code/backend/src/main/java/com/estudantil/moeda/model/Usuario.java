@@ -32,6 +32,9 @@ public class Usuario {
     @Column(name = "senha", nullable = false)
     private String senha;
 
+    @Column(name = "moedas")
+    private Integer moedas; 
+
     @Column(name = "tipo_usuario", nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;

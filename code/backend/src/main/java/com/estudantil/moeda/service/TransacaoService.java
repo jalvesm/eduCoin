@@ -1,5 +1,6 @@
 package com.estudantil.moeda.service;
-
+import com.estudantil.moeda.model.Usuario;
+import com.estudantil.moeda.repository.UsuarioRepository;
 import com.estudantil.moeda.model.Transacao;
 import com.estudantil.moeda.repository.TransacaoRepository;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
@@ -15,6 +16,8 @@ import java.util.UUID;
 public class TransacaoService {
 
     private final TransacaoRepository transacaoRepository;
+    private final UsuarioRepository usuarioRepository;  
+
 
     public List<Transacao> findAll() {
         return transacaoRepository.findAll();
@@ -42,5 +45,29 @@ public class TransacaoService {
             throw new ResourceNotFoundException("Transação não encontrada!");
         }
         transacaoRepository.deleteById(id);
+    }
+
+    public Transacao realizarTroca(UUID usuarioId, Integer custoMoedas) {
+    
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+    
+        
+        if (usuario.getMoedas() < custoMoedas) {
+            throw new IllegalArgumentException("Moedas insuficientes para a troca");
+        }
+    
+        
+        usuario.setMoedas(usuario.getMoedas() - custoMoedas);
+        usuarioRepository.save(usuario); 
+    
+        
+        Transacao transacao = new Transacao();
+        transacao.setUsuario(usuario); 
+        transacao.setCustoMoedas(custoMoedas);
+        transacao.setTipoTransacao("TROCA"); 
+    
+        
+        return transacaoRepository.save(transacao);
     }
 } 

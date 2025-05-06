@@ -28,6 +28,10 @@ public class Transacao {
     private String descricao;
 
     @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
+    @ManyToOne
     @JoinColumn(name = "remetente_id", nullable = false)
     private Usuario remetente;
 
@@ -37,6 +41,12 @@ public class Transacao {
 
     @Column(name = "data_transacao", nullable = false)
     private LocalDateTime dataTransacao;
+
+    @Column(name = "tipo_transacao")
+    private String tipoTransacao;
+
+    @Column(name = "custo_moedas")
+    private Integer custoMoedas;
 
     @Override
     public boolean equals(Object o) {
