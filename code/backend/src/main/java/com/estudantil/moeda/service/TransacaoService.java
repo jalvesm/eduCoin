@@ -28,6 +28,10 @@ public class TransacaoService {
                 .orElseThrow(() -> new ResourceNotFoundException("Transação não encontrada!"));
     }
 
+    public List<Transacao> findByUsuarioId(UUID usuarioId) {
+        return transacaoRepository.findByUsuarioId(usuarioId);
+    }    
+
     public Transacao save(Transacao transacao) {
         return transacaoRepository.save(transacao);
     }

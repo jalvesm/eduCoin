@@ -22,6 +22,12 @@ public class TransacaoController {
         return ResponseEntity.ok(transacaoService.findAll());
     }
 
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<Transacao>> getTransactionsByUserId(@PathVariable UUID usuarioId) {
+    return ResponseEntity.ok(transacaoService.findByUsuarioId(usuarioId));
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<Transacao> getTransaction(@PathVariable UUID id) {
         return ResponseEntity.ok(transacaoService.findById(id));
