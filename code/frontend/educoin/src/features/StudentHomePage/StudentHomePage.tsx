@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -11,12 +11,30 @@ import {
 } from "@mui/material";
 import HeaderMenu from "../../shared/components/HeaderMenu/HeaderMenu";
 import { useStudentVantagens } from "./hooks/student";
+import axios from "axios";
 
 export default function StudentHomePage() {
   const { vantagens, loading, erro } = useStudentVantagens();
+  const [resgateStatus, setResgateStatus] = useState<string | null>(null);
+  const alunoId = "131f2b88-c220-4081-9d5f-311b1938b72f";
 
-  const handleResgatarVantagem = (vantagemId: number) => {
-    console.log(`Resgatar vantagem com ID: ${vantagemId}`);
+  const handleResgatarVantagem = async (vantagemId: string) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/alunos/resgatarVantagem",
+        {
+          alunoId,
+          vantagemId: vantagemId,
+        }
+      );
+
+      setResgateStatus("Resgate ocorrido com sucesso");
+
+      console.log(response.data.message);
+    } catch (error) {
+      setResgateStatus("Erro ao resgatar vantagem.");
+      console.error("Erro ao resgatar vantagem:", error);
+    }
   };
 
   return (
@@ -32,6 +50,7 @@ export default function StudentHomePage() {
 
         {loading && <CircularProgress />}
         {erro && <Alert severity="error">{erro}</Alert>}
+        {resgateStatus && <Alert severity="info">{resgateStatus}</Alert>}
 
         <Box
           sx={{
@@ -70,7 +89,7 @@ export default function StudentHomePage() {
                   >
                     Custo: {vantagem.custoMoedas} moedas
                   </Typography>
-                  <Box sx={{ flexGrow: 1 }} />{" "}
+                  <Box sx={{ flexGrow: 1 }} />
                   <Button
                     fullWidth
                     variant="contained"
@@ -82,7 +101,7 @@ export default function StudentHomePage() {
                         backgroundColor: "#90b8db",
                       },
                     }}
-                    onClick={() => handleResgatarVantagem(vantagem.id)}
+                    onClick={() => handleResgatarVantagem(String(vantagem.id))}
                   >
                     RESGATAR
                   </Button>
