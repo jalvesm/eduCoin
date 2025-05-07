@@ -10,6 +10,7 @@ import TeacherHomePage from "./features/TeacherHomePage/TeacherHomePage";
 import Transactions from "./features/EnterpriseHomePage/components/Transactions";
 import ProtectedRoute from "./shared/components/Protected/ProtectedRoute";
 import AccessDenied from "./shared/components/Access/AccessDenied";
+import Coupons from "./features/StudentHomePage/components/Coupons";
 
 function App() {
   return (
@@ -26,6 +27,15 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={["ALUNO"]}>
                 <StudentHomePage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/cupons"
+            element={
+              <ProtectedRoute allowedRoles={["ALUNO"]}>
+                <Coupons />
               </ProtectedRoute>
             }
           />

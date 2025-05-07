@@ -1,114 +1,116 @@
-import React, { useEffect, useState } from "react";
-import { Box, Typography, IconButton, ButtonBase } from "@mui/material";
-import { Visibility, VisibilityOff, MonetizationOn, Redeem, History } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import {
+  Box,
+  Typography,
+  Card,
+  CardMedia,
+  CardContent,
+  CircularProgress,
+  Alert,
+  Button,
+} from "@mui/material";
+import HeaderMenu from "../../shared/components/HeaderMenu/HeaderMenu";
+import { useStudentVantagens } from "./hooks/student";
 import axios from "axios";
 
-const StudentHomePage: React.FC = () => {
-  const [showBalance, setShowBalance] = useState(true);
-  const [saldo, setSaldo] = useState<number>(0);
-  const navigate = useNavigate();
+export default function StudentHomePage() {
+  const { vantagens, loading, erro } = useStudentVantagens();
+  const [resgateStatus, setResgateStatus] = useState<string | null>(null);
+  const alunoId = "131f2b88-c220-4081-9d5f-311b1938b72f";
 
-  useEffect(() => {
-    const alunoId = localStorage.getItem("alunoId");
-    if (!alunoId) {
-      console.error("ID do aluno não encontrado no localStorage");
-      return;
+  const handleResgatarVantagem = async (vantagemId: string) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/alunos/resgatarVantagem",
+        {
+          alunoId,
+          vantagemId: vantagemId,
+        }
+      );
+
+      setResgateStatus("Resgate ocorrido com sucesso");
+
+      console.log(response.data.message);
+    } catch (error) {
+      setResgateStatus("Erro ao resgatar vantagem.");
+      console.error("Erro ao resgatar vantagem:", error);
     }
-
-    axios.get(`http://localhost:8080/alunos/${alunoId}/saldo`)
-      .then(response => setSaldo(response.data))
-      .catch(error => {
-        console.error("Erro ao buscar saldo do aluno:", error);
-      });
-  }, []);
+  };
 
   return (
-    <Box sx={{ textAlign: "center", p: 4, fontFamily: "Poppins, sans-serif", color: "#0056b3", textShadow: "2px 2px 6px rgba(0, 0, 0, 0.1)" }}>
-      <Typography variant="h4" fontWeight="bold" mb={4}>
-        Bem-vindo ao EduCoin!
-      </Typography>
-
-      <Box
-        sx={{
-          mx: "auto",
-          p: 3,
-          maxWidth: "400px",
-          borderRadius: 3,
-          boxShadow: 3,
-          bgcolor: "#f5f9ff",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Typography fontSize="1.2rem">
-          Saldo de moedas: {showBalance ? saldo : "••••"}
+    <>
+      <HeaderMenu />
+      <Box sx={{ p: 4 }}>
+        <Typography
+          variant="h5"
+          sx={{ fontWeight: "bold", mb: 3, color: "#A7C7E7" }}
+        >
+          Vantagens Disponíveis
         </Typography>
-        <IconButton onClick={() => setShowBalance(!showBalance)} sx={{ color: "#007bff" }}>
-          {showBalance ? <Visibility /> : <VisibilityOff />}
-        </IconButton>
-      </Box>
 
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          flexWrap: "wrap",
-          gap: 3,
-          mt: 4,
-        }}
-      >
-        <FeatureCard
-          title="Trocar Moedas"
-          icon={<MonetizationOn sx={{ fontSize: 40, color: "#007bff" }} />}
-          onClick={() => navigate("/troca-de-moedas")} 
-        />
-        <FeatureCard
-          title="Resgatar Vantagens"
-          icon={<Redeem sx={{ fontSize: 40, color: "#007bff" }} />}
-          onClick={() => alert("Ir para resgates")}
-        />
-        <FeatureCard
-          title="Histórico de Transações"
-          icon={<History sx={{ fontSize: 40, color: "#007bff" }} />}
-          onClick={() => alert("Ir para histórico")}
-        />
+        {loading && <CircularProgress />}
+        {erro && <Alert severity="error">{erro}</Alert>}
+        {resgateStatus && <Alert severity="info">{resgateStatus}</Alert>}
+
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+            gap: 3,
+          }}
+        >
+          {vantagens.map((vantagem) => (
+            <Box key={vantagem.id} sx={{ width: "300px" }}>
+              <Card
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  minHeight: 380,
+                  justifyContent: "space-between",
+                }}
+              >
+                <CardMedia
+                  component="img"
+                  height="160"
+                  image={vantagem.imagem}
+                  alt={vantagem.titulo}
+                />
+                <CardContent
+                  sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
+                >
+                  <Typography variant="h6">{vantagem.titulo}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {vantagem.descricao}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ mt: 1, fontWeight: "bold" }}
+                  >
+                    Custo: {vantagem.custoMoedas} moedas
+                  </Typography>
+                  <Box sx={{ flexGrow: 1 }} />
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    sx={{
+                      mt: 2,
+                      backgroundColor: "#A7C7E7",
+                      color: "#fff",
+                      "&:hover": {
+                        backgroundColor: "#90b8db",
+                      },
+                    }}
+                    onClick={() => handleResgatarVantagem(String(vantagem.id))}
+                  >
+                    RESGATAR
+                  </Button>
+                </CardContent>
+              </Card>
+            </Box>
+          ))}
+        </Box>
       </Box>
-    </Box>
+    </>
   );
-};
-
-type FeatureCardProps = {
-  title: string;
-  icon: React.ReactNode;
-  onClick: () => void;
-};
-
-const FeatureCard: React.FC<FeatureCardProps> = ({ title, icon, onClick }) => (
-  <ButtonBase
-    onClick={onClick}
-    sx={{
-      p: 3,
-      width: 220,
-      borderRadius: 3,
-      boxShadow: 3,
-      bgcolor: "white",
-      flexDirection: "column",
-      display: "flex",
-      alignItems: "center",
-      gap: 1,
-      transition: "transform 0.2s",
-      "&:hover": {
-        transform: "scale(1.05)",
-      },
-    }}
-  >
-    {icon}
-    <Typography fontWeight="bold" fontSize="1.1rem" fontFamily="Poppins, sans-serif">
-      {title}
-    </Typography>
-  </ButtonBase>
-);
-
-export default StudentHomePage;
+}
