@@ -50,4 +50,14 @@ public class TransacaoController {
         List<ResponseTransactionByEmpresaDTO> transacoes = transacaoService.buscarTransacoesPorEmpresa(empresaId);
         return ResponseEntity.ok(transacoes);
     }
+
+    @GetMapping("/professor/{professorId}")
+    public ResponseEntity<List<Transacao>> getTransacoesProfessor(@PathVariable UUID professorId) {
+        return ResponseEntity.ok(transacaoService.buscarTransacoesPorProfessor(professorId));
+    }
+
+    @GetMapping("/aluno/{alunoId}")
+    public ResponseEntity<List<Transacao>> getTransacoesAluno(@PathVariable UUID alunoId) {
+        return ResponseEntity.ok(transacaoService.buscarTransacoesPorAluno(alunoId));
+    }
 }

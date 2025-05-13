@@ -83,4 +83,12 @@ public class TransacaoService {
                 .toList();
     }
 
+    public List<Transacao> buscarTransacoesPorProfessor(UUID professorId) {
+        return transacaoRepository.findByRemetenteId(professorId);
+    }
+
+    public List<Transacao> buscarTransacoesPorAluno(UUID alunoId) {
+        return transacaoRepository.findByDestinatarioId(alunoId);
+    }
+
 }
