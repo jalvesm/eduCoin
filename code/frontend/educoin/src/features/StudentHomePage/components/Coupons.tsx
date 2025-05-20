@@ -15,13 +15,13 @@ import {
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import HeaderMenu from "../../../shared/components/HeaderMenu/HeaderMenu";
-import { useNavigate } from "react-router-dom"; // Para redirecionar caso o aluno não esteja logado
+import { useNavigate } from "react-router-dom";
 
 export default function Coupons() {
   const [cupons, setCupons] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [erro, setErro] = useState<string | null>(null);
-  const navigate = useNavigate(); // Instanciando o hook de navegação
+  const navigate = useNavigate();
 
   const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
   const alunoId = usuario.id;

@@ -22,36 +22,6 @@ public class AlunoController {
 
     private final AlunoService alunoService;
 
-    /**
-     * Endpoint para criar um novo aluno no sistema.
-     * Exemplo de requisição:
-     * 
-     * **URL**: `POST http://localhost:8080/alunos/criarAluno`
-     * 
-     * **Body**:
-     * ```json
-     * {
-     * "nome": "João Silva",
-     * "email": "joao.silva@exemplo.com",
-     * "senha": "senha123",
-     * "cpf": "123.456.789-00",
-     * "rg": "MG-12.345.678",
-     * "endereco": "Rua Exemplo, 123, Belo Horizonte, MG",
-     * "instituicaoId":
-     * "fe94bfd4-f614-4424-a868-a68b947d0287",
-     * "curso": "Ciência da Computação"
-     * }
-     * ```
-     */
-    /*
-     * @PostMapping("/criarAluno")
-     * public ResponseEntity<Aluno> criarAluno(@RequestBody CreateAlunoDTO alunoDTO)
-     * {
-     * Aluno aluno = alunoService.criarAluno(alunoDTO);
-     * return ResponseEntity.ok(aluno);
-     * }
-     */
-
     @GetMapping
     public ResponseEntity<List<Aluno>> listAllStudents() {
         return ResponseEntity.ok(alunoService.findAll());
