@@ -74,14 +74,19 @@ export default function HeaderMenu() {
           >
             {usuario?.tipoUsuario === "ALUNO" && (
               <>
-                <MenuItem onClick={() => handleNavigation("/estudante")}>
-                  Vantagens Disponíveis
+                <MenuItem onClick={() => handleNavigation("/aluno")}>
+                  Dashboards
                 </MenuItem>
                 <MenuItem onClick={() => handleNavigation("/cupons")}>
                   Cupons
                 </MenuItem>
-                <MenuItem onClick={() => handleNavigation("/historico-trocas")}>
-                  Histórico de Trocas
+                <MenuItem onClick={() => handleNavigation("/historico-moedas")}>
+                  Histórico de Moedas
+                </MenuItem>
+                <MenuItem
+                  onClick={() => handleNavigation("/vantagens-disponiveis")}
+                >
+                  Vantagens Disponíveis
                 </MenuItem>
               </>
             )}
@@ -95,6 +100,26 @@ export default function HeaderMenu() {
                   onClick={() => handleNavigation("/resgates-realizados")}
                 >
                   Resgates Realizados
+                </MenuItem>
+              </>
+            )}
+
+            {usuario?.tipoUsuario === "PROFESSOR" && (
+              <>
+                <MenuItem
+                  onClick={() => handleNavigation("/professor/enviar-moedas")}
+                >
+                  Atribuir Moedas
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigation("/professor")}>
+                  Dashboard
+                </MenuItem>
+                <MenuItem
+                  onClick={() =>
+                    handleNavigation("/professor/historico-moedas")
+                  }
+                >
+                  Transações
                 </MenuItem>
               </>
             )}

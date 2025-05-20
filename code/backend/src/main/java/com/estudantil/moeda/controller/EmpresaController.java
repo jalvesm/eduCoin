@@ -14,7 +14,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/empresas")
 public class EmpresaController {
-
     private final EmpresaService empresaService;
 
     @GetMapping
