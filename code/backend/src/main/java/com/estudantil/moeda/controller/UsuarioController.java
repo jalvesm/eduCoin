@@ -3,9 +3,11 @@ package com.estudantil.moeda.controller;
 import com.estudantil.moeda.model.*;
 import com.estudantil.moeda.service.*;
 import com.estudantil.moeda.dto.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +37,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> createUser(@RequestBody CreateUsuarioDTO createUsuarioDTO) {
+    public ResponseEntity<Usuario> createUser(@RequestBody @Valid CreateUsuarioDTO createUsuarioDTO, BindingResult errors) {
         switch (createUsuarioDTO.getTipoUsuario()) {
             case ALUNO:
                 if (createUsuarioDTO instanceof CreateAlunoDTO alunoDTO) {
