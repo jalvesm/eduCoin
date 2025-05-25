@@ -2,6 +2,7 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.model.Professor;
 import com.estudantil.moeda.service.ProfessorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -28,12 +29,12 @@ public class ProfessorController {
     }
 
     @PostMapping
-    public ResponseEntity<Professor> createProfessor(@RequestBody Professor professor) {
+    public ResponseEntity<Professor> createProfessor(@RequestBody @Valid Professor professor) {
         return ResponseEntity.ok(professorService.save(professor));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Professor> updateProfessor(@PathVariable UUID id, @RequestBody Professor professor) {
+    public ResponseEntity<Professor> updateProfessor(@PathVariable UUID id, @RequestBody @Valid Professor professor) {
         return ResponseEntity.ok(professorService.update(id, professor));
     }
 
