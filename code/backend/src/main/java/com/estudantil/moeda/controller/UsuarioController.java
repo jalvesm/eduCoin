@@ -8,9 +8,12 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,7 +40,15 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> createUser(@RequestBody @Valid CreateUsuarioDTO createUsuarioDTO, BindingResult errors) {
+    public ResponseEntity<?> createUser(@RequestBody @Valid CreateUsuarioDTO createUsuarioDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         switch (createUsuarioDTO.getTipoUsuario()) {
             case ALUNO:
                 if (createUsuarioDTO instanceof CreateAlunoDTO alunoDTO) {
@@ -100,7 +111,15 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequest) {
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDTO loginRequest, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         Optional<Usuario> usuarioOptional = usuarioService.autenticarUsuario(loginRequest.getEmail(),
                 loginRequest.getSenha());
 
@@ -118,7 +137,14 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> updateUser(@PathVariable UUID id, @RequestBody Usuario usuario) {
+    public ResponseEntity<?> updateUser(@PathVariable UUID id, @RequestBody @Valid Usuario usuario, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
         return ResponseEntity.ok(usuarioService.update(id, usuario));
     }
 

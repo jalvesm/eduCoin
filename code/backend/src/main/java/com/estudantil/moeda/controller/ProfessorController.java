@@ -4,11 +4,14 @@ import com.estudantil.moeda.model.Professor;
 import com.estudantil.moeda.service.ProfessorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -29,12 +32,26 @@ public class ProfessorController {
     }
 
     @PostMapping
-    public ResponseEntity<Professor> createProfessor(@RequestBody @Valid Professor professor) {
+    public ResponseEntity<?> createProfessor(@RequestBody @Valid Professor professor, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
         return ResponseEntity.ok(professorService.save(professor));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Professor> updateProfessor(@PathVariable UUID id, @RequestBody @Valid Professor professor) {
+    public ResponseEntity<?> updateProfessor(@PathVariable UUID id, @RequestBody @Valid Professor professor, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
         return ResponseEntity.ok(professorService.update(id, professor));
     }
 
