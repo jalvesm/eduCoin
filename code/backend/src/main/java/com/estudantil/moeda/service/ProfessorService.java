@@ -11,7 +11,9 @@ import com.estudantil.moeda.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -90,5 +92,18 @@ public class ProfessorService {
         Professor professor = professorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Professor não encontrado!"));
         return professor.getQuantidadeMoedas();
+    }
+
+    // Executa a cada 1 minuto para fins de teste
+    @Scheduled(cron = "0 * * * * *")
+    @Transactional
+    public void adicionarSaldoSemestralParaTodosProfessores() {
+        List<Professor> professores = professorRepository.findAll();
+        for (Professor professor : professores) {
+            professor.setQuantidadeMoedas(
+                professor.getQuantidadeMoedas() + Professor.SALDO_SEMESTRAL_DE_MOEDAS
+            );
+            professorRepository.save(professor);
+        }
     }
 }
