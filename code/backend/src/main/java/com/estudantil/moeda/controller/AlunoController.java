@@ -49,7 +49,8 @@ public class AlunoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateStudent(@PathVariable UUID id, @RequestBody @Valid Aluno aluno, BindingResult bindingResult) {
+    public ResponseEntity<?> updateStudent(@PathVariable UUID id, @RequestBody @Valid Aluno aluno,
+            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             for (FieldError error : bindingResult.getFieldErrors()) {
@@ -69,5 +70,11 @@ public class AlunoController {
     @PostMapping("/resgatarVantagem")
     public ResponseEntity<ResponseDTO> resgateDeVantagem(@RequestBody ResgateVantagemRequestDTO data) {
         return ResponseEntity.ok(alunoService.resgatarVantagem(data));
+    }
+
+    @GetMapping("/saldo/{id}")
+    public ResponseEntity<Double> getSaldoAluno(@PathVariable UUID id) {
+        Double saldo = alunoService.buscarSaldoPorId(id);
+        return ResponseEntity.ok(saldo);
     }
 }

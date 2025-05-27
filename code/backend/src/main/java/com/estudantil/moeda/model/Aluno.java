@@ -33,5 +33,5 @@ public class Aluno extends Usuario {
     private String curso;
 
     @Column(name = "saldo_moedas", nullable = false)
-    private Double saldoMoedas = 0.0;
+    private Double saldoMoedas;
 }

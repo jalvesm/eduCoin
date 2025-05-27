@@ -1,5 +1,6 @@
 package com.estudantil.moeda.controller;
 
+import com.estudantil.moeda.dto.DetailTransactionData;
 import com.estudantil.moeda.dto.ResponseTransactionByEmpresaDTO;
 import com.estudantil.moeda.model.Transacao;
 import com.estudantil.moeda.service.TransacaoService;
@@ -59,5 +60,10 @@ public class TransacaoController {
     @GetMapping("/aluno/{alunoId}")
     public ResponseEntity<List<Transacao>> getTransacoesAluno(@PathVariable UUID alunoId) {
         return ResponseEntity.ok(transacaoService.buscarTransacoesPorAluno(alunoId));
+    }
+    
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<DetailTransactionData>> getTransacoesPorUsuario(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(transacaoService.buscarDetalhesTransacoesPorUsuario(usuarioId));
     }
 }

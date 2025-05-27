@@ -4,6 +4,7 @@ import com.estudantil.moeda.model.Transacao;
 import com.estudantil.moeda.model.Usuario;
 import com.estudantil.moeda.repository.TransacaoRepository;
 import com.estudantil.moeda.repository.UsuarioRepository;
+import com.estudantil.moeda.dto.DetailTransactionData;
 import com.estudantil.moeda.dto.ResponseTransactionByEmpresaDTO;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -52,15 +53,6 @@ public class TransacaoService {
         transacaoRepository.deleteById(id);
     }
 
-    /*
-     * public List<Transacao> buscarTransacoesPorEmpresa(UUID empresaId) {
-     * Usuario empresa = usuarioRepository.findById(empresaId)
-     * .orElseThrow(() -> new ResourceNotFoundException("Empresa não encontrada"));
-     * 
-     * return transacaoRepository.findByRemetenteOrDestinatario(empresa, empresa);
-     * }
-     */
-
     public List<ResponseTransactionByEmpresaDTO> buscarTransacoesPorEmpresa(UUID empresaId) {
         Usuario empresa = usuarioRepository.findById(empresaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Empresa não encontrada"));
@@ -91,4 +83,17 @@ public class TransacaoService {
         return transacaoRepository.findByDestinatarioId(alunoId);
     }
 
+    public List<DetailTransactionData> buscarDetalhesTransacoesPorUsuario(UUID usuarioId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado!"));
+        return transacaoRepository.findAllByRemetenteIdOrDestinatarioId(usuario.getId())
+                .stream()
+                .map(t -> new DetailTransactionData(
+                        t.getDataTransacao(),
+                        t.getDescricao(),
+                        t.getRemetente().getNome(),
+                        t.getDestinatario().getNome(),
+                        t.getValor()))
+                .toList();
+    }
 }

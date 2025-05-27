@@ -44,7 +44,8 @@ public class ProfessorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateProfessor(@PathVariable UUID id, @RequestBody @Valid Professor professor, BindingResult bindingResult) {
+    public ResponseEntity<?> updateProfessor(@PathVariable UUID id, @RequestBody @Valid Professor professor,
+            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             for (FieldError error : bindingResult.getFieldErrors()) {
@@ -60,4 +61,18 @@ public class ProfessorController {
         professorService.delete(id);
         return ResponseEntity.noContent().build();
     }
-} 
+
+    @PostMapping("/{professorId}/atribuir-moedas")
+    public ResponseEntity<Void> atribuirMoedasParaAluno(
+            @PathVariable UUID professorId,
+            @RequestBody AtribuirMoedasDTO data) {
+        professorService.atribuirMoedasParaAluno(professorId, data);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/saldo/{id}")
+    public ResponseEntity<Double> getSaldoProfessor(@PathVariable UUID id) {
+        Double saldo = professorService.buscarSaldoPorId(id);
+        return ResponseEntity.ok(saldo);
+    }
+}
