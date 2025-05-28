@@ -74,33 +74,52 @@ export default function HeaderMenu() {
           >
             {usuario?.tipoUsuario === "ALUNO" && (
               <>
+                <MenuItem onClick={() => handleNavigation("/estudante")}>
+                  Dashboards
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigation("/cupons")}>
+                  Cupons
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigation("/historico-moedas")}>
+                  Histórico de Moedas
+                </MenuItem>
                 <MenuItem
                   onClick={() => handleNavigation("/vantagens-disponiveis")}
                 >
                   Vantagens Disponíveis
-                </MenuItem>
-                <MenuItem
-                  onClick={() => handleNavigation("/consultar-extratos")}
-                >
-                  Extrato de Moedas
-                </MenuItem>
-                <MenuItem onClick={() => handleNavigation("/historico-trocas")}>
-                  Histórico de Trocas
                 </MenuItem>
               </>
             )}
 
             {usuario?.tipoUsuario === "EMPRESA" && (
               <>
-                <MenuItem
-                  onClick={() => handleNavigation("/gerenciar-vantagens")}
-                >
+                <MenuItem onClick={() => handleNavigation("/empresa")}>
                   Gerenciar Vantagens
                 </MenuItem>
                 <MenuItem
                   onClick={() => handleNavigation("/resgates-realizados")}
                 >
                   Resgates Realizados
+                </MenuItem>
+              </>
+            )}
+
+            {usuario?.tipoUsuario === "PROFESSOR" && (
+              <>
+                <MenuItem
+                  onClick={() => handleNavigation("/professor/enviar-moedas")}
+                >
+                  Atribuir Moedas
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigation("/professor")}>
+                  Dashboard
+                </MenuItem>
+                <MenuItem
+                  onClick={() =>
+                    handleNavigation("/professor/historico-moedas")
+                  }
+                >
+                  Transações
                 </MenuItem>
               </>
             )}
@@ -153,7 +172,13 @@ export default function HeaderMenu() {
               </Menu>
             </div>
           ) : (
-            <Typography variant="body2" sx={{ color: "white", marginRight: 2 }}>
+            <Typography
+              variant="body2"
+              sx={{ color: "white", marginRight: 2 }}
+              onClick={() => {
+                navigate("/");
+              }}
+            >
               Faça login
             </Typography>
           )}

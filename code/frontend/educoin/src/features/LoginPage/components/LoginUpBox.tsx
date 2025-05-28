@@ -119,6 +119,19 @@ export default function LoginBox() {
         {loading ? "Entrando..." : "Login"}
       </Button>
       <Typography variant="body2" sx={{ mt: 2, textAlign: "center" }}>
+        Esqueceu a senha?{" "}
+        <Link
+          to="/reset"
+          style={{
+            color: colors.secondary,
+            fontWeight: "bold",
+            textDecoration: "none",
+          }}
+        >
+          Resetar senha
+        </Link>
+      </Typography>
+      <Typography variant="body2" sx={{ textAlign: "center" }}>
         Ainda não tem uma conta?{" "}
         <Link
           to="/"
