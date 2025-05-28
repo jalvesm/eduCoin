@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -23,6 +24,7 @@ public class CreateUsuarioDTO {
     private String email;
 
     @NotNull(message = "A senha é obrigatória")
+    @NotBlank(message = "A senha é obrigatória")
     private String senha;
 
     private TipoUsuario tipoUsuario;
