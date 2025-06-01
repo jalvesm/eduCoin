@@ -154,9 +154,14 @@ export default function CreateAdvantages() {
         </Box>
 
         <Fab
-          color="primary"
           aria-label="add"
-          sx={{ position: "fixed", bottom: 24, right: 24 }}
+          sx={{
+            position: "fixed",
+            bottom: 24,
+            right: 24,
+            backgroundColor: "#A7C7E7",
+            color: "#fff",
+          }}
           onClick={() => setOpen(true)}
         >
           <AddIcon />
@@ -176,7 +181,13 @@ export default function CreateAdvantages() {
             borderRadius: 2,
           }}
         >
-          <Typography variant="h6" gutterBottom>
+          <Typography
+            variant="h6"
+            gutterBottom
+            sx={{
+              color: "#A7C7E7",
+            }}
+          >
             Criar Vantagem
           </Typography>
           <TextField
@@ -238,14 +249,26 @@ export default function CreateAdvantages() {
               </Typography>
             )}
           </Box>
-          <Box sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}>
-            <Button onClick={() => setOpen(false)} sx={{ mr: 1 }}>
+          <Box sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 1 }}>
+            <Button
+              onClick={() => setOpen(false)}
+              variant="outlined"
+              sx={{
+                color: "#A7C7E7",
+              }}
+              fullWidth
+            >
               Cancelar
             </Button>
             <Button
               variant="contained"
               onClick={handleSubmit}
               disabled={submitting}
+              fullWidth
+              sx={{
+                backgroundColor: "#A7C7E7",
+                color: "#fff",
+              }}
             >
               {submitting ? "Salvando..." : "Salvar"}
             </Button>
