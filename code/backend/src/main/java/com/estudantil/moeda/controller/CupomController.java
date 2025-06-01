@@ -13,6 +13,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/cupons")
+@CrossOrigin(origins = "http://localhost:5173")
 public class CupomController {
 
     private final CupomService cupomService;
@@ -47,4 +48,4 @@ public class CupomController {
     public ResponseEntity<List<Cupom>> listAllCouponsFromAluno(@RequestParam UUID alunoId) {
         return ResponseEntity.ok(cupomService.findAllFromAluno(alunoId));
     }
-} 
+}

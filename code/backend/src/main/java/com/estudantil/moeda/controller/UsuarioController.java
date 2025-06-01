@@ -3,10 +3,8 @@ package com.estudantil.moeda.controller;
 import com.estudantil.moeda.model.*;
 import com.estudantil.moeda.service.*;
 import com.estudantil.moeda.dto.*;
-import com.estudantil.moeda.enums.TipoUsuario;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
