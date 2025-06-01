@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   IconButton,
@@ -10,6 +10,8 @@ import {
   TableBody,
   TableContainer,
   Paper,
+  TextField,
+  TablePagination,
 } from "@mui/material";
 import HeaderMenu from "../../../shared/components/HeaderMenu/HeaderMenu";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -39,16 +41,50 @@ export default function TransactionsCoins() {
     },
   ];
 
+  const [filtro, setFiltro] = useState("");
+  const [page, setPage] = useState(0);
+  const rowsPerPage = 10;
+
+  const transacoesFiltradas = transacoes.filter((tx) => {
+    const texto = filtro.toLowerCase();
+    return (
+      tx.remetente.toLowerCase().includes(texto) ||
+      tx.motivo.toLowerCase().includes(texto) ||
+      tx.data.toLowerCase().includes(texto)
+    );
+  });
+
+  const transacoesPaginadas = transacoesFiltradas.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
   return (
     <>
       <HeaderMenu />
       <Box sx={{ p: 4 }}>
         <Typography
           variant="h5"
-          sx={{ fontWeight: "bold", mb: 3, color: "#1976d2" }}
+          sx={{ fontWeight: "bold", mb: 3, color: "#90caf9" }}
         >
           Transações de Moedas
         </Typography>
+
+        <TextField
+          label="Pesquisar"
+          variant="outlined"
+          fullWidth
+          sx={{ mb: 2 }}
+          value={filtro}
+          onChange={(e) => {
+            setFiltro(e.target.value);
+            setPage(0);
+          }}
+        />
 
         <TableContainer component={Paper}>
           <Table>
@@ -72,7 +108,7 @@ export default function TransactionsCoins() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {transacoes.map((tx) => (
+              {transacoesPaginadas.map((tx) => (
                 <TableRow key={tx.id}>
                   <TableCell>{tx.remetente}</TableCell>
                   <TableCell
@@ -89,9 +125,26 @@ export default function TransactionsCoins() {
                   </TableCell>
                 </TableRow>
               ))}
+
+              {transacoesPaginadas.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={5} align="center">
+                    Nenhuma transação encontrada.
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
+
+        <TablePagination
+          component="div"
+          count={transacoesFiltradas.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          rowsPerPageOptions={[]}
+        />
       </Box>
     </>
   );

@@ -48,7 +48,6 @@ export default function StudentHomePage() {
           Bem-vindo(a) ao EduCoin, {nomeAluno}!
         </Typography>
 
-        {/* Saldo */}
         <Box
           sx={{
             display: "flex",
@@ -82,7 +81,6 @@ export default function StudentHomePage() {
           </Tooltip>
         </Box>
 
-        {/* Opções */}
         <Box
           sx={{
             display: "flex",
