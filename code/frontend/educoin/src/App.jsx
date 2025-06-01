@@ -16,6 +16,7 @@ import HistoricCoins from "./features/StudentHomePage/components/HistoricCoins";
 import ListAdvantages from "./features/StudentHomePage/components/ListAdvantages";
 import SendCoins from "./features/TeacherHomePage/components/SendCoins";
 import TransactionsCoins from "./features/TeacherHomePage/components/TransactionsCoins";
+import CreateAdvantages from "./features/EnterpriseHomePage/components/CreateAdvantages";
 
 function App() {
   return (
@@ -69,6 +70,15 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={["EMPRESA"]}>
                 <EnterpriseHomePage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/vantagens"
+            element={
+              <ProtectedRoute allowedRoles={["EMPRESA"]}>
+                <CreateAdvantages />
               </ProtectedRoute>
             }
           />

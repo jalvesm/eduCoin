@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import HeaderMenu from "../../shared/components/HeaderMenu/HeaderMenu";
 
 export default function StudentHomePage() {
+  const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+  const nomeAluno = usuario?.nome || "Professor";
   const [mostrarSaldo, setMostrarSaldo] = useState(true);
   const navigate = useNavigate();
 
@@ -43,7 +45,7 @@ export default function StudentHomePage() {
       <HeaderMenu />
       <Box sx={{ p: 4 }}>
         <Typography variant="h5" fontWeight="bold" color="#90caf9" mb={2}>
-          Bem-vindo(a) ao EduCoin!
+          Bem-vindo(a) ao EduCoin, {nomeAluno}!
         </Typography>
 
         {/* Saldo */}
