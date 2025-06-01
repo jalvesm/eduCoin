@@ -39,6 +39,12 @@ export default function CreateAdvantages() {
     custoMoedas: 0,
   });
 
+  const isFormValid =
+    form.titulo.trim() !== "" &&
+    form.descricao.trim() !== "" &&
+    form.imagem.trim() !== "" &&
+    form.custoMoedas > 0;
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({
@@ -263,7 +269,7 @@ export default function CreateAdvantages() {
             <Button
               variant="contained"
               onClick={handleSubmit}
-              disabled={submitting}
+              disabled={submitting || !isFormValid}
               fullWidth
               sx={{
                 backgroundColor: "#A7C7E7",
