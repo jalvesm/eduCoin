@@ -34,4 +34,5 @@ export const studentService = {
     const response = await axios.get(`http://localhost:8080/transacoes/aluno/${alunoId}`);
     return response.data;
   },
+  
 };

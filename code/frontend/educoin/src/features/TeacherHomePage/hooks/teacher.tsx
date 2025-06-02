@@ -1,30 +1,48 @@
-import { useEffect, useState } from "react";
-import { getSaldoProfessor } from "../service/teacherService";
+import { useEffect, useState, useCallback } from "react";
+import { teacherService } from "../service/teacherService";
+import { DetailTransactionData } from "../types/teacher";
 
 export const useTeacher = (idProfessor: string) => {
+  const [transacoes, setTransacoes] = useState<DetailTransactionData[]>([]);
   const [saldo, setSaldo] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [erro, setErro] = useState<string | null>(null);
 
+  const getTransacoesDoProfessor = useCallback(async (professorId: string) => {
+    setLoading(true);
+    setErro(null);
+    try {
+      const data = await teacherService.getTransacoesDoProfessor(professorId);
+      setTransacoes(data);
+    } catch {
+      setErro("Erro ao carregar transações.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
-    const fetchSaldo = async () => {
+    const fetchDados = async () => {
+      if (!idProfessor) {
+        setErro("ID do professor inválido.");
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
       try {
-        const valor = await getSaldoProfessor(idProfessor);
+        const valor = await teacherService.getSaldoProfessor(idProfessor);
         setSaldo(valor);
-      } catch (error) {
-        setErro("Erro ao carregar saldo.");
+        await getTransacoesDoProfessor(idProfessor);
+      } catch {
+        setErro("Erro ao carregar dados do professor.");
       } finally {
         setLoading(false);
       }
     };
 
-    if (idProfessor) {
-      fetchSaldo();
-    } else {
-      setErro("ID do professor inválido.");
-      setLoading(false);
-    }
-  }, [idProfessor]);
+    fetchDados();
+  }, [idProfessor, getTransacoesDoProfessor]);
 
-  return { saldo, loading, erro };
+  return { transacoes, saldo, loading, erro };
 };
