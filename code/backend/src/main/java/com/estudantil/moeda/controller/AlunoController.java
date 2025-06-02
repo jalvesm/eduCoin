@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/alunos")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AlunoController {
 
     private final AlunoService alunoService;
@@ -44,11 +44,14 @@ public class AlunoController {
      * }
      * ```
      */
-    /*@PostMapping("/criarAluno")
-    public ResponseEntity<Aluno> criarAluno(@RequestBody CreateAlunoDTO alunoDTO) {
-        Aluno aluno = alunoService.criarAluno(alunoDTO);
-        return ResponseEntity.ok(aluno);
-    }*/
+    /*
+     * @PostMapping("/criarAluno")
+     * public ResponseEntity<Aluno> criarAluno(@RequestBody CreateAlunoDTO alunoDTO)
+     * {
+     * Aluno aluno = alunoService.criarAluno(alunoDTO);
+     * return ResponseEntity.ok(aluno);
+     * }
+     */
 
     @GetMapping
     public ResponseEntity<List<Aluno>> listAllStudents() {

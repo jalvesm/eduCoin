@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import HeaderMenu from "../../shared/components/HeaderMenu/HeaderMenu";
 
 export default function TeacherHomePage() {
+  const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+  const nomeProfessor = usuario?.nome || "Professor";
   const [mostrarSaldo, setMostrarSaldo] = useState(true);
   const saldo = 230;
   const navigate = useNavigate();
@@ -31,7 +33,7 @@ export default function TeacherHomePage() {
       <HeaderMenu />
       <Box sx={{ p: 4 }}>
         <Typography variant="h5" fontWeight="bold" color="#90caf9" mb={2}>
-          Bem-vindo(a), Professor!
+          Bem-vindo(a), {nomeProfessor}!
         </Typography>
 
         <Box

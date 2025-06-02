@@ -6,36 +6,34 @@ import {
   CardMedia,
   CardContent,
   CircularProgress,
-  Alert,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   Button,
+  Alert,
 } from "@mui/material";
 import HeaderMenu from "../../../shared/components/HeaderMenu/HeaderMenu";
 import { useStudentVantagens } from "../hooks/student";
-import axios from "axios";
 
 export default function ListAdvantages() {
-  const { vantagens, loading, erro } = useStudentVantagens();
+  const { vantagens, loading, erro, resgatarVantagem } = useStudentVantagens();
   const [resgateStatus, setResgateStatus] = useState<string | null>(null);
   const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
   const alunoId = usuario.id;
 
   const handleResgatarVantagem = async (vantagemId: string) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/alunos/resgatarVantagem",
-        {
-          alunoId,
-          vantagemId: vantagemId,
-        }
-      );
-
-      setResgateStatus("Resgate ocorrido com sucesso");
-
-      console.log(response.data.message);
+      const response = await resgatarVantagem(alunoId, vantagemId);
+      setResgateStatus(response.message);
     } catch (error) {
       setResgateStatus("Erro ao resgatar vantagem.");
       console.error("Erro ao resgatar vantagem:", error);
     }
+  };
+
+  const handleCloseModal = () => {
+    setResgateStatus(null);
   };
 
   return (
@@ -51,7 +49,6 @@ export default function ListAdvantages() {
 
         {loading && <CircularProgress />}
         {erro && <Alert severity="error">{erro}</Alert>}
-        {resgateStatus && <Alert severity="info">{resgateStatus}</Alert>}
 
         <Box
           sx={{
@@ -112,6 +109,43 @@ export default function ListAdvantages() {
           ))}
         </Box>
       </Box>
+
+      <Dialog
+        open={!!resgateStatus}
+        onClose={handleCloseModal}
+        maxWidth="sm"
+        PaperProps={{
+          sx: {
+            p: 3,
+            borderRadius: 3,
+            textAlign: "center",
+          },
+        }}
+      >
+        <DialogContent>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            {resgateStatus}
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: "center" }}>
+          <Button
+            onClick={handleCloseModal}
+            sx={{
+              mt: 1,
+              px: 4,
+              py: 1,
+              fontWeight: "bold",
+              backgroundColor: "#A7C7E7",
+              color: "#fff",
+              "&:hover": {
+                backgroundColor: "#90b8db",
+              },
+            }}
+          >
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

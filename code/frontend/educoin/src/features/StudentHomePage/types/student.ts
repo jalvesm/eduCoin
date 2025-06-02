@@ -6,3 +6,12 @@ export interface Vantagem {
     custoMoedas: number;
   }
   
+  export interface Cupom {
+    id: string;
+    codigo: string;
+    dataGeracao: string;
+    vantagem: {
+      id: string;
+      titulo: string;
+    };
+  }
