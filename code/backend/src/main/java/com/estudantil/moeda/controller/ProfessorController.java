@@ -52,4 +52,10 @@ public class ProfessorController {
         professorService.atribuirMoedasParaAluno(professorId, data);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/saldo/{id}")
+    public ResponseEntity<Double> getSaldoAluno(@PathVariable UUID id) {
+        Double saldo = professorService.buscarSaldoPorId(id);
+        return ResponseEntity.ok(saldo);
+    }
 }

@@ -40,6 +40,7 @@ public class ProfessorService {
                 .orElseThrow(() -> new ResourceNotFoundException("Professor não encontrado!"));
 
     }
+
     public Professor save(Professor professor) {
         return professorRepository.save(professor);
     }
@@ -97,13 +98,11 @@ public class ProfessorService {
 
     // Executa a cada 1 minuto para fins de teste
     @Scheduled(cron = "0 0 0 1 1,7 *")
-
     public void adicionarSaldoSemestralParaTodosProfessores() {
         List<Professor> professores = professorRepository.findAll();
         for (Professor professor : professores) {
             professor.setQuantidadeMoedas(
-                professor.getQuantidadeMoedas() + Professor.SALDO_SEMESTRAL_DE_MOEDAS
-            );
+                    professor.getQuantidadeMoedas() + Professor.SALDO_SEMESTRAL_DE_MOEDAS);
             professorRepository.save(professor);
         }
     }
