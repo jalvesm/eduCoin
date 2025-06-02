@@ -1,10 +1,12 @@
 package com.estudantil.moeda.controller;
 
+import com.estudantil.moeda.dto.AtribuirMoedasDTO;
 import com.estudantil.moeda.model.Professor;
 import com.estudantil.moeda.service.ProfessorService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,4 +44,13 @@ public class ProfessorController {
         professorService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{professorId}/atribuir-moedas")
+    public ResponseEntity<Void> atribuirMoedasParaAluno(
+            @PathVariable UUID professorId,
+            @RequestBody @Validated AtribuirMoedasDTO data) {
+        professorService.atribuirMoedasParaAluno(professorId, data);
+        return ResponseEntity.ok().build();
+    }
+
 } 
