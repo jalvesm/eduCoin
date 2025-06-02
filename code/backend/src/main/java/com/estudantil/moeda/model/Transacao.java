@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+import com.estudantil.moeda.enums.TipoTransacao;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,6 +39,10 @@ public class Transacao {
 
     @Column(name = "data_transacao", nullable = false)
     private LocalDateTime dataTransacao;
+
+    @Column(name = "tipo")
+    @Enumerated(EnumType.STRING)
+    private TipoTransacao tipo;
 
     @Override
     public boolean equals(Object o) {
