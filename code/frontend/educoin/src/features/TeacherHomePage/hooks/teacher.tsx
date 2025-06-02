@@ -44,5 +44,27 @@ export const useTeacher = (idProfessor: string) => {
     fetchDados();
   }, [idProfessor, getTransacoesDoProfessor]);
 
-  return { transacoes, saldo, loading, erro };
+  const atribuirMoedas = useCallback(
+    async (
+      professorId: string,
+      alunoId: string,
+      valor: number,
+      descricao: string
+    ) => {
+      setLoading(true);
+      setErro(null);
+      try {
+        const body = { alunoId, valor, descricao };
+        await teacherService.atribuirMoedas(professorId, body);
+      } catch (error) {
+        console.error(error);
+        setErro("Erro ao atribuir moedas.");
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
+  return { transacoes, saldo, atribuirMoedas, loading, erro };
 };

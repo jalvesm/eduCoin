@@ -17,5 +17,10 @@ export const teacherService = {
   async getTransacoesDoProfessor(professorId: string): Promise<DetailTransactionData[]> {
     const response = await axios.get(`${API_URL}/transacoes/usuario/${professorId}`);
     return response.data;
-  }
+  },
+
+  async atribuirMoedas(professorId: string, body: { alunoId: string; valor: number; descricao: string }) {
+    const response = await axios.post(`${API_URL}/professores/${professorId}/atribuir-moedas`, body);
+    return response.data;
+  }  
 };

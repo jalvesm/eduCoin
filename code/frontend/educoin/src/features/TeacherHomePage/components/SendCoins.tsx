@@ -12,6 +12,7 @@ import {
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import HeaderMenu from "../../../shared/components/HeaderMenu/HeaderMenu";
 import { useAlunos } from "../hooks/aluno";
+import { useTeacher } from "../hooks/teacher";
 
 export default function SendCoins() {
   const [aluno, setAluno] = useState("");
@@ -22,27 +23,39 @@ export default function SendCoins() {
   const [modalMessage, setModalMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
 
-  const { alunos, loading, erro } = useAlunos();
+  const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+  const idProfessor = usuario?.id;
+
+  const { alunos, loading: loadingAlunos, erro: erroAlunos } = useAlunos();
+  const {
+    atribuirMoedas,
+    loading: loadingTeacher,
+    erro: erroTeacher,
+  } = useTeacher(idProfessor);
 
   const alunosFiltrados = alunos.filter((aluno) =>
     aluno.nome.toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!aluno || !quantidade || !motivo) {
       setModalMessage("Por favor, preencha todos os campos.");
       setModalOpen(true);
       return;
     }
 
-    console.log({ aluno, quantidade, motivo });
-
-    setModalMessage("Moedas atribuídas com sucesso!");
-    setModalOpen(true);
-    setAluno("");
-    setQuantidade("");
-    setMotivo("");
-    setSearch("");
+    try {
+      await atribuirMoedas(idProfessor, aluno, Number(quantidade), motivo);
+      setModalMessage("Moedas atribuídas com sucesso!");
+      setAluno("");
+      setQuantidade("");
+      setMotivo("");
+      setSearch("");
+    } catch {
+      setModalMessage("Falha ao atribuir moedas. Tente novamente.");
+    } finally {
+      setModalOpen(true);
+    }
   };
 
   const handleCloseModal = () => {
@@ -66,21 +79,12 @@ export default function SendCoins() {
           <MonetizationOnIcon /> Atribuir Moedas ao Aluno
         </Typography>
 
-        {loading ? (
+        {loadingAlunos ? (
           <Typography>Carregando alunos...</Typography>
-        ) : erro ? (
-          <Typography color="error">{erro}</Typography>
+        ) : erroAlunos ? (
+          <Typography color="error">{erroAlunos}</Typography>
         ) : (
           <>
-            {/* Campo de busca */}
-            <TextField
-              fullWidth
-              label="Buscar Aluno"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              sx={{ mb: 2 }}
-            />
-
             <TextField
               select
               fullWidth
@@ -124,6 +128,7 @@ export default function SendCoins() {
               variant="contained"
               fullWidth
               onClick={handleSubmit}
+              disabled={loadingTeacher}
               sx={{
                 backgroundColor: "#90caf9",
                 color: "#fff",
@@ -133,7 +138,7 @@ export default function SendCoins() {
                 },
               }}
             >
-              Enviar Moedas
+              {loadingTeacher ? "Enviando..." : "Enviar Moedas"}
             </Button>
           </>
         )}
