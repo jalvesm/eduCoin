@@ -8,4 +8,4 @@ import lombok.Data;
 public class CreateEmpresaDTO extends CreateUsuarioDTO {
     @NotNull
     private String cnpj;
-} 
+}

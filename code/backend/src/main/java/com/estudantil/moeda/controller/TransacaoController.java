@@ -1,5 +1,6 @@
 package com.estudantil.moeda.controller;
 
+import com.estudantil.moeda.dto.DetailTransactionData;
 import com.estudantil.moeda.dto.ResponseTransactionByEmpresaDTO;
 import com.estudantil.moeda.model.Transacao;
 import com.estudantil.moeda.service.TransacaoService;
@@ -11,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/transacoes")
-@CrossOrigin(origins = "http://localhost:5173")
 public class TransacaoController {
 
     private final TransacaoService transacaoService;
@@ -49,5 +50,20 @@ public class TransacaoController {
     public ResponseEntity<List<ResponseTransactionByEmpresaDTO>> getTransacoesPorEmpresa(@PathVariable UUID empresaId) {
         List<ResponseTransactionByEmpresaDTO> transacoes = transacaoService.buscarTransacoesPorEmpresa(empresaId);
         return ResponseEntity.ok(transacoes);
+    }
+
+    @GetMapping("/professor/{professorId}")
+    public ResponseEntity<List<Transacao>> getTransacoesProfessor(@PathVariable UUID professorId) {
+        return ResponseEntity.ok(transacaoService.buscarTransacoesPorProfessor(professorId));
+    }
+
+    @GetMapping("/aluno/{alunoId}")
+    public ResponseEntity<List<Transacao>> getTransacoesAluno(@PathVariable UUID alunoId) {
+        return ResponseEntity.ok(transacaoService.buscarTransacoesPorAluno(alunoId));
+    }
+    
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<DetailTransactionData>> getTransacoesPorUsuario(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(transacaoService.buscarDetalhesTransacoesPorUsuario(usuarioId));
     }
 }
