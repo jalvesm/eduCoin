@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Aluno } from "../types/aluno"; 
-import { getAlunos } from "../service/teacherService"; 
+import { Aluno } from "../types/aluno";
+import { getAlunos } from "../service/teacherService";
 
 export function useAlunos() {
   const [alunos, setAlunos] = useState<Aluno[]>([]);
@@ -10,7 +10,7 @@ export function useAlunos() {
   useEffect(() => {
     async function fetchAlunos() {
       try {
-        const dados: Aluno[] = await getAlunos(); 
+        const dados: Aluno[] = await getAlunos();
         setAlunos(dados);
       } catch (err) {
         setErro("Erro ao buscar alunos.");
