@@ -10,6 +10,7 @@ interface ResponseDTO {
 export function useStudentVantagens() {
   const [vantagens, setVantagens] = useState<Vantagem[]>([]);
   const [cupons, setCupons] = useState<any[]>([]);
+  const [saldo, setSaldo] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState("");
 
@@ -46,5 +47,19 @@ export function useStudentVantagens() {
     return await studentService.resgatarVantagem(alunoId, vantagemId);
   }
 
-  return { vantagens, cupons, loading, erro, resgatarVantagem, getCuponsDoAluno, setCupons  };
+  const getSaldoAluno = useCallback(async (alunoId: string) => {
+    setLoading(true);
+    setErro("");
+    try {
+      const valor = await studentService.getSaldoAluno(alunoId);
+      setSaldo(valor);
+    } catch {
+      setErro("Erro ao carregar saldo.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+  
+
+  return { vantagens, cupons,saldo, loading, erro, resgatarVantagem, getCuponsDoAluno, setCupons, getSaldoAluno  };
 }

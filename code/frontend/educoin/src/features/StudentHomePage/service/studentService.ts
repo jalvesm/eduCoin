@@ -23,5 +23,10 @@ export const studentService = {
   async getCuponsDoAluno(alunoId: string): Promise<Cupom[]> {
     const response = await axios.get(`http://localhost:8080/cupons/cuponsDoAluno?alunoId=${alunoId}`);
     return response.data;
+  },
+
+  async getSaldoAluno(alunoId: string): Promise<number> {
+    const response = await axios.get(`http://localhost:8080/alunos/saldo/${alunoId}`);
+    return response.data; 
   }
 };
