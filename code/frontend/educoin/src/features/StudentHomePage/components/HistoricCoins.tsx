@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   IconButton,
@@ -10,6 +10,8 @@ import {
   TableBody,
   TableContainer,
   Paper,
+  TextField,
+  TablePagination,
 } from "@mui/material";
 import HeaderMenu from "../../../shared/components/HeaderMenu/HeaderMenu";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -39,6 +41,33 @@ export default function HistoricCoins() {
     },
   ];
 
+  const [filtro, setFiltro] = useState("");
+  const [page, setPage] = useState(0);
+  const rowsPerPage = 5;
+
+  const historicoFiltrado = historicoMoedas.filter((registro) => {
+    const texto = filtro.toLowerCase();
+    return (
+      registro.professor.toLowerCase().includes(texto) ||
+      registro.motivo.toLowerCase().includes(texto) ||
+      registro.data.toLowerCase().includes(texto)
+    );
+  });
+
+  const historicoPaginado = historicoFiltrado.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleFiltroChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFiltro(event.target.value);
+    setPage(0);
+  };
+
   return (
     <>
       <HeaderMenu />
@@ -50,6 +79,15 @@ export default function HistoricCoins() {
         >
           Histórico de Moedas Recebidas
         </Typography>
+
+        <TextField
+          label="Pesquisar"
+          variant="outlined"
+          fullWidth
+          sx={{ mb: 2 }}
+          value={filtro}
+          onChange={handleFiltroChange}
+        />
 
         <TableContainer component={Paper}>
           <Table>
@@ -73,22 +111,39 @@ export default function HistoricCoins() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {historicoMoedas.map((registro) => (
-                <TableRow key={registro.id}>
-                  <TableCell>{registro.professor}</TableCell>
-                  <TableCell>{registro.quantidade}</TableCell>
-                  <TableCell>{registro.motivo}</TableCell>
-                  <TableCell>{registro.data}</TableCell>
-                  <TableCell>
-                    <IconButton disabled>
-                      <VisibilityIcon />
-                    </IconButton>
+              {historicoPaginado.length > 0 ? (
+                historicoPaginado.map((registro) => (
+                  <TableRow key={registro.id}>
+                    <TableCell>{registro.professor}</TableCell>
+                    <TableCell>{registro.quantidade}</TableCell>
+                    <TableCell>{registro.motivo}</TableCell>
+                    <TableCell>{registro.data}</TableCell>
+                    <TableCell>
+                      <IconButton disabled>
+                        <VisibilityIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={5} align="center">
+                    Nenhum registro encontrado.
                   </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </TableContainer>
+
+        <TablePagination
+          component="div"
+          count={historicoFiltrado.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          rowsPerPageOptions={[]}
+        />
       </Box>
     </>
   );
