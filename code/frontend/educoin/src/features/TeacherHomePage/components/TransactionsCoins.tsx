@@ -56,10 +56,6 @@ export default function TransactionsCoins() {
           Transações de Moedas
         </Typography>
 
-        <Typography variant="subtitle1" sx={{ mb: 3 }}>
-          Saldo atual: <strong>{saldo}</strong> moedas
-        </Typography>
-
         {erro && <Alert severity="error">{erro}</Alert>}
 
         <TextField
@@ -105,8 +101,10 @@ export default function TransactionsCoins() {
                   {transacoesPaginadas.map((tx, index) => (
                     <TableRow key={index}>
                       <TableCell>{tx.nomeRemetente}</TableCell>
-                      <TableCell sx={{ color: tx.valor > 0 ? "green" : "red" }}>
-                        {tx.valor > 0 ? `+${tx.valor}` : tx.valor}
+                      <TableCell
+                        sx={{ color: tx.valor >= 1000 ? "green" : "red" }}
+                      >
+                        {tx.valor >= 1000 ? `+${tx.valor}` : `-${tx.valor}`}
                       </TableCell>
                       <TableCell>{tx.descricao}</TableCell>
                       <TableCell>{tx.dataTransacao}</TableCell>

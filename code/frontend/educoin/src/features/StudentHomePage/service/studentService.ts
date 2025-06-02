@@ -32,7 +32,10 @@ export const studentService = {
 
   async getTransacoesDoAluno(alunoId: string): Promise<DetailTransactionData[]> {
     const response = await axios.get(`http://localhost:8080/transacoes/aluno/${alunoId}`);
-    return response.data;
-  },
+    return response.data.map((t: DetailTransactionData) => ({
+      ...t,
+      dataTransacao: new Date(t.dataTransacao),
+    }));
+  }
   
 };

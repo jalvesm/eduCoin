@@ -37,8 +37,7 @@ export default function HistoricCoins() {
   const historicoFiltrado = transacoes.filter((registro) => {
     const texto = filtro.toLowerCase();
     return (
-      registro.nomeRemetente?.toLowerCase().includes(texto) ||
-      registro.nomeDestinatario?.toLowerCase().includes(texto) ||
+      registro.remetente.nome?.toLowerCase().includes(texto) ||
       registro.descricao?.toLowerCase().includes(texto) ||
       new Date(registro.dataTransacao)
         .toLocaleDateString("pt-BR")
@@ -96,9 +95,6 @@ export default function HistoricCoins() {
                   <strong>Remetente</strong>
                 </TableCell>
                 <TableCell>
-                  <strong>Destinatário</strong>
-                </TableCell>
-                <TableCell>
                   <strong>Descrição</strong>
                 </TableCell>
                 <TableCell>
@@ -122,8 +118,7 @@ export default function HistoricCoins() {
               ) : historicoPaginado.length > 0 ? (
                 historicoPaginado.map((registro, index) => (
                   <TableRow key={index}>
-                    <TableCell>{registro.nomeRemetente}</TableCell>
-                    <TableCell>{registro.nomeDestinatario}</TableCell>
+                    <TableCell>{registro.remetente.nome}</TableCell>
                     <TableCell>{registro.descricao}</TableCell>
                     <TableCell>{registro.valor.toFixed(2)}</TableCell>
                     <TableCell>
