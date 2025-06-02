@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Vantagem, Cupom  } from "../types/student";
+import { Vantagem, Cupom, DetailTransactionData  } from "../types/student";
 
 interface ResponseDTO {
   message: string;
@@ -28,5 +28,10 @@ export const studentService = {
   async getSaldoAluno(alunoId: string): Promise<number> {
     const response = await axios.get(`http://localhost:8080/alunos/saldo/${alunoId}`);
     return response.data; 
-  }
+  },
+
+  async getTransacoesDoAluno(alunoId: string): Promise<DetailTransactionData[]> {
+    const response = await axios.get(`http://localhost:8080/transacoes/aluno/${alunoId}`);
+    return response.data;
+  },
 };
