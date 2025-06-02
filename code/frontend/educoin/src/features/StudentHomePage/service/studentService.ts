@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Vantagem } from "../types/student";
+import { Vantagem, Cupom  } from "../types/student";
 
 interface ResponseDTO {
   message: string;
@@ -19,4 +19,9 @@ export const studentService = {
     );
     return response.data;
   },
+
+  async getCuponsDoAluno(alunoId: string): Promise<Cupom[]> {
+    const response = await axios.get(`http://localhost:8080/cupons/cuponsDoAluno?alunoId=${alunoId}`);
+    return response.data;
+  }
 };
