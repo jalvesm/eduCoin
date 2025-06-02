@@ -52,5 +52,4 @@ public class ProfessorController {
         professorService.atribuirMoedasParaAluno(professorId, data);
         return ResponseEntity.ok().build();
     }
-
-} 
+}

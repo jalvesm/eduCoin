@@ -11,20 +11,22 @@ import {
 } from "@mui/material";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import HeaderMenu from "../../../shared/components/HeaderMenu/HeaderMenu";
-
-const mockAlunos = [
-  { id: 1, nome: "João da Silva" },
-  { id: 2, nome: "Maria Oliveira" },
-  { id: 3, nome: "Carlos Souza" },
-];
+import { useAlunos } from "../hooks/aluno";
 
 export default function SendCoins() {
   const [aluno, setAluno] = useState("");
   const [quantidade, setQuantidade] = useState("");
   const [motivo, setMotivo] = useState("");
+  const [search, setSearch] = useState("");
 
   const [modalMessage, setModalMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+
+  const { alunos, loading, erro } = useAlunos();
+
+  const alunosFiltrados = alunos.filter((aluno) =>
+    aluno.nome.toLowerCase().includes(search.toLowerCase())
+  );
 
   const handleSubmit = () => {
     if (!aluno || !quantidade || !motivo) {
@@ -40,6 +42,7 @@ export default function SendCoins() {
     setAluno("");
     setQuantidade("");
     setMotivo("");
+    setSearch("");
   };
 
   const handleCloseModal = () => {
@@ -63,56 +66,77 @@ export default function SendCoins() {
           <MonetizationOnIcon /> Atribuir Moedas ao Aluno
         </Typography>
 
-        <TextField
-          select
-          fullWidth
-          label="Selecione o Aluno"
-          value={aluno}
-          onChange={(e) => setAluno(e.target.value)}
-          sx={{ mb: 3 }}
-        >
-          {mockAlunos.map((aluno) => (
-            <MenuItem key={aluno.id} value={aluno.nome}>
-              {aluno.nome}
-            </MenuItem>
-          ))}
-        </TextField>
+        {loading ? (
+          <Typography>Carregando alunos...</Typography>
+        ) : erro ? (
+          <Typography color="error">{erro}</Typography>
+        ) : (
+          <>
+            {/* Campo de busca */}
+            <TextField
+              fullWidth
+              label="Buscar Aluno"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              sx={{ mb: 2 }}
+            />
 
-        <TextField
-          fullWidth
-          label="Quantidade de Moedas"
-          type="number"
-          value={quantidade}
-          onChange={(e) => setQuantidade(e.target.value)}
-          sx={{ mb: 3 }}
-          inputProps={{ min: 1 }}
-        />
+            <TextField
+              select
+              fullWidth
+              label="Selecione o Aluno"
+              value={aluno}
+              onChange={(e) => setAluno(e.target.value)}
+              sx={{ mb: 3 }}
+            >
+              {alunosFiltrados.length > 0 ? (
+                alunosFiltrados.map((aluno) => (
+                  <MenuItem key={aluno.id} value={aluno.id}>
+                    {aluno.nome}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem disabled>Nenhum aluno encontrado</MenuItem>
+              )}
+            </TextField>
 
-        <TextField
-          fullWidth
-          label="Motivo da Atribuição"
-          multiline
-          rows={4}
-          value={motivo}
-          onChange={(e) => setMotivo(e.target.value)}
-          sx={{ mb: 4 }}
-        />
+            <TextField
+              fullWidth
+              label="Quantidade de Moedas"
+              type="number"
+              value={quantidade}
+              onChange={(e) => setQuantidade(e.target.value)}
+              sx={{ mb: 3 }}
+              inputProps={{ min: 1 }}
+            />
 
-        <Button
-          variant="contained"
-          fullWidth
-          onClick={handleSubmit}
-          sx={{
-            backgroundColor: "#90caf9",
-            color: "#fff",
-            fontWeight: "bold",
-            "&:hover": {
-              backgroundColor: "#64b5f6",
-            },
-          }}
-        >
-          Enviar Moedas
-        </Button>
+            <TextField
+              fullWidth
+              label="Motivo da Atribuição"
+              multiline
+              rows={4}
+              value={motivo}
+              onChange={(e) => setMotivo(e.target.value)}
+              sx={{ mb: 4 }}
+            />
+
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={handleSubmit}
+              sx={{
+                backgroundColor: "#90caf9",
+                color: "#fff",
+                fontWeight: "bold",
+                "&:hover": {
+                  backgroundColor: "#64b5f6",
+                },
+              }}
+            >
+              Enviar Moedas
+            </Button>
+          </>
+        )}
       </Box>
 
       <Dialog
