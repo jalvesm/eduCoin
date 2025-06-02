@@ -1,57 +1,30 @@
 package com.estudantil.moeda.controller;
 
-import com.estudantil.moeda.dto.CreateAlunoDTO;
 import com.estudantil.moeda.dto.ResgateVantagemRequestDTO;
 import com.estudantil.moeda.dto.ResponseDTO;
 import com.estudantil.moeda.model.Aluno;
 import com.estudantil.moeda.service.AlunoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/alunos")
-@CrossOrigin(origins = "http://localhost:5173")
 public class AlunoController {
 
     private final AlunoService alunoService;
-
-    /**
-     * Endpoint para criar um novo aluno no sistema.
-     * Exemplo de requisição:
-     * 
-     * **URL**: `POST http://localhost:8080/alunos/criarAluno`
-     * 
-     * **Body**:
-     * ```json
-     * {
-     * "nome": "João Silva",
-     * "email": "joao.silva@exemplo.com",
-     * "senha": "senha123",
-     * "cpf": "123.456.789-00",
-     * "rg": "MG-12.345.678",
-     * "endereco": "Rua Exemplo, 123, Belo Horizonte, MG",
-     * "instituicaoId":
-     * "fe94bfd4-f614-4424-a868-a68b947d0287",
-     * "curso": "Ciência da Computação"
-     * }
-     * ```
-     */
-    /*
-     * @PostMapping("/criarAluno")
-     * public ResponseEntity<Aluno> criarAluno(@RequestBody CreateAlunoDTO alunoDTO)
-     * {
-     * Aluno aluno = alunoService.criarAluno(alunoDTO);
-     * return ResponseEntity.ok(aluno);
-     * }
-     */
 
     @GetMapping
     public ResponseEntity<List<Aluno>> listAllStudents() {
@@ -63,8 +36,28 @@ public class AlunoController {
         return ResponseEntity.ok(alunoService.findById(id));
     }
 
+    @PostMapping
+    public ResponseEntity<?> createStudent(@RequestBody @Valid Aluno aluno, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+        return ResponseEntity.ok(alunoService.save(aluno));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Aluno> updateStudent(@PathVariable UUID id, @RequestBody Aluno aluno) {
+    public ResponseEntity<?> updateStudent(@PathVariable UUID id, @RequestBody @Valid Aluno aluno,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
         return ResponseEntity.ok(alunoService.update(id, aluno));
     }
 
@@ -75,7 +68,13 @@ public class AlunoController {
     }
 
     @PostMapping("/resgatarVantagem")
-    public ResponseEntity<ResponseDTO> resgateDeVantagem(@RequestBody ResgateVantagemRequestDTO data) {
+    public ResponseEntity<ResponseDTO> resgateDeVantagem(@Valid @RequestBody ResgateVantagemRequestDTO data) {
         return ResponseEntity.ok(alunoService.resgatarVantagem(data));
+    }
+
+    @GetMapping("/saldo/{id}")
+    public ResponseEntity<Double> getSaldoAluno(@PathVariable UUID id) {
+        Double saldo = alunoService.buscarSaldoPorId(id);
+        return ResponseEntity.ok(saldo);
     }
 }

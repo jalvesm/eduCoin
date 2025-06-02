@@ -35,11 +35,21 @@ public class Cupom {
     @JoinColumn(name = "vantagem_id", nullable = false)
     private Vantagem vantagem;
 
-    public Cupom(Aluno aluno, Vantagem vantagem) {
+    @Setter
+    @Column(name = "active")
+    boolean active;
+
+    @ManyToOne
+    @JoinColumn(name = "transacao_id", nullable = false)
+    private Transacao transacao;
+
+    public Cupom(Aluno aluno, Vantagem vantagem, Transacao transacao) {
         this.codigo = UUID.randomUUID();
         this.dataGeracao = LocalDateTime.now();
         this.aluno = aluno;
         this.vantagem = vantagem;
+        this.transacao = transacao;
+        this.active = true;
     }
 
     @Override
