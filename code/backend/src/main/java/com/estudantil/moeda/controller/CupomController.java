@@ -14,7 +14,6 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/cupons")
-@CrossOrigin(origins = "http://localhost:5173")
 public class CupomController {
 
     private final CupomService cupomService;
