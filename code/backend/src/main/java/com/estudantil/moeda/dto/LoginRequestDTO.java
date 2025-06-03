@@ -1,14 +1,13 @@
 package com.estudantil.moeda.dto;
 
-import org.antlr.v4.runtime.misc.NotNull;
-
 import lombok.Data;
 
 @Data
 public class LoginRequestDTO {
-    @NotNull
+
+    @Email(message = "Email inválido")
     private String email;
-    
-    @NotNull
+
+    @NotNull(message = "A senha é obrigatória")
     private String senha;
 }

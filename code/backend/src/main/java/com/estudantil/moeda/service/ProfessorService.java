@@ -1,19 +1,21 @@
 package com.estudantil.moeda.service;
 
+import com.estudantil.moeda.model.Aluno;
 import com.estudantil.moeda.model.Professor;
+import com.estudantil.moeda.enums.TipoTransacao;
+import com.estudantil.moeda.model.Transacao;
 import com.estudantil.moeda.repository.AlunoRepository;
 import com.estudantil.moeda.repository.ProfessorRepository;
 import com.estudantil.moeda.repository.TransacaoRepository;
-import com.estudantil.moeda.model.Aluno;
-import com.estudantil.moeda.model.Transacao;
-import com.estudantil.moeda.dto.AtribuirMoedasDTO;
-import com.estudantil.moeda.enums.TipoTransacao;
+import com.estudantil.moeda.controller.AtribuirMoedasDTO;
+
 import com.estudantil.moeda.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -38,7 +40,6 @@ public class ProfessorService {
     public Professor findById(UUID id) {
         return professorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Professor não encontrado!"));
-
     }
 
     public Professor save(Professor professor) {

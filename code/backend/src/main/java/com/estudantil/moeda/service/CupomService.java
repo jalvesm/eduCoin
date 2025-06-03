@@ -2,7 +2,6 @@ package com.estudantil.moeda.service;
 
 import com.estudantil.moeda.model.Aluno;
 import com.estudantil.moeda.model.Cupom;
-import com.estudantil.moeda.model.Usuario;
 import com.estudantil.moeda.repository.AlunoRepository;
 import com.estudantil.moeda.repository.CupomRepository;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
