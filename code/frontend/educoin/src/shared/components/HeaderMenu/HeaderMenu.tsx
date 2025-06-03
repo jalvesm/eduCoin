@@ -74,7 +74,7 @@ export default function HeaderMenu() {
           >
             {usuario?.tipoUsuario === "ALUNO" && (
               <>
-                <MenuItem onClick={() => handleNavigation("/aluno")}>
+                <MenuItem onClick={() => handleNavigation("/estudante")}>
                   Dashboards
                 </MenuItem>
                 <MenuItem onClick={() => handleNavigation("/cupons")}>
@@ -94,6 +94,9 @@ export default function HeaderMenu() {
             {usuario?.tipoUsuario === "EMPRESA" && (
               <>
                 <MenuItem onClick={() => handleNavigation("/empresa")}>
+                  Dashboard
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigation("/vantagens")}>
                   Gerenciar Vantagens
                 </MenuItem>
                 <MenuItem

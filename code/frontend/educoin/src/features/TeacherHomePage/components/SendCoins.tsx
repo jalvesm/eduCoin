@@ -5,39 +5,62 @@ import {
   TextField,
   MenuItem,
   Button,
-  Snackbar,
-  Alert,
+  Dialog,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import HeaderMenu from "../../../shared/components/HeaderMenu/HeaderMenu";
-
-// Mock de alunos
-const mockAlunos = [
-  { id: 1, nome: "João da Silva" },
-  { id: 2, nome: "Maria Oliveira" },
-  { id: 3, nome: "Carlos Souza" },
-];
+import { useAlunos } from "../hooks/aluno";
+import { useTeacher } from "../hooks/teacher";
 
 export default function SendCoins() {
   const [aluno, setAluno] = useState("");
   const [quantidade, setQuantidade] = useState("");
   const [motivo, setMotivo] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
 
-  const handleSubmit = () => {
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+  const idProfessor = usuario?.id;
+
+  const { alunos, loading: loadingAlunos, erro: erroAlunos } = useAlunos();
+  const {
+    atribuirMoedas,
+    loading: loadingTeacher,
+    erro: erroTeacher,
+  } = useTeacher(idProfessor);
+
+  const alunosFiltrados = alunos.filter((aluno) =>
+    aluno.nome.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const handleSubmit = async () => {
     if (!aluno || !quantidade || !motivo) {
-      setError("Por favor, preencha todos os campos.");
+      setModalMessage("Por favor, preencha todos os campos.");
+      setModalOpen(true);
       return;
     }
 
-    console.log({ aluno, quantidade, motivo });
+    try {
+      await atribuirMoedas(idProfessor, aluno, Number(quantidade), motivo);
+      setModalMessage("Moedas atribuídas com sucesso!");
+      setAluno("");
+      setQuantidade("");
+      setMotivo("");
+      setSearch("");
+    } catch {
+      setModalMessage("Falha ao atribuir moedas. Tente novamente.");
+    } finally {
+      setModalOpen(true);
+    }
+  };
 
-    setSuccess(true);
-    setAluno("");
-    setQuantidade("");
-    setMotivo("");
-    setError("");
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setModalMessage("");
   };
 
   return (
@@ -56,66 +79,107 @@ export default function SendCoins() {
           <MonetizationOnIcon /> Atribuir Moedas ao Aluno
         </Typography>
 
-        <TextField
-          select
-          fullWidth
-          label="Selecione o Aluno"
-          value={aluno}
-          onChange={(e) => setAluno(e.target.value)}
-          sx={{ mb: 3 }}
-        >
-          {mockAlunos.map((aluno) => (
-            <MenuItem key={aluno.id} value={aluno.nome}>
-              {aluno.nome}
-            </MenuItem>
-          ))}
-        </TextField>
+        {loadingAlunos ? (
+          <Typography>Carregando alunos...</Typography>
+        ) : erroAlunos ? (
+          <Typography color="error">{erroAlunos}</Typography>
+        ) : (
+          <>
+            <TextField
+              select
+              fullWidth
+              label="Selecione o Aluno"
+              value={aluno}
+              onChange={(e) => setAluno(e.target.value)}
+              sx={{ mb: 3 }}
+            >
+              {alunosFiltrados.length > 0 ? (
+                alunosFiltrados.map((aluno) => (
+                  <MenuItem key={aluno.id} value={aluno.id}>
+                    {aluno.nome}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem disabled>Nenhum aluno encontrado</MenuItem>
+              )}
+            </TextField>
 
-        <TextField
-          fullWidth
-          label="Quantidade de Moedas"
-          type="number"
-          value={quantidade}
-          onChange={(e) => setQuantidade(e.target.value)}
-          sx={{ mb: 3 }}
-          inputProps={{ min: 1 }}
-        />
+            <TextField
+              fullWidth
+              label="Quantidade de Moedas"
+              type="number"
+              value={quantidade}
+              onChange={(e) => setQuantidade(e.target.value)}
+              sx={{ mb: 3 }}
+              inputProps={{ min: 1 }}
+            />
 
-        <TextField
-          fullWidth
-          label="Motivo da Atribuição"
-          multiline
-          rows={4}
-          value={motivo}
-          onChange={(e) => setMotivo(e.target.value)}
-          sx={{ mb: 4 }}
-        />
+            <TextField
+              fullWidth
+              label="Motivo da Atribuição"
+              multiline
+              rows={4}
+              value={motivo}
+              onChange={(e) => setMotivo(e.target.value)}
+              sx={{ mb: 4 }}
+            />
 
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={handleSubmit}
-        >
-          Enviar Moedas
-        </Button>
-
-        <Snackbar
-          open={success}
-          autoHideDuration={3000}
-          onClose={() => setSuccess(false)}
-        >
-          <Alert severity="success">Moedas atribuídas com sucesso!</Alert>
-        </Snackbar>
-
-        <Snackbar
-          open={!!error}
-          autoHideDuration={3000}
-          onClose={() => setError("")}
-        >
-          <Alert severity="error">{error}</Alert>
-        </Snackbar>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={handleSubmit}
+              disabled={loadingTeacher}
+              sx={{
+                backgroundColor: "#90caf9",
+                color: "#fff",
+                fontWeight: "bold",
+                "&:hover": {
+                  backgroundColor: "#64b5f6",
+                },
+              }}
+            >
+              {loadingTeacher ? "Enviando..." : "Enviar Moedas"}
+            </Button>
+          </>
+        )}
       </Box>
+
+      <Dialog
+        open={modalOpen}
+        onClose={handleCloseModal}
+        maxWidth="sm"
+        PaperProps={{
+          sx: {
+            p: 3,
+            borderRadius: 3,
+            textAlign: "center",
+          },
+        }}
+      >
+        <DialogContent>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+            {modalMessage}
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: "center" }}>
+          <Button
+            onClick={handleCloseModal}
+            sx={{
+              mt: 1,
+              px: 4,
+              py: 1,
+              fontWeight: "bold",
+              backgroundColor: "#A7C7E7",
+              color: "#fff",
+              "&:hover": {
+                backgroundColor: "#90b8db",
+              },
+            }}
+          >
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

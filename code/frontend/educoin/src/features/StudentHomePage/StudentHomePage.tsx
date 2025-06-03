@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, IconButton, Tooltip } from "@mui/material";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -9,12 +9,23 @@ import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { useNavigate } from "react-router-dom";
 import HeaderMenu from "../../shared/components/HeaderMenu/HeaderMenu";
+import { useStudentVantagens } from "./hooks/student";
 
 export default function StudentHomePage() {
+  const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+  const nomeAluno = usuario?.nome || "Professor";
+  const idAluno = usuario?.id || "";
   const [mostrarSaldo, setMostrarSaldo] = useState(true);
   const navigate = useNavigate();
 
-  const saldo = 120; // estático por enquanto
+  const { saldo, loading, erro, getSaldoAluno } = useStudentVantagens();
+
+  useEffect(() => {
+    if (idAluno) {
+      getSaldoAluno(idAluno);
+    }
+  }, [idAluno, getSaldoAluno]);
+
   const opcoes = [
     {
       titulo: "Cupons Disponíveis",
@@ -43,10 +54,9 @@ export default function StudentHomePage() {
       <HeaderMenu />
       <Box sx={{ p: 4 }}>
         <Typography variant="h5" fontWeight="bold" color="#90caf9" mb={2}>
-          Bem-vindo(a) ao EduCoin!
+          Bem-vindo(a) ao EduCoin, {nomeAluno}!
         </Typography>
 
-        {/* Saldo */}
         <Box
           sx={{
             display: "flex",
@@ -68,7 +78,13 @@ export default function StudentHomePage() {
                 Saldo de Moedas
               </Typography>
               <Typography variant="h6">
-                {mostrarSaldo ? `${saldo} moedas` : "••••••"}
+                {loading
+                  ? "Carregando..."
+                  : erro
+                  ? erro
+                  : mostrarSaldo
+                  ? `${saldo} moedas`
+                  : "••••••"}
               </Typography>
             </Box>
           </Box>
@@ -80,7 +96,6 @@ export default function StudentHomePage() {
           </Tooltip>
         </Box>
 
-        {/* Opções */}
         <Box
           sx={{
             display: "flex",

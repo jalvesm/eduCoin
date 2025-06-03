@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/vantagens")
+@CrossOrigin(origins = "http://localhost:5173")
 public class VantagemController {
 
     private final VantagemService vantagemService;

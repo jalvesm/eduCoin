@@ -1,5 +1,6 @@
 package com.estudantil.moeda.controller;
 
+import com.estudantil.moeda.dto.AtribuirMoedasDTO;
 import com.estudantil.moeda.model.Professor;
 import com.estudantil.moeda.service.ProfessorService;
 import jakarta.validation.Valid;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/professores")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ProfessorController {
 
     private final ProfessorService professorService;
@@ -65,13 +68,13 @@ public class ProfessorController {
     @PostMapping("/{professorId}/atribuir-moedas")
     public ResponseEntity<Void> atribuirMoedasParaAluno(
             @PathVariable UUID professorId,
-            @RequestBody AtribuirMoedasDTO data) {
+            @RequestBody @Validated AtribuirMoedasDTO data) {
         professorService.atribuirMoedasParaAluno(professorId, data);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/saldo/{id}")
-    public ResponseEntity<Double> getSaldoProfessor(@PathVariable UUID id) {
+    public ResponseEntity<Double> getSaldoAluno(@PathVariable UUID id) {
         Double saldo = professorService.buscarSaldoPorId(id);
         return ResponseEntity.ok(saldo);
     }

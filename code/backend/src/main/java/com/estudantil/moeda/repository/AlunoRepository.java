@@ -12,5 +12,4 @@ public interface AlunoRepository extends JpaRepository<Aluno, UUID> {
     public boolean existsByEmail(String email);
 
     boolean existsByCpf(String cpf);
-
-} 
+}

@@ -68,7 +68,7 @@ public class AlunoController {
     }
 
     @PostMapping("/resgatarVantagem")
-    public ResponseEntity<ResponseDTO> resgateDeVantagem(@RequestBody ResgateVantagemRequestDTO data) {
+    public ResponseEntity<ResponseDTO> resgateDeVantagem(@Valid @RequestBody ResgateVantagemRequestDTO data) {
         return ResponseEntity.ok(alunoService.resgatarVantagem(data));
     }
 

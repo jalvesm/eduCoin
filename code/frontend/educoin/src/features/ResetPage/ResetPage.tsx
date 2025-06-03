@@ -1,4 +1,3 @@
-// ResetPage.tsx
 import React from "react";
 import ResetUpBox from "./components/ResetUpBox";
 

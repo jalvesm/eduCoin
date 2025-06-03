@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, Typography, IconButton, Tooltip } from "@mui/material";
+import {
+  Box,
+  Typography,
+  IconButton,
+  Tooltip,
+  CircularProgress,
+  Alert,
+} from "@mui/material";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -7,10 +14,16 @@ import HistoryIcon from "@mui/icons-material/History";
 import SendIcon from "@mui/icons-material/Send";
 import { useNavigate } from "react-router-dom";
 import HeaderMenu from "../../shared/components/HeaderMenu/HeaderMenu";
+import { useTeacher } from "./hooks/teacher";
 
 export default function TeacherHomePage() {
+  const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+  const nomeProfessor = usuario?.nome || "Professor";
+  const idProfessor = usuario?.id;
+
   const [mostrarSaldo, setMostrarSaldo] = useState(true);
-  const saldo = 230;
+  const { saldo, loading, erro } = useTeacher(idProfessor);
+
   const navigate = useNavigate();
 
   const opcoes = [
@@ -31,7 +44,7 @@ export default function TeacherHomePage() {
       <HeaderMenu />
       <Box sx={{ p: 4 }}>
         <Typography variant="h5" fontWeight="bold" color="#90caf9" mb={2}>
-          Bem-vindo(a), Professor!
+          Bem-vindo(a), {nomeProfessor}!
         </Typography>
 
         <Box
@@ -54,9 +67,16 @@ export default function TeacherHomePage() {
               <Typography variant="subtitle1" fontWeight="bold">
                 Saldo de Moedas
               </Typography>
-              <Typography variant="h6">
-                {mostrarSaldo ? `${saldo} moedas` : "••••••"}
-              </Typography>
+
+              {loading ? (
+                <CircularProgress size={24} />
+              ) : erro ? (
+                <Alert severity="error">{erro}</Alert>
+              ) : (
+                <Typography variant="h6">
+                  {mostrarSaldo ? `${saldo} moedas` : "••••••"}
+                </Typography>
+              )}
             </Box>
           </Box>
 

@@ -1,19 +1,20 @@
 package com.estudantil.moeda.service;
 
+import com.estudantil.moeda.dto.AtribuirMoedasDTO;
 import com.estudantil.moeda.model.Aluno;
 import com.estudantil.moeda.model.Professor;
+import com.estudantil.moeda.enums.TipoTransacao;
 import com.estudantil.moeda.model.Transacao;
 import com.estudantil.moeda.repository.AlunoRepository;
 import com.estudantil.moeda.repository.ProfessorRepository;
 import com.estudantil.moeda.repository.TransacaoRepository;
-import com.estudantil.moeda.controller.AtribuirMoedasDTO;
+
 import com.estudantil.moeda.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -84,6 +85,7 @@ public class ProfessorService {
         transacao.setRemetente(professor);
         transacao.setDestinatario(aluno);
         transacao.setDataTransacao(java.time.LocalDateTime.now());
+        transacao.setTipo(TipoTransacao.ATRIBUICAO_MOEDAS);
 
         transacaoRepository.save(transacao);
     }
@@ -95,14 +97,12 @@ public class ProfessorService {
     }
 
     // Executa a cada 1 minuto para fins de teste
-    @Scheduled(cron = "0 * * * * *")
-    @Transactional
+    @Scheduled(cron = "0 0 0 1 1,7 *")
     public void adicionarSaldoSemestralParaTodosProfessores() {
         List<Professor> professores = professorRepository.findAll();
         for (Professor professor : professores) {
             professor.setQuantidadeMoedas(
-                professor.getQuantidadeMoedas() + Professor.SALDO_SEMESTRAL_DE_MOEDAS
-            );
+                    professor.getQuantidadeMoedas() + Professor.SALDO_SEMESTRAL_DE_MOEDAS);
             professorRepository.save(professor);
         }
     }
