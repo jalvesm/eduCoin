@@ -48,4 +48,12 @@ public class UsuarioService {
     public Optional<Usuario> autenticarUsuario(String email, String senha) {
         return usuarioRepository.findByEmailAndSenha(email, senha);
     }
+
+    public void resetSenha(String email, String novaSenha) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+        
+        usuario.setSenha(novaSenha);
+        usuarioRepository.save(usuario);
+    }
 }

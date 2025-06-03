@@ -153,4 +153,22 @@ public class UsuarioController {
         usuarioService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/reset-senha")
+    public ResponseEntity<?> resetSenha(@RequestBody @Valid ResetSenhaRequestDTO request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        try {
+            usuarioService.resetSenha(request.getEmail(), request.getNovaSenha());
+            return ResponseEntity.ok().body("Senha alterada com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
