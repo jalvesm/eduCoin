@@ -1,13 +1,19 @@
 package com.estudantil.moeda.controller;
 
+import com.estudantil.moeda.dto.CreateCupomDTO;
 import com.estudantil.moeda.model.Cupom;
 import com.estudantil.moeda.service.CupomService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -29,13 +35,27 @@ public class CupomController {
     }
 
     @PostMapping
-    public ResponseEntity<Cupom> createCoupon(@RequestBody Cupom cupom) {
-        return ResponseEntity.ok(cupomService.save(cupom));
+    public ResponseEntity<?> createCoupon(@RequestBody @Valid CreateCupomDTO createCupomDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+        return ResponseEntity.ok(cupomService.save(createCupomDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cupom> updateCoupon(@PathVariable UUID id, @RequestBody Cupom cupom) {
-        return ResponseEntity.ok(cupomService.update(id, cupom));
+    public ResponseEntity<?> updateCoupon(@PathVariable UUID id, @RequestBody @Valid CreateCupomDTO createCupomDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+        return ResponseEntity.ok(cupomService.update(id, createCupomDTO));
     }
 
     @DeleteMapping("/{id}")
