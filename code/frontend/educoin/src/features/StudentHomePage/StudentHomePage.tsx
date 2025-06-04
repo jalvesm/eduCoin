@@ -38,9 +38,9 @@ export default function StudentHomePage() {
       rota: "/historico-moedas",
     },
     {
-      titulo: "Histórico de Saldo",
+      titulo: "Histórico de Resgates",
       icone: <AccountBalanceWalletIcon fontSize="large" />,
-      rota: "/historico-saldo",
+      rota: "/historico-resgates",
     },
     {
       titulo: "Vantagens Disponíveis",
