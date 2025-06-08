@@ -1,22 +1,36 @@
-// ResetUpBox.tsx
 import React, { useState } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import LockResetIcon from "@mui/icons-material/LockReset";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-//import { useUser } from "../hooks/useUser";
 import colors from "../../../shared/theme/colors";
+import { useReset } from "../hooks/useReset";
 
 export default function ResetUpBox() {
   const [email, setEmail] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  //const { resetPassword, loading } = useUser();
+
+  const { handleResetPassword, loading } = useReset();
   const navigate = useNavigate();
 
   const handleReset = async () => {
-    console.log("Necessario Implementar");
+    setError("");
+    setSuccessMessage("");
+
+    if (!email || !novaSenha) {
+      setError("Preencha todos os campos.");
+      return;
+    }
+
+    const result = await handleResetPassword(email, novaSenha);
+    if (result.success) {
+      setSuccessMessage(result.message);
+      setTimeout(() => navigate("/login"), 2000);
+    } else {
+      setError(result.message);
+    }
   };
 
   return (
@@ -76,7 +90,7 @@ export default function ResetUpBox() {
           fontWeight: "bold",
           borderRadius: "10px",
         }}
-        //disabled={loading}
+        disabled={loading}
       >
         {"Redefinir Senha"}
       </Button>

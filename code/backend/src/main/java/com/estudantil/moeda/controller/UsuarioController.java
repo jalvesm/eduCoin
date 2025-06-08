@@ -2,8 +2,10 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.model.*;
 import com.estudantil.moeda.service.*;
-import com.estudantil.moeda.dto.*;
+
 import jakarta.validation.Valid;
+
+import com.estudantil.moeda.dto.*;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -152,5 +154,23 @@ public class UsuarioController {
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         usuarioService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/reset-senha")
+    public ResponseEntity<?> resetSenha(@RequestBody @Valid ResetSenhaRequestDTO request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        try {
+            usuarioService.resetSenha(request.getEmail(), request.getNovaSenha());
+            return ResponseEntity.ok().body("Senha alterada com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
