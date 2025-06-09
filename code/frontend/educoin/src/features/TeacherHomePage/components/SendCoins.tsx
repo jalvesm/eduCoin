@@ -66,82 +66,101 @@ export default function SendCoins() {
   return (
     <>
       <HeaderMenu />
-      <Box sx={{ p: 4, maxWidth: 600, mx: "auto" }}>
-        <Typography
-          variant="h5"
-          fontWeight="bold"
-          color="#90caf9"
-          mb={3}
-          display="flex"
-          alignItems="center"
-          gap={1}
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          p: 2,
+        }}
+      >
+        <Box
+          sx={{
+            backgroundColor: "#fff",
+            borderRadius: 4,
+            boxShadow: 3,
+            p: 4,
+            width: "100%",
+            maxWidth: 500,
+          }}
         >
-          <MonetizationOnIcon /> Atribuir Moedas ao Aluno
-        </Typography>
+          <Typography
+            variant="h5"
+            fontWeight="bold"
+            color="#90caf9"
+            mb={3}
+            display="flex"
+            alignItems="center"
+            gap={1}
+          >
+            <MonetizationOnIcon /> Atribuir Moedas ao Aluno
+          </Typography>
 
-        {loadingAlunos ? (
-          <Typography>Carregando alunos...</Typography>
-        ) : erroAlunos ? (
-          <Typography color="error">{erroAlunos}</Typography>
-        ) : (
-          <>
-            <TextField
-              select
-              fullWidth
-              label="Selecione o Aluno"
-              value={aluno}
-              onChange={(e) => setAluno(e.target.value)}
-              sx={{ mb: 3 }}
-            >
-              {alunosFiltrados.length > 0 ? (
-                alunosFiltrados.map((aluno) => (
-                  <MenuItem key={aluno.id} value={aluno.id}>
-                    {aluno.nome}
-                  </MenuItem>
-                ))
-              ) : (
-                <MenuItem disabled>Nenhum aluno encontrado</MenuItem>
-              )}
-            </TextField>
+          {loadingAlunos ? (
+            <Typography>Carregando alunos...</Typography>
+          ) : erroAlunos ? (
+            <Typography color="error">{erroAlunos}</Typography>
+          ) : (
+            <>
+              <TextField
+                select
+                fullWidth
+                label="Selecione o Aluno"
+                value={aluno}
+                onChange={(e) => setAluno(e.target.value)}
+                sx={{ mb: 3 }}
+              >
+                {alunosFiltrados.length > 0 ? (
+                  alunosFiltrados.map((aluno) => (
+                    <MenuItem key={aluno.id} value={aluno.id}>
+                      {aluno.nome}
+                    </MenuItem>
+                  ))
+                ) : (
+                  <MenuItem disabled>Nenhum aluno encontrado</MenuItem>
+                )}
+              </TextField>
 
-            <TextField
-              fullWidth
-              label="Quantidade de Moedas"
-              type="number"
-              value={quantidade}
-              onChange={(e) => setQuantidade(e.target.value)}
-              sx={{ mb: 3 }}
-              inputProps={{ min: 1 }}
-            />
+              <TextField
+                fullWidth
+                label="Quantidade de Moedas"
+                type="number"
+                value={quantidade}
+                onChange={(e) => setQuantidade(e.target.value)}
+                sx={{ mb: 3 }}
+                inputProps={{ min: 1 }}
+              />
 
-            <TextField
-              fullWidth
-              label="Motivo da Atribuição"
-              multiline
-              rows={4}
-              value={motivo}
-              onChange={(e) => setMotivo(e.target.value)}
-              sx={{ mb: 4 }}
-            />
+              <TextField
+                fullWidth
+                label="Motivo da Atribuição"
+                multiline
+                rows={4}
+                value={motivo}
+                onChange={(e) => setMotivo(e.target.value)}
+                sx={{ mb: 4 }}
+              />
 
-            <Button
-              variant="contained"
-              fullWidth
-              onClick={handleSubmit}
-              disabled={loadingTeacher}
-              sx={{
-                backgroundColor: "#90caf9",
-                color: "#fff",
-                fontWeight: "bold",
-                "&:hover": {
-                  backgroundColor: "#64b5f6",
-                },
-              }}
-            >
-              {loadingTeacher ? "Enviando..." : "Enviar Moedas"}
-            </Button>
-          </>
-        )}
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={handleSubmit}
+                disabled={loadingTeacher}
+                sx={{
+                  backgroundColor: "#90caf9",
+                  color: "#fff",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    backgroundColor: "#64b5f6",
+                  },
+                }}
+              >
+                {loadingTeacher ? "Enviando..." : "Enviar Moedas"}
+              </Button>
+            </>
+          )}
+        </Box>
       </Box>
 
       <Dialog

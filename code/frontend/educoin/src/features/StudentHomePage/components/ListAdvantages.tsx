@@ -54,7 +54,7 @@ export default function ListAdvantages() {
           sx={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-            gap: 3,
+            gap: 6,
           }}
         >
           {vantagens.map((vantagem) => (
