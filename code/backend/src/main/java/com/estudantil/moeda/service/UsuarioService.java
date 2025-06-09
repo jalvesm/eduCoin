@@ -52,7 +52,7 @@ public class UsuarioService {
     public void resetSenha(String email, String novaSenha) {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
-
+        
         usuario.setSenha(novaSenha);
         usuarioRepository.save(usuario);
     }

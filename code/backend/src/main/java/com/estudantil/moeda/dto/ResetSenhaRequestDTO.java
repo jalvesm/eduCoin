@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class ResetSenhaRequestDTO {
-
+    
     @NotNull(message = "Email é obrigatório")
     @Email(message = "Email no formato inválido")
     private String email;
@@ -15,4 +15,4 @@ public class ResetSenhaRequestDTO {
     @NotNull(message = "A nova senha é obrigatória")
     @NotBlank(message = "A nova senha é obrigatória")
     private String novaSenha;
-}
+} 
