@@ -38,7 +38,7 @@ public class TransacaoService {
         
         Usuario professor = usuarioRepository.findById(dto.getProfessorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Professor não encontrado"));
-
+        
         Transacao transacao = new Transacao();
         transacao.setTipo(dto.getTipoTransacao());
         transacao.setValor(dto.getValor());

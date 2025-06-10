@@ -36,6 +36,12 @@ public class CupomService {
     }
 
     public Cupom save(CreateCupomDTO dto) {
+        if (!isValidUUID(dto.getCodigo())) {
+        throw new IllegalArgumentException("O código do cupom deve ser um UUID válido.");
+        }
+        if (cupomRepository.existsByCodigo(UUID.fromString(dto.getCodigo()))) {
+        throw new IllegalArgumentException("Já existe um cupom com esse código.");
+         }
         Aluno aluno = alunoRepository.findById(dto.getAlunoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado"));
         
@@ -52,6 +58,15 @@ public class CupomService {
         cupom.setActive(true);
         
         return cupomRepository.save(cupom);
+    }
+
+    private boolean isValidUUID(String codigo) {
+        try {
+            UUID.fromString(codigo);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public Cupom update(UUID id, CreateCupomDTO dto) {

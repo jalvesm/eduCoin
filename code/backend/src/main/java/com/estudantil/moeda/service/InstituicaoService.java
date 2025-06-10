@@ -34,6 +34,9 @@ public class InstituicaoService {
     }
 
     public Instituicao save(CreateInstituicaoDTO dto) {
+        if (instituicaoRepository.existsByNome(dto.getNome())) {
+        throw new IllegalArgumentException("Já existe uma instituição com esse nome.");
+        }
         Instituicao instituicao = new Instituicao();
         instituicao.setNome(dto.getNome());
         instituicao.setEndereco(dto.getEndereco());

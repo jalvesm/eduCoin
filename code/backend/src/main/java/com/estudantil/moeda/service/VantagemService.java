@@ -33,7 +33,7 @@ public class VantagemService {
         Empresa empresa = empresaRepository.findById(dto.getEmpresaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Empresa não encontrada"));
 
-        boolean tituloDuplicado = vantagemRepository.existsByTituloAndEmpresaId(dto.getNome(),
+        boolean tituloDuplicado = vantagemRepository.existsByTituloIgnoreCaseAndEmpresaId(dto.getNome(),
                 dto.getEmpresaId());
         if (tituloDuplicado) {
             throw new RuntimeException("Já existe uma vantagem com esse título para a empresa informada");
@@ -55,7 +55,7 @@ public class VantagemService {
         Empresa empresa = empresaRepository.findById(dto.getEmpresaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Empresa não encontrada"));
 
-        boolean tituloDuplicado = vantagemRepository.existsByTituloAndEmpresaId(dto.getNome(),
+        boolean tituloDuplicado = vantagemRepository.existsByTituloIgnoreCaseAndEmpresaId(dto.getNome(),
                 dto.getEmpresaId());
         if (tituloDuplicado && !existingVantagem.getTitulo().equals(dto.getNome())) {
             throw new RuntimeException("Já existe uma vantagem com esse título para a empresa informada");

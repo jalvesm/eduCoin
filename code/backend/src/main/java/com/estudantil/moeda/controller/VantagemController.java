@@ -2,6 +2,7 @@ package com.estudantil.moeda.controller;
 
 import com.estudantil.moeda.dto.CreateVantagemDTO;
 import com.estudantil.moeda.dto.ResponseDTO;
+import com.estudantil.moeda.exception.ResourceNotFoundException;
 import com.estudantil.moeda.model.Vantagem;
 import com.estudantil.moeda.service.VantagemService;
 import lombok.RequiredArgsConstructor;
@@ -62,10 +63,13 @@ public class VantagemController {
             }
             return ResponseEntity.badRequest().body(errors);
         }
-        
-        vantagemService.criarVantagem(createVantagemDTO);
-        ResponseDTO response = new ResponseDTO("Vantagem criada com sucesso", 201);
-        return ResponseEntity.status(201).body(response);
+        try {
+            vantagemService.criarVantagem(createVantagemDTO);
+            ResponseDTO response = new ResponseDTO("Vantagem criada com sucesso", 201);
+            return ResponseEntity.status(201).body(response);
+        } catch (ResourceNotFoundException | IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(Map.of("erro", ex.getMessage()));
+        }
     }
 
     @GetMapping("empresa/{empresaId}")

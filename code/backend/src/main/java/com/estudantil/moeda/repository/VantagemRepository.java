@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface VantagemRepository extends JpaRepository<Vantagem, UUID> {
-    boolean existsByTituloAndEmpresaId(String titulo, UUID empresaId);
+    boolean existsByTituloIgnoreCaseAndEmpresaId(String titulo, UUID empresaId);
 
     List<Vantagem> findByEmpresaId(UUID empresaId);
 
