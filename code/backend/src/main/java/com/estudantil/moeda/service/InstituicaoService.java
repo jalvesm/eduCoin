@@ -3,6 +3,7 @@ package com.estudantil.moeda.service;
 import com.estudantil.moeda.model.Instituicao;
 import com.estudantil.moeda.repository.InstituicaoRepository;
 import com.estudantil.moeda.dto.GetAllInstituicoes;
+import com.estudantil.moeda.dto.CreateInstituicaoDTO;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -32,15 +33,20 @@ public class InstituicaoService {
                 .orElseThrow(() -> new ResourceNotFoundException("Instituição não encontrada"));
     }
 
-    public Instituicao save(Instituicao instituicao) {
+    public Instituicao save(CreateInstituicaoDTO dto) {
+        if (instituicaoRepository.existsByNome(dto.getNome())) {
+        throw new IllegalArgumentException("Já existe uma instituição com esse nome.");
+        }
+        Instituicao instituicao = new Instituicao();
+        instituicao.setNome(dto.getNome());
+        instituicao.setEndereco(dto.getEndereco());
         return instituicaoRepository.save(instituicao);
     }
 
-    public Instituicao update(UUID id, Instituicao instituicao) {
-        if (!instituicaoRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Instituição não encontrada");
-        }
-        instituicao.setId(id);
+    public Instituicao update(UUID id, CreateInstituicaoDTO dto) {
+        Instituicao instituicao = findById(id);
+        instituicao.setNome(dto.getNome());
+        instituicao.setEndereco(dto.getEndereco());
         return instituicaoRepository.save(instituicao);
     }
 

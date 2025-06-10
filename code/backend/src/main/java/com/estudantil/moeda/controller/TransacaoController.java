@@ -1,5 +1,6 @@
 package com.estudantil.moeda.controller;
 
+import com.estudantil.moeda.dto.CreateTransacaoDTO;
 import com.estudantil.moeda.dto.DetailTransactionData;
 import com.estudantil.moeda.dto.ResponseTransactionByEmpresaDTO;
 import com.estudantil.moeda.model.Transacao;
@@ -7,9 +8,14 @@ import com.estudantil.moeda.service.TransacaoService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -31,13 +37,27 @@ public class TransacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<Transacao> createTransaction(@RequestBody Transacao transacao) {
-        return ResponseEntity.ok(transacaoService.save(transacao));
+    public ResponseEntity<?> createTransaction(@RequestBody @Valid CreateTransacaoDTO createTransacaoDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+        return ResponseEntity.ok(transacaoService.save(createTransacaoDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Transacao> updateTransaction(@PathVariable UUID id, @RequestBody Transacao transacao) {
-        return ResponseEntity.ok(transacaoService.update(id, transacao));
+    public ResponseEntity<?> updateTransaction(@PathVariable UUID id, @RequestBody @Valid CreateTransacaoDTO createTransacaoDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+        return ResponseEntity.ok(transacaoService.update(id, createTransacaoDTO));
     }
 
     @DeleteMapping("/{id}")

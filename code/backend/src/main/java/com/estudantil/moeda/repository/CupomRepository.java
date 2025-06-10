@@ -18,7 +18,8 @@ import java.util.UUID;
 public interface CupomRepository extends JpaRepository<Cupom, UUID> {
 
     List<Cupom> findAllByAluno(Aluno aluno);
-
+    boolean existsByCodigo(UUID codigo);
+    
     @Query("SELECT c FROM Cupom c WHERE c.aluno = :aluno AND c.vantagem = :vantagem AND c.transacao = :transacao")
     Optional<Cupom> findCupomByAlunoVantagemTransacao(
             @Param("aluno") Aluno aluno,

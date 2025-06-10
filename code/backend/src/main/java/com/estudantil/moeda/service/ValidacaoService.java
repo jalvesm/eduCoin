@@ -26,4 +26,10 @@ public class ValidacaoService {
             throw new IllegalArgumentException("O valor da transação deve ser maior que zero");
         }
     }
+
+    public void validarSaldoSuficiente(int saldo, int valorNecessario) {
+        if (saldo < valorNecessario) {
+            throw new IllegalArgumentException("Saldo insuficiente para realizar a operação.");
+        }
+    }
 } 

@@ -1,6 +1,6 @@
-
 package com.estudantil.moeda.service;
 
+import com.estudantil.moeda.dto.CreateTransacaoDTO;
 import com.estudantil.moeda.model.Transacao;
 import com.estudantil.moeda.model.Usuario;
 import com.estudantil.moeda.repository.TransacaoRepository;
@@ -10,9 +10,9 @@ import com.estudantil.moeda.dto.ResponseTransactionByEmpresaDTO;
 import com.estudantil.moeda.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,10 +20,7 @@ import java.util.UUID;
 @Service
 public class TransacaoService {
 
-    @Autowired
     private final UsuarioRepository usuarioRepository;
-
-    @Autowired
     private final TransacaoRepository transacaoRepository;
 
     public List<Transacao> findAll() {
@@ -35,16 +32,40 @@ public class TransacaoService {
                 .orElseThrow(() -> new ResourceNotFoundException("Transação não encontrada!"));
     }
 
-    public Transacao save(Transacao transacao) {
+    public Transacao save(CreateTransacaoDTO dto) {
+        Usuario aluno = usuarioRepository.findById(dto.getAlunoId())
+                .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado"));
+        
+        Usuario professor = usuarioRepository.findById(dto.getProfessorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Professor não encontrado"));
+        
+        Transacao transacao = new Transacao();
+        transacao.setTipo(dto.getTipoTransacao());
+        transacao.setValor(dto.getValor());
+        transacao.setDescricao(dto.getDescricao());
+        transacao.setDataTransacao(LocalDateTime.now());
+        transacao.setRemetente(professor);
+        transacao.setDestinatario(aluno);
+
         return transacaoRepository.save(transacao);
     }
 
-    public Transacao update(UUID id, Transacao transacao) {
-        if (!transacaoRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Transação não encontrada!");
-        }
-        transacao.setId(id);
-        return transacaoRepository.save(transacao);
+    public Transacao update(UUID id, CreateTransacaoDTO dto) {
+        Transacao existingTransacao = findById(id);
+        
+        Usuario aluno = usuarioRepository.findById(dto.getAlunoId())
+                .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado"));
+        
+        Usuario professor = usuarioRepository.findById(dto.getProfessorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Professor não encontrado"));
+
+        existingTransacao.setTipo(dto.getTipoTransacao());
+        existingTransacao.setValor(dto.getValor());
+        existingTransacao.setDescricao(dto.getDescricao());
+        existingTransacao.setRemetente(professor);
+        existingTransacao.setDestinatario(aluno);
+
+        return transacaoRepository.save(existingTransacao);
     }
 
     public void delete(UUID id) {

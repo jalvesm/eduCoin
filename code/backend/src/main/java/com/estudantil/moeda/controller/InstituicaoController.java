@@ -1,14 +1,19 @@
 package com.estudantil.moeda.controller;
 
+import com.estudantil.moeda.dto.CreateInstituicaoDTO;
 import com.estudantil.moeda.dto.GetAllInstituicoes;
-import com.estudantil.moeda.model.Instituicao;
 import com.estudantil.moeda.service.InstituicaoService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -25,13 +30,27 @@ public class InstituicaoController {
     }
 
     @PostMapping
-    public ResponseEntity<Instituicao> createInstitution(@RequestBody Instituicao instituicao) {
-        return ResponseEntity.ok(instituicaoService.save(instituicao));
+    public ResponseEntity<?> createInstitution(@RequestBody @Valid CreateInstituicaoDTO createInstituicaoDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+        return ResponseEntity.ok(instituicaoService.save(createInstituicaoDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Instituicao> updateInstitution(@PathVariable UUID id, @RequestBody Instituicao instituicao) {
-        return ResponseEntity.ok(instituicaoService.update(id, instituicao));
+    public ResponseEntity<?> updateInstitution(@PathVariable UUID id, @RequestBody @Valid CreateInstituicaoDTO createInstituicaoDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
+        }
+        return ResponseEntity.ok(instituicaoService.update(id, createInstituicaoDTO));
     }
 
     @DeleteMapping("/{id}")

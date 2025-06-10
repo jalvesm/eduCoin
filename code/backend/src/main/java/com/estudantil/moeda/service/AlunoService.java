@@ -1,9 +1,12 @@
 
 package com.estudantil.moeda.service;
 
+import com.estudantil.moeda.dto.CreateAlunoDTO;
+import com.estudantil.moeda.enums.TipoUsuario;
 import com.estudantil.moeda.model.Aluno;
 import com.estudantil.moeda.model.Cupom;
 import com.estudantil.moeda.model.Empresa;
+import com.estudantil.moeda.model.Instituicao;
 import com.estudantil.moeda.model.Professor;
 import com.estudantil.moeda.model.Transacao;
 import com.estudantil.moeda.model.Vantagem;
@@ -46,36 +49,32 @@ public class AlunoService {
     @Autowired
     private TransacaoRepository transacaoRepository;
 
-    /*
-     * public Aluno criarAluno(CreateAlunoDTO alunoDTO) {
-     * Instituicao instituicao =
-     * instituicaoRepository.findById(alunoDTO.getInstituicaoId())
-     * .orElseThrow(() -> new RuntimeException("Instituição não encontrada"));
-     * 
-     * if (alunoRepository.existsByEmail(alunoDTO.getEmail())) {
-     * throw new IllegalArgumentException("O e-mail informado já está cadastrado.");
-     * }
-     * 
-     * if (alunoRepository.existsByCpf(alunoDTO.getCpf())) {
-     * throw new IllegalArgumentException("O CPF informado já está cadastrado.");
-     * }
-     * 
-     * Aluno aluno = Aluno.builder()
-     * .nome(alunoDTO.getNome())
-     * .email(alunoDTO.getEmail())
-     * .senha(alunoDTO.getSenha())
-     * .tipo(TipoUsuario.ALUNO)
-     * .cpf(alunoDTO.getCpf())
-     * .rg(alunoDTO.getRg())
-     * .endereco(alunoDTO.getEndereco())
-     * .instituicao(instituicao)
-     * .curso(alunoDTO.getCurso())
-     * .saldoMoedas(0.0)
-     * .build();
-     * 
-     * return alunoRepository.save(aluno);
-     * }
-     */
+
+     public Aluno criarAluno(CreateAlunoDTO alunoDTO) {
+         /*Instituicao instituicao =
+     instituicaoRepository.findById(alunoDTO.getInstituicaoId())
+         .orElseThrow(() -> new RuntimeException("Instituição não encontrada"));
+
+        if (alunoRepository.existsByEmail(alunoDTO.getEmail())) {
+        throw new IllegalArgumentException("O e-mail informado já está cadastrado.");
+        }
+
+        if (alunoRepository.existsByCpf(alunoDTO.getCpf())) {
+        throw new IllegalArgumentException("O CPF informado já está cadastrado.");
+        } */
+
+        Aluno aluno = Aluno.builder()
+            .cpf(alunoDTO.getCpf())
+            //.rg(alunoDTO.getRg())
+            //.endereco(alunoDTO.getEndereco())
+            //.instituicao(instituicao)
+            //.curso(alunoDTO.getCurso())
+            .saldoMoedas(0.0)
+            .build();
+
+        return alunoRepository.save(aluno);
+     }
+
 
     public List<Aluno> findAll() {
         return alunoRepository.findAll();
